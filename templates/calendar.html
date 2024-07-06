@@ -1,0 +1,2007 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Kalam' rel='stylesheet'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <title>Page</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/page.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css'%}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        
+
+        button {
+            padding: 10px;
+            background-color: #50a0bb;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            vertical-align: middle;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #31464d;
+        }
+
+        .cssanimation,
+        .cssanimation span {
+            animation-duration: 0.8s;
+            animation-fill-mode: both;
+        }
+
+        .cssanimation span {
+            display: inline-block
+        }
+
+        .fadeInBottom {
+            animation-name: fadeInBottom
+        }
+
+        @keyframes fadeInBottom {
+            from {
+                opacity: 0;
+                transform: translateY(100%);
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        .vertical-nav {
+            width: 200px;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            height: calc(100% - 60px);
+            background-color: #50a0bb;
+            padding-top: 20px;
+        }
+
+        .vertical-nav a {
+            padding: 15px 25px;
+            text-align: left;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .vertical-nav a:hover {
+            background-color: #50a0bb;
+            color: #ffffff;
+        }
+
+        .topnav {
+            width: 100%;
+            background-color: #50a0bb;
+            padding: 10px;
+            box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000; /* Ensure the tabs are on top */
+        }
+
+        .topnav #name h1 {
+            margin: 0;
+            color: white;
+        }
+
+        .topnav #rest {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .topnav #rest ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: inline;
+        }
+
+        .topnav #rest ul a {
+            text-decoration: none;
+            color: white;
+            padding: 14px 20px;
+            display: inline-block;
+        }
+
+        .topnav #rest ul a:hover {
+            background-color: #31464d;
+            color: white;
+        }
+        .add-button {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%; /* Make it round */
+            background-color: #50a0bb;
+            color: white;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            position: relative; /* Needed for absolute positioning of the plus sign */
+            margin-left: 50px; /* Add margin between the button and select boxes */
+        }
+
+        .add-button:hover {
+            background-color: #31464d;
+        }
+
+        .plus-sign {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Centering the plus sign */
+            font-size: 14px; /* Adjust the size of the plus sign */
+        }
+
+        .remove-button {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            /* Make it round */
+            background-color: red;
+            color: white;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            /* Needed for absolute positioning of the minus sign */
+            margin-left: 50px;
+            /* Add margin between the button and select boxes */
+        }
+
+        .remove-button:hover {
+            background-color: darkred;
+        }
+
+        .minus-sign {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* Centering the minus sign */
+            font-size: 14px;
+            /* Adjust the size of the minus sign */
+        }
+        .save-button-container {
+            /* text-align: left; */
+            margin-bottom: 20px;
+            margin-left: 300px;
+        }
+        
+
+        .save-button {
+            background-color: #50a0bb;
+            border-color: #50a0bb;
+            padding: 10px 15px; /* Adjust padding to make the button smaller */
+            font-size: 15px;   /* Adjust font size */
+            width: auto;
+            
+        }
+        .delete-button {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: red;
+            color: white;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            margin-left: 10px; /* Adjust margin as needed */
+        }
+
+        .delete-button:hover {
+            background-color: darkred;
+        }
+
+        .trash-sign {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        /* #selected-schedule {
+                display: none; 
+            } */
+            #schedule-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+            #schedule-table th, #schedule-table td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: center;
+            }
+            
+
+        .form-table-container {
+            display: flex;
+            gap: 20px; /* Adjust the gap as needed */
+        }
+
+        #calendar-form {
+            flex: 1;
+        }
+
+        #selected-schedule {
+            flex: 1;
+        }
+
+
+
+
+
+
+
+       
+    </style>
+</head>
+
+<body>
+    <div class="topnav" id="myTopnav">
+        <ul>
+            <div id="name">
+                <h1>Title</h1>
+            </div>
+        </ul>
+        <ul id="rest">
+            {% if user.is_authenticated %}
+            <ul><a href="{% url 'home' %}" class="active">Home</a></ul>
+            <ul><a href="{% url 'dashboard' %}">Dashboard</a></ul>
+            <ul><a href="{% url 'logout' %}">Logout</a></ul>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="vertical-nav">
+        <a href="{% url 'bookings' %}" id="bookings-link">Bookings</a>
+        <a href="{% url 'calendar' %}" id="calendar-link">Calendar</a>
+        <a href="{% url 'service' %}" id="service-link">Service</a>
+        <a href="{% url 'testimonial' %}" id="testimonial-link">Testimonial</a>
+    </div>
+
+    
+    <!-- Container for calendar content -->
+    <div id="calendar-container" class="container3">
+        <div class="title">
+            <h3>Schedule</h3>
+        </div>
+
+        <div class="content">
+            <!-- Display messages here -->
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            <!-- Form for calendar -->
+            <div class="form-table-container">
+                <form action="" method="post" id="calendar-form">
+                    {% csrf_token %}
+                    <div class="user-details">
+                        <div class="save-button-container">
+                            <button type="submit" class="save-button">Save</button>
+                        </div>
+                        <div class="form-group">
+                            <label><input type="checkbox" class="day-checkbox" data-day="monday" name="monday_checkbox"> Monday</label>
+                            <div class="time-select" id="monday-times" style="display: none;">
+                                <label>From:</label>
+                                <select class="from-time" name="monday_from_time">
+                                    <option value="12:00 AM">12:00 AM</option>
+                                    <option value="12:15 AM">12:15 AM</option>
+                                    <option value="12:30 AM">12:30 AM</option>
+                                    <option value="12:45 AM">12:45 AM</option>
+                                    <option value="1:00 AM">1:00 AM</option>
+                                    <option value="1:15 AM">1:15 AM</option>
+                                    <option value="1:30 AM">1:30 AM</option>
+                                    <option value="1:45 AM">1:45 AM</option>
+                                    <option value="2:00 AM">2:00 AM</option>
+                                    <option value="2:15 AM">2:15 AM</option>
+                                    <option value="2:30 AM">2:30 AM</option>
+                                    <option value="2:45 AM">2:45 AM</option>
+                                    <option value="3:00 AM">3:00 AM</option>
+                                    <option value="3:15 AM">3:15 AM</option>
+                                    <option value="3:30 AM">3:30 AM</option>
+                                    <option value="3:45 AM">3:45 AM</option>
+                                    <option value="4:00 AM">4:00 AM</option>
+                                    <option value="4:15 AM">4:15 AM</option>
+                                    <option value="4:30 AM">4:30 AM</option>
+                                    <option value="4:45 AM">4:45 AM</option>
+                                    <option value="5:00 AM">5:00 AM</option>
+                                    <option value="5:15 AM">5:15 AM</option>
+                                    <option value="5:30 AM">5:30 AM</option>
+                                    <option value="5:45 AM">5:45 AM</option>
+                                    <option value="6:00 AM">6:00 AM</option>
+                                    <option value="6:15 AM">6:15 AM</option>
+                                    <option value="6:30 AM">6:30 AM</option>
+                                    <option value="6:45 AM">6:45 AM</option>
+                                    <option value="7:00 AM">7:00 AM</option>
+                                    <option value="7:15 AM">7:15 AM</option>
+                                    <option value="7:30 AM">7:30 AM</option>
+                                    <option value="7:45 AM">7:45 AM</option>
+                                    <option value="8:00 AM">8:00 AM</option>
+                                    <option value="8:15 AM">8:15 AM</option>
+                                    <option value="8:30 AM">8:30 AM</option>
+                                    <option value="8:45 AM">8:45 AM</option>
+                                    <option value="9:00 AM">9:00 AM</option>
+                                    <option value="9:15 AM">9:15 AM</option>
+                                    <option value="9:30 AM">9:30 AM</option>
+                                    <option value="9:45 AM">9:45 AM</option>
+                                    <option value="10:00 AM">10:00 AM</option>
+                                    <option value="10:15 AM">10:15 AM</option>
+                                    <option value="10:30 AM">10:30 AM</option>
+                                    <option value="10:45 AM">10:45 AM</option>
+                                    <option value="11:00 AM">11:00 AM</option>
+                                    <option value="11:15 AM">11:15 AM</option>
+                                    <option value="11:30 AM">11:30 AM</option>
+                                    <option value="11:45 AM">11:45 AM</option>
+
+                                </select>
+                                <label>To:</label>
+                                <select class="to-time" name="monday_to_time">
+                                    <option value="12:00 AM">12:00 AM</option>
+                                    <option value="12:15 AM">12:15 AM</option>
+                                    <option value="12:30 AM">12:30 AM</option>
+                                    <option value="12:45 AM">12:45 AM</option>
+                                    <option value="1:00 AM">1:00 AM</option>
+                                    <option value="1:15 AM">1:15 AM</option>
+                                    <option value="1:30 AM">1:30 AM</option>
+                                    <option value="1:45 AM">1:45 AM</option>
+                                    <option value="2:00 AM">2:00 AM</option>
+                                    <option value="2:15 AM">2:15 AM</option>
+                                    <option value="2:30 AM">2:30 AM</option>
+                                    <option value="2:45 AM">2:45 AM</option>
+                                    <option value="3:00 AM">3:00 AM</option>
+                                    <option value="3:15 AM">3:15 AM</option>
+                                    <option value="3:30 AM">3:30 AM</option>
+                                    <option value="3:45 AM">3:45 AM</option>
+                                    <option value="4:00 AM">4:00 AM</option>
+                                    <option value="4:15 AM">4:15 AM</option>
+                                    <option value="4:30 AM">4:30 AM</option>
+                                    <option value="4:45 AM">4:45 AM</option>
+                                    <option value="5:00 AM">5:00 AM</option>
+                                    <option value="5:15 AM">5:15 AM</option>
+                                    <option value="5:30 AM">5:30 AM</option>
+                                    <option value="5:45 AM">5:45 AM</option>
+                                    <option value="6:00 AM">6:00 AM</option>
+                                    <option value="6:15 AM">6:15 AM</option>
+                                    <option value="6:30 AM">6:30 AM</option>
+                                    <option value="6:45 AM">6:45 AM</option>
+                                    <option value="7:00 AM">7:00 AM</option>
+                                    <option value="7:15 AM">7:15 AM</option>
+                                    <option value="7:30 AM">7:30 AM</option>
+                                    <option value="7:45 AM">7:45 AM</option>
+                                    <option value="8:00 AM">8:00 AM</option>
+                                    <option value="8:15 AM">8:15 AM</option>
+                                    <option value="8:30 AM">8:30 AM</option>
+                                    <option value="8:45 AM">8:45 AM</option>
+                                    <option value="9:00 AM">9:00 AM</option>
+                                    <option value="9:15 AM">9:15 AM</option>
+                                    <option value="9:30 AM">9:30 AM</option>
+                                    <option value="9:45 AM">9:45 AM</option>
+                                    <option value="10:00 AM">10:00 AM</option>
+                                    <option value="10:15 AM">10:15 AM</option>
+                                    <option value="10:30 AM">10:30 AM</option>
+                                    <option value="10:45 AM">10:45 AM</option>
+                                    <option value="11:00 AM">11:00 AM</option>
+                                    <option value="11:15 AM">11:15 AM</option>
+                                    <option value="11:30 AM">11:30 AM</option>
+                                    <option value="11:45 AM">11:45 AM</option>
+                                    <option value="12:15 PM">12:15 PM</option>
+                                    <option value="12:30 PM">12:30 PM</option>
+                                    <option value="12:45 PM">12:45 PM</option>
+                                    <option value="1:00 PM">1:00 PM</option>
+                                    <option value="1:15 PM">1:15 PM</option>
+                                    <option value="1:30 PM">1:30 PM</option>
+                                    <option value="1:45 PM">1:45 PM</option>
+                                    <option value="2:00 PM">2:00 PM</option>
+                                    <option value="2:15 PM">2:15 PM</option>
+                                    <option value="2:30 PM">2:30 PM</option>
+                                    <option value="2:45 PM">2:45 PM</option>
+                                    <option value="3:00 PM">3:00 PM</option>
+                                    <option value="3:15 PM">3:15 PM</option>
+                                    <option value="3:30 PM">3:30 PM</option>
+                                    <option value="3:45 PM">3:45 PM</option>
+                                    <option value="4:00 PM">4:00 PM</option>
+                                    <option value="4:15 PM">4:15 PM</option>
+                                    <option value="4:30 PM">4:30 PM</option>
+                                    <option value="4:45 PM">4:45 PM</option>
+                                    <option value="5:00 PM">5:00 PM</option>
+                                    <option value="5:15 PM">5:15 PM</option>
+                                    <option value="5:30 PM">5:30 PM</option>
+                                    <option value="5:45 PM">5:45 PM</option>
+                                    <option value="6:00 PM">6:00 PM</option>
+                                    <option value="6:15 PM">6:15 PM</option>
+                                    <option value="6:30 PM">6:30 PM</option>
+                                    <option value="6:45 PM">6:45 PM</option>
+                                    <option value="7:00 PM">7:00 PM</option>
+                                    <option value="7:15 PM">7:15 PM</option>
+                                    <option value="7:30 PM">7:30 PM</option>
+                                    <option value="7:45 PM">7:45 PM</option>
+                                    <option value="8:00 PM">8:00 PM</option>
+                                    <option value="8:15 PM">8:15 PM</option>
+                                    <option value="8:30 PM">8:30 PM</option>
+                                    <option value="8:45 PM">8:45 PM</option>
+                                    <option value="9:00 PM">9:00 PM</option>
+                                    <option value="9:15 PM">9:15 PM</option>
+                                    <option value="9:30 PM">9:30 PM</option>
+                                    <option value="9:45 PM">9:45 PM</option>
+                                    <option value="10:00 PM">10:00 PM</option>
+                                    <option value="10:15 PM">10:15 PM</option>
+                                    <option value="10:30 PM">10:30 PM</option>
+                                    <option value="10:45 PM">10:45 PM</option>
+                                    <option value="11:00 PM">11:00 PM</option>
+                                    <option value="11:15 PM">11:15 PM</option>
+                                    <option value="11:30 PM">11:30 PM</option>
+                                    <option value="11:45 PM">11:45 PM</option>
+                                </select>
+                                <button class="add-button" type="button" style="display: none;" onclick="addTimeSelects('monday-times', 'monday')">
+                                    <span class="plus-sign">+</span>
+                                </button>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><input type="checkbox" class="day-checkbox" data-day="tuesday" name="tuesday_checkbox"> Tuesday</label>
+                            <div class="time-select" id="tuesday-times" style="display: none;">
+                                <label>From:</label>
+                                <select class="from-time" name="tuesday_from_time">
+                                    <option value="12:00 AM">12:00 AM</option>
+                                    <option value="12:15 AM">12:15 AM</option>
+                                    <option value="12:30 AM">12:30 AM</option>
+                                    <option value="12:45 AM">12:45 AM</option>
+                                    <option value="1:00 AM">1:00 AM</option>
+                                    <option value="1:15 AM">1:15 AM</option>
+                                    <option value="1:30 AM">1:30 AM</option>
+                                    <option value="1:45 AM">1:45 AM</option>
+                                    <option value="2:00 AM">2:00 AM</option>
+                                    <option value="2:15 AM">2:15 AM</option>
+                                    <option value="2:30 AM">2:30 AM</option>
+                                    <option value="2:45 AM">2:45 AM</option>
+                                    <option value="3:00 AM">3:00 AM</option>
+                                    <option value="3:15 AM">3:15 AM</option>
+                                    <option value="3:30 AM">3:30 AM</option>
+                                    <option value="3:45 AM">3:45 AM</option>
+                                    <option value="4:00 AM">4:00 AM</option>
+                                    <option value="4:15 AM">4:15 AM</option>
+                                    <option value="4:30 AM">4:30 AM</option>
+                                    <option value="4:45 AM">4:45 AM</option>
+                                    <option value="5:00 AM">5:00 AM</option>
+                                    <option value="5:15 AM">5:15 AM</option>
+                                    <option value="5:30 AM">5:30 AM</option>
+                                    <option value="5:45 AM">5:45 AM</option>
+                                    <option value="6:00 AM">6:00 AM</option>
+                                    <option value="6:15 AM">6:15 AM</option>
+                                    <option value="6:30 AM">6:30 AM</option>
+                                    <option value="6:45 AM">6:45 AM</option>
+                                    <option value="7:00 AM">7:00 AM</option>
+                                    <option value="7:15 AM">7:15 AM</option>
+                                    <option value="7:30 AM">7:30 AM</option>
+                                    <option value="7:45 AM">7:45 AM</option>
+                                    <option value="8:00 AM">8:00 AM</option>
+                                    <option value="8:15 AM">8:15 AM</option>
+                                    <option value="8:30 AM">8:30 AM</option>
+                                    <option value="8:45 AM">8:45 AM</option>
+                                    <option value="9:00 AM">9:00 AM</option>
+                                    <option value="9:15 AM">9:15 AM</option>
+                                    <option value="9:30 AM">9:30 AM</option>
+                                    <option value="9:45 AM">9:45 AM</option>
+                                    <option value="10:00 AM">10:00 AM</option>
+                                    <option value="10:15 AM">10:15 AM</option>
+                                    <option value="10:30 AM">10:30 AM</option>
+                                    <option value="10:45 AM">10:45 AM</option>
+                                    <option value="11:00 AM">11:00 AM</option>
+                                    <option value="11:15 AM">11:15 AM</option>
+                                    <option value="11:30 AM">11:30 AM</option>
+                                    <option value="11:45 AM">11:45 AM</option>
+                                    <option value="12:15 PM">12:15 PM</option>
+                                    <option value="12:30 PM">12:30 PM</option>
+                                    <option value="12:45 PM">12:45 PM</option>
+                                    <option value="1:00 PM">1:00 PM</option>
+                                    <option value="1:15 PM">1:15 PM</option>
+                                    <option value="1:30 PM">1:30 PM</option>
+                                    <option value="1:45 PM">1:45 PM</option>
+                                    <option value="2:00 PM">2:00 PM</option>
+                                    <option value="2:15 PM">2:15 PM</option>
+                                    <option value="2:30 PM">2:30 PM</option>
+                                    <option value="2:45 PM">2:45 PM</option>
+                                    <option value="3:00 PM">3:00 PM</option>
+                                    <option value="3:15 PM">3:15 PM</option>
+                                    <option value="3:30 PM">3:30 PM</option>
+                                    <option value="3:45 PM">3:45 PM</option>
+                                    <option value="4:00 PM">4:00 PM</option>
+                                    <option value="4:15 PM">4:15 PM</option>
+                                    <option value="4:30 PM">4:30 PM</option>
+                                    <option value="4:45 PM">4:45 PM</option>
+                                    <option value="5:00 PM">5:00 PM</option>
+                                    <option value="5:15 PM">5:15 PM</option>
+                                    <option value="5:30 PM">5:30 PM</option>
+                                    <option value="5:45 PM">5:45 PM</option>
+                                    <option value="6:00 PM">6:00 PM</option>
+                                    <option value="6:15 PM">6:15 PM</option>
+                                    <option value="6:30 PM">6:30 PM</option>
+                                    <option value="6:45 PM">6:45 PM</option>
+                                    <option value="7:00 PM">7:00 PM</option>
+                                    <option value="7:15 PM">7:15 PM</option>
+                                    <option value="7:30 PM">7:30 PM</option>
+                                    <option value="7:45 PM">7:45 PM</option>
+                                    <option value="8:00 PM">8:00 PM</option>
+                                    <option value="8:15 PM">8:15 PM</option>
+                                    <option value="8:30 PM">8:30 PM</option>
+                                    <option value="8:45 PM">8:45 PM</option>
+                                    <option value="9:00 PM">9:00 PM</option>
+                                    <option value="9:15 PM">9:15 PM</option>
+                                    <option value="9:30 PM">9:30 PM</option>
+                                    <option value="9:45 PM">9:45 PM</option>
+                                    <option value="10:00 PM">10:00 PM</option>
+                                    <option value="10:15 PM">10:15 PM</option>
+                                    <option value="10:30 PM">10:30 PM</option>
+                                    <option value="10:45 PM">10:45 PM</option>
+                                    <option value="11:00 PM">11:00 PM</option>
+                                    <option value="11:15 PM">11:15 PM</option>
+                                    <option value="11:30 PM">11:30 PM</option>
+                                    <option value="11:45 PM">11:45 PM</option>
+                                </select>
+                                <label>To:</label>
+                                <select class="to-time" name="tuesday_to_time">
+                                    <option value="12:00 AM">12:00 AM</option>
+                                    <option value="12:15 AM">12:15 AM</option>
+                                    <option value="12:30 AM">12:30 AM</option>
+                                    <option value="12:45 AM">12:45 AM</option>
+                                    <option value="1:00 AM">1:00 AM</option>
+                                    <option value="1:15 AM">1:15 AM</option>
+                                    <option value="1:30 AM">1:30 AM</option>
+                                    <option value="1:45 AM">1:45 AM</option>
+                                    <option value="2:00 AM">2:00 AM</option>
+                                    <option value="2:15 AM">2:15 AM</option>
+                                    <option value="2:30 AM">2:30 AM</option>
+                                    <option value="2:45 AM">2:45 AM</option>
+                                    <option value="3:00 AM">3:00 AM</option>
+                                    <option value="3:15 AM">3:15 AM</option>
+                                    <option value="3:30 AM">3:30 AM</option>
+                                    <option value="3:45 AM">3:45 AM</option>
+                                    <option value="4:00 AM">4:00 AM</option>
+                                    <option value="4:15 AM">4:15 AM</option>
+                                    <option value="4:30 AM">4:30 AM</option>
+                                    <option value="4:45 AM">4:45 AM</option>
+                                    <option value="5:00 AM">5:00 AM</option>
+                                    <option value="5:15 AM">5:15 AM</option>
+                                    <option value="5:30 AM">5:30 AM</option>
+                                    <option value="5:45 AM">5:45 AM</option>
+                                    <option value="6:00 AM">6:00 AM</option>
+                                    <option value="6:15 AM">6:15 AM</option>
+                                    <option value="6:30 AM">6:30 AM</option>
+                                    <option value="6:45 AM">6:45 AM</option>
+                                    <option value="7:00 AM">7:00 AM</option>
+                                    <option value="7:15 AM">7:15 AM</option>
+                                    <option value="7:30 AM">7:30 AM</option>
+                                    <option value="7:45 AM">7:45 AM</option>
+                                    <option value="8:00 AM">8:00 AM</option>
+                                    <option value="8:15 AM">8:15 AM</option>
+                                    <option value="8:30 AM">8:30 AM</option>
+                                    <option value="8:45 AM">8:45 AM</option>
+                                    <option value="9:00 AM">9:00 AM</option>
+                                    <option value="9:15 AM">9:15 AM</option>
+                                    <option value="9:30 AM">9:30 AM</option>
+                                    <option value="9:45 AM">9:45 AM</option>
+                                    <option value="10:00 AM">10:00 AM</option>
+                                    <option value="10:15 AM">10:15 AM</option>
+                                    <option value="10:30 AM">10:30 AM</option>
+                                    <option value="10:45 AM">10:45 AM</option>
+                                    <option value="11:00 AM">11:00 AM</option>
+                                    <option value="11:15 AM">11:15 AM</option>
+                                    <option value="11:30 AM">11:30 AM</option>
+                                    <option value="11:45 AM">11:45 AM</option>
+                                    <option value="12:15 PM">12:15 PM</option>
+                                    <option value="12:30 PM">12:30 PM</option>
+                                    <option value="12:45 PM">12:45 PM</option>
+                                    <option value="1:00 PM">1:00 PM</option>
+                                    <option value="1:15 PM">1:15 PM</option>
+                                    <option value="1:30 PM">1:30 PM</option>
+                                    <option value="1:45 PM">1:45 PM</option>
+                                    <option value="2:00 PM">2:00 PM</option>
+                                    <option value="2:15 PM">2:15 PM</option>
+                                    <option value="2:30 PM">2:30 PM</option>
+                                    <option value="2:45 PM">2:45 PM</option>
+                                    <option value="3:00 PM">3:00 PM</option>
+                                    <option value="3:15 PM">3:15 PM</option>
+                                    <option value="3:30 PM">3:30 PM</option>
+                                    <option value="3:45 PM">3:45 PM</option>
+                                    <option value="4:00 PM">4:00 PM</option>
+                                    <option value="4:15 PM">4:15 PM</option>
+                                    <option value="4:30 PM">4:30 PM</option>
+                                    <option value="4:45 PM">4:45 PM</option>
+                                    <option value="5:00 PM">5:00 PM</option>
+                                    <option value="5:15 PM">5:15 PM</option>
+                                    <option value="5:30 PM">5:30 PM</option>
+                                    <option value="5:45 PM">5:45 PM</option>
+                                    <option value="6:00 PM">6:00 PM</option>
+                                    <option value="6:15 PM">6:15 PM</option>
+                                    <option value="6:30 PM">6:30 PM</option>
+                                    <option value="6:45 PM">6:45 PM</option>
+                                    <option value="7:00 PM">7:00 PM</option>
+                                    <option value="7:15 PM">7:15 PM</option>
+                                    <option value="7:30 PM">7:30 PM</option>
+                                    <option value="7:45 PM">7:45 PM</option>
+                                    <option value="8:00 PM">8:00 PM</option>
+                                    <option value="8:15 PM">8:15 PM</option>
+                                    <option value="8:30 PM">8:30 PM</option>
+                                    <option value="8:45 PM">8:45 PM</option>
+                                    <option value="9:00 PM">9:00 PM</option>
+                                    <option value="9:15 PM">9:15 PM</option>
+                                    <option value="9:30 PM">9:30 PM</option>
+                                    <option value="9:45 PM">9:45 PM</option>
+                                    <option value="10:00 PM">10:00 PM</option>
+                                    <option value="10:15 PM">10:15 PM</option>
+                                    <option value="10:30 PM">10:30 PM</option>
+                                    <option value="10:45 PM">10:45 PM</option>
+                                    <option value="11:00 PM">11:00 PM</option>
+                                    <option value="11:15 PM">11:15 PM</option>
+                                    <option value="11:30 PM">11:30 PM</option>
+                                    <option value="11:45 PM">11:45 PM</option>
+                                </select>
+                                <button class="add-button" type="button" style="display: none;" onclick="addTimeSelects('tuesday-times', 'tuesday')">
+                                    <span class="plus-sign">+</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><input type="checkbox" class="day-checkbox" data-day="wednesday" name="wednesday_checkbox"> Wednesday</label>
+                            <div class="time-select" id="wednesday-times" style="display: none;">
+                                <label>From:</label>
+                                <select class="from-time" name="wednesday_from_time">
+                                    <option value="12:00 AM">12:00 AM</option>
+                                    <option value="12:15 AM">12:15 AM</option>
+                                    <option value="12:30 AM">12:30 AM</option>
+                                    <option value="12:45 AM">12:45 AM</option>
+                                    <option value="1:00 AM">1:00 AM</option>
+                                    <option value="1:15 AM">1:15 AM</option>
+                                    <option value="1:30 AM">1:30 AM</option>
+                                    <option value="1:45 AM">1:45 AM</option>
+                                    <option value="2:00 AM">2:00 AM</option>
+                                    <option value="2:15 AM">2:15 AM</option>
+                                    <option value="2:30 AM">2:30 AM</option>
+                                    <option value="2:45 AM">2:45 AM</option>
+                                    <option value="3:00 AM">3:00 AM</option>
+                                    <option value="3:15 AM">3:15 AM</option>
+                                    <option value="3:30 AM">3:30 AM</option>
+                                    <option value="3:45 AM">3:45 AM</option>
+                                    <option value="4:00 AM">4:00 AM</option>
+                                    <option value="4:15 AM">4:15 AM</option>
+                                    <option value="4:30 AM">4:30 AM</option>
+                                    <option value="4:45 AM">4:45 AM</option>
+                                    <option value="5:00 AM">5:00 AM</option>
+                                    <option value="5:15 AM">5:15 AM</option>
+                                    <option value="5:30 AM">5:30 AM</option>
+                                    <option value="5:45 AM">5:45 AM</option>
+                                    <option value="6:00 AM">6:00 AM</option>
+                                    <option value="6:15 AM">6:15 AM</option>
+                                    <option value="6:30 AM">6:30 AM</option>
+                                    <option value="6:45 AM">6:45 AM</option>
+                                    <option value="7:00 AM">7:00 AM</option>
+                                    <option value="7:15 AM">7:15 AM</option>
+                                    <option value="7:30 AM">7:30 AM</option>
+                                    <option value="7:45 AM">7:45 AM</option>
+                                    <option value="8:00 AM">8:00 AM</option>
+                                    <option value="8:15 AM">8:15 AM</option>
+                                    <option value="8:30 AM">8:30 AM</option>
+                                    <option value="8:45 AM">8:45 AM</option>
+                                    <option value="9:00 AM">9:00 AM</option>
+                                    <option value="9:15 AM">9:15 AM</option>
+                                    <option value="9:30 AM">9:30 AM</option>
+                                    <option value="9:45 AM">9:45 AM</option>
+                                    <option value="10:00 AM">10:00 AM</option>
+                                    <option value="10:15 AM">10:15 AM</option>
+                                    <option value="10:30 AM">10:30 AM</option>
+                                    <option value="10:45 AM">10:45 AM</option>
+                                    <option value="11:00 AM">11:00 AM</option>
+                                    <option value="11:15 AM">11:15 AM</option>
+                                    <option value="11:30 AM">11:30 AM</option>
+                                    <option value="11:45 AM">11:45 AM</option>
+                                    <option value="12:15 PM">12:15 PM</option>
+                                    <option value="12:30 PM">12:30 PM</option>
+                                    <option value="12:45 PM">12:45 PM</option>
+                                    <option value="1:00 PM">1:00 PM</option>
+                                    <option value="1:15 PM">1:15 PM</option>
+                                    <option value="1:30 PM">1:30 PM</option>
+                                    <option value="1:45 PM">1:45 PM</option>
+                                    <option value="2:00 PM">2:00 PM</option>
+                                    <option value="2:15 PM">2:15 PM</option>
+                                    <option value="2:30 PM">2:30 PM</option>
+                                    <option value="2:45 PM">2:45 PM</option>
+                                    <option value="3:00 PM">3:00 PM</option>
+                                    <option value="3:15 PM">3:15 PM</option>
+                                    <option value="3:30 PM">3:30 PM</option>
+                                    <option value="3:45 PM">3:45 PM</option>
+                                    <option value="4:00 PM">4:00 PM</option>
+                                    <option value="4:15 PM">4:15 PM</option>
+                                    <option value="4:30 PM">4:30 PM</option>
+                                    <option value="4:45 PM">4:45 PM</option>
+                                    <option value="5:00 PM">5:00 PM</option>
+                                    <option value="5:15 PM">5:15 PM</option>
+                                    <option value="5:30 PM">5:30 PM</option>
+                                    <option value="5:45 PM">5:45 PM</option>
+                                    <option value="6:00 PM">6:00 PM</option>
+                                    <option value="6:15 PM">6:15 PM</option>
+                                    <option value="6:30 PM">6:30 PM</option>
+                                    <option value="6:45 PM">6:45 PM</option>
+                                    <option value="7:00 PM">7:00 PM</option>
+                                    <option value="7:15 PM">7:15 PM</option>
+                                    <option value="7:30 PM">7:30 PM</option>
+                                    <option value="7:45 PM">7:45 PM</option>
+                                    <option value="8:00 PM">8:00 PM</option>
+                                    <option value="8:15 PM">8:15 PM</option>
+                                    <option value="8:30 PM">8:30 PM</option>
+                                    <option value="8:45 PM">8:45 PM</option>
+                                    <option value="9:00 PM">9:00 PM</option>
+                                    <option value="9:15 PM">9:15 PM</option>
+                                    <option value="9:30 PM">9:30 PM</option>
+                                    <option value="9:45 PM">9:45 PM</option>
+                                    <option value="10:00 PM">10:00 PM</option>
+                                    <option value="10:15 PM">10:15 PM</option>
+                                    <option value="10:30 PM">10:30 PM</option>
+                                    <option value="10:45 PM">10:45 PM</option>
+                                    <option value="11:00 PM">11:00 PM</option>
+                                    <option value="11:15 PM">11:15 PM</option>
+                                    <option value="11:30 PM">11:30 PM</option>
+                                    <option value="11:45 PM">11:45 PM</option>
+                                </select>
+                                <label>To:</label>
+                                <select class="to-time" name="wednesday_to_time">
+                                    <option value="12:00 AM">12:00 AM</option>
+                                    <option value="12:15 AM">12:15 AM</option>
+                                    <option value="12:30 AM">12:30 AM</option>
+                                    <option value="12:45 AM">12:45 AM</option>
+                                    <option value="1:00 AM">1:00 AM</option>
+                                    <option value="1:15 AM">1:15 AM</option>
+                                    <option value="1:30 AM">1:30 AM</option>
+                                    <option value="1:45 AM">1:45 AM</option>
+                                    <option value="2:00 AM">2:00 AM</option>
+                                    <option value="2:15 AM">2:15 AM</option>
+                                    <option value="2:30 AM">2:30 AM</option>
+                                    <option value="2:45 AM">2:45 AM</option>
+                                    <option value="3:00 AM">3:00 AM</option>
+                                    <option value="3:15 AM">3:15 AM</option>
+                                    <option value="3:30 AM">3:30 AM</option>
+                                    <option value="3:45 AM">3:45 AM</option>
+                                    <option value="4:00 AM">4:00 AM</option>
+                                    <option value="4:15 AM">4:15 AM</option>
+                                    <option value="4:30 AM">4:30 AM</option>
+                                    <option value="4:45 AM">4:45 AM</option>
+                                    <option value="5:00 AM">5:00 AM</option>
+                                    <option value="5:15 AM">5:15 AM</option>
+                                    <option value="5:30 AM">5:30 AM</option>
+                                    <option value="5:45 AM">5:45 AM</option>
+                                    <option value="6:00 AM">6:00 AM</option>
+                                    <option value="6:15 AM">6:15 AM</option>
+                                    <option value="6:30 AM">6:30 AM</option>
+                                    <option value="6:45 AM">6:45 AM</option>
+                                    <option value="7:00 AM">7:00 AM</option>
+                                    <option value="7:15 AM">7:15 AM</option>
+                                    <option value="7:30 AM">7:30 AM</option>
+                                    <option value="7:45 AM">7:45 AM</option>
+                                    <option value="8:00 AM">8:00 AM</option>
+                                    <option value="8:15 AM">8:15 AM</option>
+                                    <option value="8:30 AM">8:30 AM</option>
+                                    <option value="8:45 AM">8:45 AM</option>
+                                    <option value="9:00 AM">9:00 AM</option>
+                                    <option value="9:15 AM">9:15 AM</option>
+                                    <option value="9:30 AM">9:30 AM</option>
+                                    <option value="9:45 AM">9:45 AM</option>
+                                    <option value="10:00 AM">10:00 AM</option>
+                                    <option value="10:15 AM">10:15 AM</option>
+                                    <option value="10:30 AM">10:30 AM</option>
+                                    <option value="10:45 AM">10:45 AM</option>
+                                    <option value="11:00 AM">11:00 AM</option>
+                                    <option value="11:15 AM">11:15 AM</option>
+                                    <option value="11:30 AM">11:30 AM</option>
+                                    <option value="11:45 AM">11:45 AM</option>
+                                    <option value="12:15 PM">12:15 PM</option>
+                                    <option value="12:30 PM">12:30 PM</option>
+                                    <option value="12:45 PM">12:45 PM</option>
+                                    <option value="1:00 PM">1:00 PM</option>
+                                    <option value="1:15 PM">1:15 PM</option>
+                                    <option value="1:30 PM">1:30 PM</option>
+                                    <option value="1:45 PM">1:45 PM</option>
+                                    <option value="2:00 PM">2:00 PM</option>
+                                    <option value="2:15 PM">2:15 PM</option>
+                                    <option value="2:30 PM">2:30 PM</option>
+                                    <option value="2:45 PM">2:45 PM</option>
+                                    <option value="3:00 PM">3:00 PM</option>
+                                    <option value="3:15 PM">3:15 PM</option>
+                                    <option value="3:30 PM">3:30 PM</option>
+                                    <option value="3:45 PM">3:45 PM</option>
+                                    <option value="4:00 PM">4:00 PM</option>
+                                    <option value="4:15 PM">4:15 PM</option>
+                                    <option value="4:30 PM">4:30 PM</option>
+                                    <option value="4:45 PM">4:45 PM</option>
+                                    <option value="5:00 PM">5:00 PM</option>
+                                    <option value="5:15 PM">5:15 PM</option>
+                                    <option value="5:30 PM">5:30 PM</option>
+                                    <option value="5:45 PM">5:45 PM</option>
+                                    <option value="6:00 PM">6:00 PM</option>
+                                    <option value="6:15 PM">6:15 PM</option>
+                                    <option value="6:30 PM">6:30 PM</option>
+                                    <option value="6:45 PM">6:45 PM</option>
+                                    <option value="7:00 PM">7:00 PM</option>
+                                    <option value="7:15 PM">7:15 PM</option>
+                                    <option value="7:30 PM">7:30 PM</option>
+                                    <option value="7:45 PM">7:45 PM</option>
+                                    <option value="8:00 PM">8:00 PM</option>
+                                    <option value="8:15 PM">8:15 PM</option>
+                                    <option value="8:30 PM">8:30 PM</option>
+                                    <option value="8:45 PM">8:45 PM</option>
+                                    <option value="9:00 PM">9:00 PM</option>
+                                    <option value="9:15 PM">9:15 PM</option>
+                                    <option value="9:30 PM">9:30 PM</option>
+                                    <option value="9:45 PM">9:45 PM</option>
+                                    <option value="10:00 PM">10:00 PM</option>
+                                    <option value="10:15 PM">10:15 PM</option>
+                                    <option value="10:30 PM">10:30 PM</option>
+                                    <option value="10:45 PM">10:45 PM</option>
+                                    <option value="11:00 PM">11:00 PM</option>
+                                    <option value="11:15 PM">11:15 PM</option>
+                                    <option value="11:30 PM">11:30 PM</option>
+                                    <option value="11:45 PM">11:45 PM</option>
+                                </select>
+                                <button class="add-button" type="button" style="display: none;" onclick="addTimeSelects('wednesday-times', 'wednesday')">
+                                    <span class="plus-sign">+</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><input type="checkbox" class="day-checkbox" data-day="thursday" name="thursday_checkbox"> Thursday</label>
+                            <div class="time-select" id="thursday-times" style="display: none;">
+                                <label>From:</label>
+                                <select class="from-time" name="thursday_from_time">
+                                    <option value="12:00 AM">12:00 AM</option>
+                                    <option value="12:15 AM">12:15 AM</option>
+                                    <option value="12:30 AM">12:30 AM</option>
+                                    <option value="12:45 AM">12:45 AM</option>
+                                    <option value="1:00 AM">1:00 AM</option>
+                                    <option value="1:15 AM">1:15 AM</option>
+                                    <option value="1:30 AM">1:30 AM</option>
+                                    <option value="1:45 AM">1:45 AM</option>
+                                    <option value="2:00 AM">2:00 AM</option>
+                                    <option value="2:15 AM">2:15 AM</option>
+                                    <option value="2:30 AM">2:30 AM</option>
+                                    <option value="2:45 AM">2:45 AM</option>
+                                    <option value="3:00 AM">3:00 AM</option>
+                                    <option value="3:15 AM">3:15 AM</option>
+                                    <option value="3:30 AM">3:30 AM</option>
+                                    <option value="3:45 AM">3:45 AM</option>
+                                    <option value="4:00 AM">4:00 AM</option>
+                                    <option value="4:15 AM">4:15 AM</option>
+                                    <option value="4:30 AM">4:30 AM</option>
+                                    <option value="4:45 AM">4:45 AM</option>
+                                    <option value="5:00 AM">5:00 AM</option>
+                                    <option value="5:15 AM">5:15 AM</option>
+                                    <option value="5:30 AM">5:30 AM</option>
+                                    <option value="5:45 AM">5:45 AM</option>
+                                    <option value="6:00 AM">6:00 AM</option>
+                                    <option value="6:15 AM">6:15 AM</option>
+                                    <option value="6:30 AM">6:30 AM</option>
+                                    <option value="6:45 AM">6:45 AM</option>
+                                    <option value="7:00 AM">7:00 AM</option>
+                                    <option value="7:15 AM">7:15 AM</option>
+                                    <option value="7:30 AM">7:30 AM</option>
+                                    <option value="7:45 AM">7:45 AM</option>
+                                    <option value="8:00 AM">8:00 AM</option>
+                                    <option value="8:15 AM">8:15 AM</option>
+                                    <option value="8:30 AM">8:30 AM</option>
+                                    <option value="8:45 AM">8:45 AM</option>
+                                    <option value="9:00 AM">9:00 AM</option>
+                                    <option value="9:15 AM">9:15 AM</option>
+                                    <option value="9:30 AM">9:30 AM</option>
+                                    <option value="9:45 AM">9:45 AM</option>
+                                    <option value="10:00 AM">10:00 AM</option>
+                                    <option value="10:15 AM">10:15 AM</option>
+                                    <option value="10:30 AM">10:30 AM</option>
+                                    <option value="10:45 AM">10:45 AM</option>
+                                    <option value="11:00 AM">11:00 AM</option>
+                                    <option value="11:15 AM">11:15 AM</option>
+                                    <option value="11:30 AM">11:30 AM</option>
+                                    <option value="11:45 AM">11:45 AM</option>
+                                    <option value="12:15 PM">12:15 PM</option>
+                                    <option value="12:30 PM">12:30 PM</option>
+                                    <option value="12:45 PM">12:45 PM</option>
+                                    <option value="1:00 PM">1:00 PM</option>
+                                    <option value="1:15 PM">1:15 PM</option>
+                                    <option value="1:30 PM">1:30 PM</option>
+                                    <option value="1:45 PM">1:45 PM</option>
+                                    <option value="2:00 PM">2:00 PM</option>
+                                    <option value="2:15 PM">2:15 PM</option>
+                                    <option value="2:30 PM">2:30 PM</option>
+                                    <option value="2:45 PM">2:45 PM</option>
+                                    <option value="3:00 PM">3:00 PM</option>
+                                    <option value="3:15 PM">3:15 PM</option>
+                                    <option value="3:30 PM">3:30 PM</option>
+                                    <option value="3:45 PM">3:45 PM</option>
+                                    <option value="4:00 PM">4:00 PM</option>
+                                    <option value="4:15 PM">4:15 PM</option>
+                                    <option value="4:30 PM">4:30 PM</option>
+                                    <option value="4:45 PM">4:45 PM</option>
+                                    <option value="5:00 PM">5:00 PM</option>
+                                    <option value="5:15 PM">5:15 PM</option>
+                                    <option value="5:30 PM">5:30 PM</option>
+                                    <option value="5:45 PM">5:45 PM</option>
+                                    <option value="6:00 PM">6:00 PM</option>
+                                    <option value="6:15 PM">6:15 PM</option>
+                                    <option value="6:30 PM">6:30 PM</option>
+                                    <option value="6:45 PM">6:45 PM</option>
+                                    <option value="7:00 PM">7:00 PM</option>
+                                    <option value="7:15 PM">7:15 PM</option>
+                                    <option value="7:30 PM">7:30 PM</option>
+                                    <option value="7:45 PM">7:45 PM</option>
+                                    <option value="8:00 PM">8:00 PM</option>
+                                    <option value="8:15 PM">8:15 PM</option>
+                                    <option value="8:30 PM">8:30 PM</option>
+                                    <option value="8:45 PM">8:45 PM</option>
+                                    <option value="9:00 PM">9:00 PM</option>
+                                    <option value="9:15 PM">9:15 PM</option>
+                                    <option value="9:30 PM">9:30 PM</option>
+                                    <option value="9:45 PM">9:45 PM</option>
+                                    <option value="10:00 PM">10:00 PM</option>
+                                    <option value="10:15 PM">10:15 PM</option>
+                                    <option value="10:30 PM">10:30 PM</option>
+                                    <option value="10:45 PM">10:45 PM</option>
+                                    <option value="11:00 PM">11:00 PM</option>
+                                    <option value="11:15 PM">11:15 PM</option>
+                                    <option value="11:30 PM">11:30 PM</option>
+                                    <option value="11:45 PM">11:45 PM</option>
+                                </select>
+                                <label>To:</label>
+                                <select class="to-time" name="thursday_to_time">
+                                    <option value="12:00 AM">12:00 AM</option>
+                                    <option value="12:15 AM">12:15 AM</option>
+                                    <option value="12:30 AM">12:30 AM</option>
+                                    <option value="12:45 AM">12:45 AM</option>
+                                    <option value="1:00 AM">1:00 AM</option>
+                                    <option value="1:15 AM">1:15 AM</option>
+                                    <option value="1:30 AM">1:30 AM</option>
+                                    <option value="1:45 AM">1:45 AM</option>
+                                    <option value="2:00 AM">2:00 AM</option>
+                                    <option value="2:15 AM">2:15 AM</option>
+                                    <option value="2:30 AM">2:30 AM</option>
+                                    <option value="2:45 AM">2:45 AM</option>
+                                    <option value="3:00 AM">3:00 AM</option>
+                                    <option value="3:15 AM">3:15 AM</option>
+                                    <option value="3:30 AM">3:30 AM</option>
+                                    <option value="3:45 AM">3:45 AM</option>
+                                    <option value="4:00 AM">4:00 AM</option>
+                                    <option value="4:15 AM">4:15 AM</option>
+                                    <option value="4:30 AM">4:30 AM</option>
+                                    <option value="4:45 AM">4:45 AM</option>
+                                    <option value="5:00 AM">5:00 AM</option>
+                                    <option value="5:15 AM">5:15 AM</option>
+                                    <option value="5:30 AM">5:30 AM</option>
+                                    <option value="5:45 AM">5:45 AM</option>
+                                    <option value="6:00 AM">6:00 AM</option>
+                                    <option value="6:15 AM">6:15 AM</option>
+                                    <option value="6:30 AM">6:30 AM</option>
+                                    <option value="6:45 AM">6:45 AM</option>
+                                    <option value="7:00 AM">7:00 AM</option>
+                                    <option value="7:15 AM">7:15 AM</option>
+                                    <option value="7:30 AM">7:30 AM</option>
+                                    <option value="7:45 AM">7:45 AM</option>
+                                    <option value="8:00 AM">8:00 AM</option>
+                                    <option value="8:15 AM">8:15 AM</option>
+                                    <option value="8:30 AM">8:30 AM</option>
+                                    <option value="8:45 AM">8:45 AM</option>
+                                    <option value="9:00 AM">9:00 AM</option>
+                                    <option value="9:15 AM">9:15 AM</option>
+                                    <option value="9:30 AM">9:30 AM</option>
+                                    <option value="9:45 AM">9:45 AM</option>
+                                    <option value="10:00 AM">10:00 AM</option>
+                                    <option value="10:15 AM">10:15 AM</option>
+                                    <option value="10:30 AM">10:30 AM</option>
+                                    <option value="10:45 AM">10:45 AM</option>
+                                    <option value="11:00 AM">11:00 AM</option>
+                                    <option value="11:15 AM">11:15 AM</option>
+                                    <option value="11:30 AM">11:30 AM</option>
+                                    <option value="11:45 AM">11:45 AM</option>
+                                    <option value="12:15 PM">12:15 PM</option>
+                                    <option value="12:30 PM">12:30 PM</option>
+                                    <option value="12:45 PM">12:45 PM</option>
+                                    <option value="1:00 PM">1:00 PM</option>
+                                    <option value="1:15 PM">1:15 PM</option>
+                                    <option value="1:30 PM">1:30 PM</option>
+                                    <option value="1:45 PM">1:45 PM</option>
+                                    <option value="2:00 PM">2:00 PM</option>
+                                    <option value="2:15 PM">2:15 PM</option>
+                                    <option value="2:30 PM">2:30 PM</option>
+                                    <option value="2:45 PM">2:45 PM</option>
+                                    <option value="3:00 PM">3:00 PM</option>
+                                    <option value="3:15 PM">3:15 PM</option>
+                                    <option value="3:30 PM">3:30 PM</option>
+                                    <option value="3:45 PM">3:45 PM</option>
+                                    <option value="4:00 PM">4:00 PM</option>
+                                    <option value="4:15 PM">4:15 PM</option>
+                                    <option value="4:30 PM">4:30 PM</option>
+                                    <option value="4:45 PM">4:45 PM</option>
+                                    <option value="5:00 PM">5:00 PM</option>
+                                    <option value="5:15 PM">5:15 PM</option>
+                                    <option value="5:30 PM">5:30 PM</option>
+                                    <option value="5:45 PM">5:45 PM</option>
+                                    <option value="6:00 PM">6:00 PM</option>
+                                    <option value="6:15 PM">6:15 PM</option>
+                                    <option value="6:30 PM">6:30 PM</option>
+                                    <option value="6:45 PM">6:45 PM</option>
+                                    <option value="7:00 PM">7:00 PM</option>
+                                    <option value="7:15 PM">7:15 PM</option>
+                                    <option value="7:30 PM">7:30 PM</option>
+                                    <option value="7:45 PM">7:45 PM</option>
+                                    <option value="8:00 PM">8:00 PM</option>
+                                    <option value="8:15 PM">8:15 PM</option>
+                                    <option value="8:30 PM">8:30 PM</option>
+                                    <option value="8:45 PM">8:45 PM</option>
+                                    <option value="9:00 PM">9:00 PM</option>
+                                    <option value="9:15 PM">9:15 PM</option>
+                                    <option value="9:30 PM">9:30 PM</option>
+                                    <option value="9:45 PM">9:45 PM</option>
+                                    <option value="10:00 PM">10:00 PM</option>
+                                    <option value="10:15 PM">10:15 PM</option>
+                                    <option value="10:30 PM">10:30 PM</option>
+                                    <option value="10:45 PM">10:45 PM</option>
+                                    <option value="11:00 PM">11:00 PM</option>
+                                    <option value="11:15 PM">11:15 PM</option>
+                                    <option value="11:30 PM">11:30 PM</option>
+                                    <option value="11:45 PM">11:45 PM</option>
+                                </select>
+                                <button class="add-button" type="button" style="display: none;" onclick="addTimeSelects('thursday-times', 'thursday')">
+                                    <span class="plus-sign">+</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><input type="checkbox" class="day-checkbox" data-day="friday" name="friday_checkbox"> Friday</label>
+                            <div class="time-select" id="friday-times" style="display: none;">
+                                <label>From:</label>
+                                <select class="from-time" name="friday_from_time">
+                                    <option value="12:00 AM">12:00 AM</option>
+                                    <option value="12:15 AM">12:15 AM</option>
+                                    <option value="12:30 AM">12:30 AM</option>
+                                    <option value="12:45 AM">12:45 AM</option>
+                                    <option value="1:00 AM">1:00 AM</option>
+                                    <option value="1:15 AM">1:15 AM</option>
+                                    <option value="1:30 AM">1:30 AM</option>
+                                    <option value="1:45 AM">1:45 AM</option>
+                                    <option value="2:00 AM">2:00 AM</option>
+                                    <option value="2:15 AM">2:15 AM</option>
+                                    <option value="2:30 AM">2:30 AM</option>
+                                    <option value="2:45 AM">2:45 AM</option>
+                                    <option value="3:00 AM">3:00 AM</option>
+                                    <option value="3:15 AM">3:15 AM</option>
+                                    <option value="3:30 AM">3:30 AM</option>
+                                    <option value="3:45 AM">3:45 AM</option>
+                                    <option value="4:00 AM">4:00 AM</option>
+                                    <option value="4:15 AM">4:15 AM</option>
+                                    <option value="4:30 AM">4:30 AM</option>
+                                    <option value="4:45 AM">4:45 AM</option>
+                                    <option value="5:00 AM">5:00 AM</option>
+                                    <option value="5:15 AM">5:15 AM</option>
+                                    <option value="5:30 AM">5:30 AM</option>
+                                    <option value="5:45 AM">5:45 AM</option>
+                                    <option value="6:00 AM">6:00 AM</option>
+                                    <option value="6:15 AM">6:15 AM</option>
+                                    <option value="6:30 AM">6:30 AM</option>
+                                    <option value="6:45 AM">6:45 AM</option>
+                                    <option value="7:00 AM">7:00 AM</option>
+                                    <option value="7:15 AM">7:15 AM</option>
+                                    <option value="7:30 AM">7:30 AM</option>
+                                    <option value="7:45 AM">7:45 AM</option>
+                                    <option value="8:00 AM">8:00 AM</option>
+                                    <option value="8:15 AM">8:15 AM</option>
+                                    <option value="8:30 AM">8:30 AM</option>
+                                    <option value="8:45 AM">8:45 AM</option>
+                                    <option value="9:00 AM">9:00 AM</option>
+                                    <option value="9:15 AM">9:15 AM</option>
+                                    <option value="9:30 AM">9:30 AM</option>
+                                    <option value="9:45 AM">9:45 AM</option>
+                                    <option value="10:00 AM">10:00 AM</option>
+                                    <option value="10:15 AM">10:15 AM</option>
+                                    <option value="10:30 AM">10:30 AM</option>
+                                    <option value="10:45 AM">10:45 AM</option>
+                                    <option value="11:00 AM">11:00 AM</option>
+                                    <option value="11:15 AM">11:15 AM</option>
+                                    <option value="11:30 AM">11:30 AM</option>
+                                    <option value="11:45 AM">11:45 AM</option>
+                                    <option value="12:15 PM">12:15 PM</option>
+                                    <option value="12:30 PM">12:30 PM</option>
+                                    <option value="12:45 PM">12:45 PM</option>
+                                    <option value="1:00 PM">1:00 PM</option>
+                                    <option value="1:15 PM">1:15 PM</option>
+                                    <option value="1:30 PM">1:30 PM</option>
+                                    <option value="1:45 PM">1:45 PM</option>
+                                    <option value="2:00 PM">2:00 PM</option>
+                                    <option value="2:15 PM">2:15 PM</option>
+                                    <option value="2:30 PM">2:30 PM</option>
+                                    <option value="2:45 PM">2:45 PM</option>
+                                    <option value="3:00 PM">3:00 PM</option>
+                                    <option value="3:15 PM">3:15 PM</option>
+                                    <option value="3:30 PM">3:30 PM</option>
+                                    <option value="3:45 PM">3:45 PM</option>
+                                    <option value="4:00 PM">4:00 PM</option>
+                                    <option value="4:15 PM">4:15 PM</option>
+                                    <option value="4:30 PM">4:30 PM</option>
+                                    <option value="4:45 PM">4:45 PM</option>
+                                    <option value="5:00 PM">5:00 PM</option>
+                                    <option value="5:15 PM">5:15 PM</option>
+                                    <option value="5:30 PM">5:30 PM</option>
+                                    <option value="5:45 PM">5:45 PM</option>
+                                    <option value="6:00 PM">6:00 PM</option>
+                                    <option value="6:15 PM">6:15 PM</option>
+                                    <option value="6:30 PM">6:30 PM</option>
+                                    <option value="6:45 PM">6:45 PM</option>
+                                    <option value="7:00 PM">7:00 PM</option>
+                                    <option value="7:15 PM">7:15 PM</option>
+                                    <option value="7:30 PM">7:30 PM</option>
+                                    <option value="7:45 PM">7:45 PM</option>
+                                    <option value="8:00 PM">8:00 PM</option>
+                                    <option value="8:15 PM">8:15 PM</option>
+                                    <option value="8:30 PM">8:30 PM</option>
+                                    <option value="8:45 PM">8:45 PM</option>
+                                    <option value="9:00 PM">9:00 PM</option>
+                                    <option value="9:15 PM">9:15 PM</option>
+                                    <option value="9:30 PM">9:30 PM</option>
+                                    <option value="9:45 PM">9:45 PM</option>
+                                    <option value="10:00 PM">10:00 PM</option>
+                                    <option value="10:15 PM">10:15 PM</option>
+                                    <option value="10:30 PM">10:30 PM</option>
+                                    <option value="10:45 PM">10:45 PM</option>
+                                    <option value="11:00 PM">11:00 PM</option>
+                                    <option value="11:15 PM">11:15 PM</option>
+                                    <option value="11:30 PM">11:30 PM</option>
+                                    <option value="11:45 PM">11:45 PM</option>
+                                </select>
+                                <label>To:</label>
+                                <select class="to-time" name="friday_to_time">
+                                    <option value="12:00 AM">12:00 AM</option>
+                                    <option value="12:15 AM">12:15 AM</option>
+                                    <option value="12:30 AM">12:30 AM</option>
+                                    <option value="12:45 AM">12:45 AM</option>
+                                    <option value="1:00 AM">1:00 AM</option>
+                                    <option value="1:15 AM">1:15 AM</option>
+                                    <option value="1:30 AM">1:30 AM</option>
+                                    <option value="1:45 AM">1:45 AM</option>
+                                    <option value="2:00 AM">2:00 AM</option>
+                                    <option value="2:15 AM">2:15 AM</option>
+                                    <option value="2:30 AM">2:30 AM</option>
+                                    <option value="2:45 AM">2:45 AM</option>
+                                    <option value="3:00 AM">3:00 AM</option>
+                                    <option value="3:15 AM">3:15 AM</option>
+                                    <option value="3:30 AM">3:30 AM</option>
+                                    <option value="3:45 AM">3:45 AM</option>
+                                    <option value="4:00 AM">4:00 AM</option>
+                                    <option value="4:15 AM">4:15 AM</option>
+                                    <option value="4:30 AM">4:30 AM</option>
+                                    <option value="4:45 AM">4:45 AM</option>
+                                    <option value="5:00 AM">5:00 AM</option>
+                                    <option value="5:15 AM">5:15 AM</option>
+                                    <option value="5:30 AM">5:30 AM</option>
+                                    <option value="5:45 AM">5:45 AM</option>
+                                    <option value="6:00 AM">6:00 AM</option>
+                                    <option value="6:15 AM">6:15 AM</option>
+                                    <option value="6:30 AM">6:30 AM</option>
+                                    <option value="6:45 AM">6:45 AM</option>
+                                    <option value="7:00 AM">7:00 AM</option>
+                                    <option value="7:15 AM">7:15 AM</option>
+                                    <option value="7:30 AM">7:30 AM</option>
+                                    <option value="7:45 AM">7:45 AM</option>
+                                    <option value="8:00 AM">8:00 AM</option>
+                                    <option value="8:15 AM">8:15 AM</option>
+                                    <option value="8:30 AM">8:30 AM</option>
+                                    <option value="8:45 AM">8:45 AM</option>
+                                    <option value="9:00 AM">9:00 AM</option>
+                                    <option value="9:15 AM">9:15 AM</option>
+                                    <option value="9:30 AM">9:30 AM</option>
+                                    <option value="9:45 AM">9:45 AM</option>
+                                    <option value="10:00 AM">10:00 AM</option>
+                                    <option value="10:15 AM">10:15 AM</option>
+                                    <option value="10:30 AM">10:30 AM</option>
+                                    <option value="10:45 AM">10:45 AM</option>
+                                    <option value="11:00 AM">11:00 AM</option>
+                                    <option value="11:15 AM">11:15 AM</option>
+                                    <option value="11:30 AM">11:30 AM</option>
+                                    <option value="11:45 AM">11:45 AM</option>
+                                    <option value="12:15 PM">12:15 PM</option>
+                                    <option value="12:30 PM">12:30 PM</option>
+                                    <option value="12:45 PM">12:45 PM</option>
+                                    <option value="1:00 PM">1:00 PM</option>
+                                    <option value="1:15 PM">1:15 PM</option>
+                                    <option value="1:30 PM">1:30 PM</option>
+                                    <option value="1:45 PM">1:45 PM</option>
+                                    <option value="2:00 PM">2:00 PM</option>
+                                    <option value="2:15 PM">2:15 PM</option>
+                                    <option value="2:30 PM">2:30 PM</option>
+                                    <option value="2:45 PM">2:45 PM</option>
+                                    <option value="3:00 PM">3:00 PM</option>
+                                    <option value="3:15 PM">3:15 PM</option>
+                                    <option value="3:30 PM">3:30 PM</option>
+                                    <option value="3:45 PM">3:45 PM</option>
+                                    <option value="4:00 PM">4:00 PM</option>
+                                    <option value="4:15 PM">4:15 PM</option>
+                                    <option value="4:30 PM">4:30 PM</option>
+                                    <option value="4:45 PM">4:45 PM</option>
+                                    <option value="5:00 PM">5:00 PM</option>
+                                    <option value="5:15 PM">5:15 PM</option>
+                                    <option value="5:30 PM">5:30 PM</option>
+                                    <option value="5:45 PM">5:45 PM</option>
+                                    <option value="6:00 PM">6:00 PM</option>
+                                    <option value="6:15 PM">6:15 PM</option>
+                                    <option value="6:30 PM">6:30 PM</option>
+                                    <option value="6:45 PM">6:45 PM</option>
+                                    <option value="7:00 PM">7:00 PM</option>
+                                    <option value="7:15 PM">7:15 PM</option>
+                                    <option value="7:30 PM">7:30 PM</option>
+                                    <option value="7:45 PM">7:45 PM</option>
+                                    <option value="8:00 PM">8:00 PM</option>
+                                    <option value="8:15 PM">8:15 PM</option>
+                                    <option value="8:30 PM">8:30 PM</option>
+                                    <option value="8:45 PM">8:45 PM</option>
+                                    <option value="9:00 PM">9:00 PM</option>
+                                    <option value="9:15 PM">9:15 PM</option>
+                                    <option value="9:30 PM">9:30 PM</option>
+                                    <option value="9:45 PM">9:45 PM</option>
+                                    <option value="10:00 PM">10:00 PM</option>
+                                    <option value="10:15 PM">10:15 PM</option>
+                                    <option value="10:30 PM">10:30 PM</option>
+                                    <option value="10:45 PM">10:45 PM</option>
+                                    <option value="11:00 PM">11:00 PM</option>
+                                    <option value="11:15 PM">11:15 PM</option>
+                                    <option value="11:30 PM">11:30 PM</option>
+                                    <option value="11:45 PM">11:45 PM</option>
+                                </select>
+                                <button class="add-button" type="button" style="display: none;" onclick="addTimeSelects('friday-times', 'friday')">
+                                    <span class="plus-sign">+</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><input type="checkbox" class="day-checkbox" data-day="saturday" name="saturday_checkbox"> Saturday</label>
+                            <div class="time-select" id="saturday-times" style="display: none;">
+                                <label>From:</label>
+                                <select class="from-time" name="saturday_from_time">
+                                    <option value="12:00 AM">12:00 AM</option>
+                                    <option value="12:15 AM">12:15 AM</option>
+                                    <option value="12:30 AM">12:30 AM</option>
+                                    <option value="12:45 AM">12:45 AM</option>
+                                    <option value="1:00 AM">1:00 AM</option>
+                                    <option value="1:15 AM">1:15 AM</option>
+                                    <option value="1:30 AM">1:30 AM</option>
+                                    <option value="1:45 AM">1:45 AM</option>
+                                    <option value="2:00 AM">2:00 AM</option>
+                                    <option value="2:15 AM">2:15 AM</option>
+                                    <option value="2:30 AM">2:30 AM</option>
+                                    <option value="2:45 AM">2:45 AM</option>
+                                    <option value="3:00 AM">3:00 AM</option>
+                                    <option value="3:15 AM">3:15 AM</option>
+                                    <option value="3:30 AM">3:30 AM</option>
+                                    <option value="3:45 AM">3:45 AM</option>
+                                    <option value="4:00 AM">4:00 AM</option>
+                                    <option value="4:15 AM">4:15 AM</option>
+                                    <option value="4:30 AM">4:30 AM</option>
+                                    <option value="4:45 AM">4:45 AM</option>
+                                    <option value="5:00 AM">5:00 AM</option>
+                                    <option value="5:15 AM">5:15 AM</option>
+                                    <option value="5:30 AM">5:30 AM</option>
+                                    <option value="5:45 AM">5:45 AM</option>
+                                    <option value="6:00 AM">6:00 AM</option>
+                                    <option value="6:15 AM">6:15 AM</option>
+                                    <option value="6:30 AM">6:30 AM</option>
+                                    <option value="6:45 AM">6:45 AM</option>
+                                    <option value="7:00 AM">7:00 AM</option>
+                                    <option value="7:15 AM">7:15 AM</option>
+                                    <option value="7:30 AM">7:30 AM</option>
+                                    <option value="7:45 AM">7:45 AM</option>
+                                    <option value="8:00 AM">8:00 AM</option>
+                                    <option value="8:15 AM">8:15 AM</option>
+                                    <option value="8:30 AM">8:30 AM</option>
+                                    <option value="8:45 AM">8:45 AM</option>
+                                    <option value="9:00 AM">9:00 AM</option>
+                                    <option value="9:15 AM">9:15 AM</option>
+                                    <option value="9:30 AM">9:30 AM</option>
+                                    <option value="9:45 AM">9:45 AM</option>
+                                    <option value="10:00 AM">10:00 AM</option>
+                                    <option value="10:15 AM">10:15 AM</option>
+                                    <option value="10:30 AM">10:30 AM</option>
+                                    <option value="10:45 AM">10:45 AM</option>
+                                    <option value="11:00 AM">11:00 AM</option>
+                                    <option value="11:15 AM">11:15 AM</option>
+                                    <option value="11:30 AM">11:30 AM</option>
+                                    <option value="11:45 AM">11:45 AM</option>
+                                    <option value="12:15 PM">12:15 PM</option>
+                                    <option value="12:30 PM">12:30 PM</option>
+                                    <option value="12:45 PM">12:45 PM</option>
+                                    <option value="1:00 PM">1:00 PM</option>
+                                    <option value="1:15 PM">1:15 PM</option>
+                                    <option value="1:30 PM">1:30 PM</option>
+                                    <option value="1:45 PM">1:45 PM</option>
+                                    <option value="2:00 PM">2:00 PM</option>
+                                    <option value="2:15 PM">2:15 PM</option>
+                                    <option value="2:30 PM">2:30 PM</option>
+                                    <option value="2:45 PM">2:45 PM</option>
+                                    <option value="3:00 PM">3:00 PM</option>
+                                    <option value="3:15 PM">3:15 PM</option>
+                                    <option value="3:30 PM">3:30 PM</option>
+                                    <option value="3:45 PM">3:45 PM</option>
+                                    <option value="4:00 PM">4:00 PM</option>
+                                    <option value="4:15 PM">4:15 PM</option>
+                                    <option value="4:30 PM">4:30 PM</option>
+                                    <option value="4:45 PM">4:45 PM</option>
+                                    <option value="5:00 PM">5:00 PM</option>
+                                    <option value="5:15 PM">5:15 PM</option>
+                                    <option value="5:30 PM">5:30 PM</option>
+                                    <option value="5:45 PM">5:45 PM</option>
+                                    <option value="6:00 PM">6:00 PM</option>
+                                    <option value="6:15 PM">6:15 PM</option>
+                                    <option value="6:30 PM">6:30 PM</option>
+                                    <option value="6:45 PM">6:45 PM</option>
+                                    <option value="7:00 PM">7:00 PM</option>
+                                    <option value="7:15 PM">7:15 PM</option>
+                                    <option value="7:30 PM">7:30 PM</option>
+                                    <option value="7:45 PM">7:45 PM</option>
+                                    <option value="8:00 PM">8:00 PM</option>
+                                    <option value="8:15 PM">8:15 PM</option>
+                                    <option value="8:30 PM">8:30 PM</option>
+                                    <option value="8:45 PM">8:45 PM</option>
+                                    <option value="9:00 PM">9:00 PM</option>
+                                    <option value="9:15 PM">9:15 PM</option>
+                                    <option value="9:30 PM">9:30 PM</option>
+                                    <option value="9:45 PM">9:45 PM</option>
+                                    <option value="10:00 PM">10:00 PM</option>
+                                    <option value="10:15 PM">10:15 PM</option>
+                                    <option value="10:30 PM">10:30 PM</option>
+                                    <option value="10:45 PM">10:45 PM</option>
+                                    <option value="11:00 PM">11:00 PM</option>
+                                    <option value="11:15 PM">11:15 PM</option>
+                                    <option value="11:30 PM">11:30 PM</option>
+                                    <option value="11:45 PM">11:45 PM</option>
+                                </select>
+                                <label>To:</label>
+                                <select class="to-time" name="saturday_to_time">
+                                    <option value="12:00 AM">12:00 AM</option>
+                                    <option value="12:15 AM">12:15 AM</option>
+                                    <option value="12:30 AM">12:30 AM</option>
+                                    <option value="12:45 AM">12:45 AM</option>
+                                    <option value="1:00 AM">1:00 AM</option>
+                                    <option value="1:15 AM">1:15 AM</option>
+                                    <option value="1:30 AM">1:30 AM</option>
+                                    <option value="1:45 AM">1:45 AM</option>
+                                    <option value="2:00 AM">2:00 AM</option>
+                                    <option value="2:15 AM">2:15 AM</option>
+                                    <option value="2:30 AM">2:30 AM</option>
+                                    <option value="2:45 AM">2:45 AM</option>
+                                    <option value="3:00 AM">3:00 AM</option>
+                                    <option value="3:15 AM">3:15 AM</option>
+                                    <option value="3:30 AM">3:30 AM</option>
+                                    <option value="3:45 AM">3:45 AM</option>
+                                    <option value="4:00 AM">4:00 AM</option>
+                                    <option value="4:15 AM">4:15 AM</option>
+                                    <option value="4:30 AM">4:30 AM</option>
+                                    <option value="4:45 AM">4:45 AM</option>
+                                    <option value="5:00 AM">5:00 AM</option>
+                                    <option value="5:15 AM">5:15 AM</option>
+                                    <option value="5:30 AM">5:30 AM</option>
+                                    <option value="5:45 AM">5:45 AM</option>
+                                    <option value="6:00 AM">6:00 AM</option>
+                                    <option value="6:15 AM">6:15 AM</option>
+                                    <option value="6:30 AM">6:30 AM</option>
+                                    <option value="6:45 AM">6:45 AM</option>
+                                    <option value="7:00 AM">7:00 AM</option>
+                                    <option value="7:15 AM">7:15 AM</option>
+                                    <option value="7:30 AM">7:30 AM</option>
+                                    <option value="7:45 AM">7:45 AM</option>
+                                    <option value="8:00 AM">8:00 AM</option>
+                                    <option value="8:15 AM">8:15 AM</option>
+                                    <option value="8:30 AM">8:30 AM</option>
+                                    <option value="8:45 AM">8:45 AM</option>
+                                    <option value="9:00 AM">9:00 AM</option>
+                                    <option value="9:15 AM">9:15 AM</option>
+                                    <option value="9:30 AM">9:30 AM</option>
+                                    <option value="9:45 AM">9:45 AM</option>
+                                    <option value="10:00 AM">10:00 AM</option>
+                                    <option value="10:15 AM">10:15 AM</option>
+                                    <option value="10:30 AM">10:30 AM</option>
+                                    <option value="10:45 AM">10:45 AM</option>
+                                    <option value="11:00 AM">11:00 AM</option>
+                                    <option value="11:15 AM">11:15 AM</option>
+                                    <option value="11:30 AM">11:30 AM</option>
+                                    <option value="11:45 AM">11:45 AM</option>
+                                    <option value="12:15 PM">12:15 PM</option>
+                                    <option value="12:30 PM">12:30 PM</option>
+                                    <option value="12:45 PM">12:45 PM</option>
+                                    <option value="1:00 PM">1:00 PM</option>
+                                    <option value="1:15 PM">1:15 PM</option>
+                                    <option value="1:30 PM">1:30 PM</option>
+                                    <option value="1:45 PM">1:45 PM</option>
+                                    <option value="2:00 PM">2:00 PM</option>
+                                    <option value="2:15 PM">2:15 PM</option>
+                                    <option value="2:30 PM">2:30 PM</option>
+                                    <option value="2:45 PM">2:45 PM</option>
+                                    <option value="3:00 PM">3:00 PM</option>
+                                    <option value="3:15 PM">3:15 PM</option>
+                                    <option value="3:30 PM">3:30 PM</option>
+                                    <option value="3:45 PM">3:45 PM</option>
+                                    <option value="4:00 PM">4:00 PM</option>
+                                    <option value="4:15 PM">4:15 PM</option>
+                                    <option value="4:30 PM">4:30 PM</option>
+                                    <option value="4:45 PM">4:45 PM</option>
+                                    <option value="5:00 PM">5:00 PM</option>
+                                    <option value="5:15 PM">5:15 PM</option>
+                                    <option value="5:30 PM">5:30 PM</option>
+                                    <option value="5:45 PM">5:45 PM</option>
+                                    <option value="6:00 PM">6:00 PM</option>
+                                    <option value="6:15 PM">6:15 PM</option>
+                                    <option value="6:30 PM">6:30 PM</option>
+                                    <option value="6:45 PM">6:45 PM</option>
+                                    <option value="7:00 PM">7:00 PM</option>
+                                    <option value="7:15 PM">7:15 PM</option>
+                                    <option value="7:30 PM">7:30 PM</option>
+                                    <option value="7:45 PM">7:45 PM</option>
+                                    <option value="8:00 PM">8:00 PM</option>
+                                    <option value="8:15 PM">8:15 PM</option>
+                                    <option value="8:30 PM">8:30 PM</option>
+                                    <option value="8:45 PM">8:45 PM</option>
+                                    <option value="9:00 PM">9:00 PM</option>
+                                    <option value="9:15 PM">9:15 PM</option>
+                                    <option value="9:30 PM">9:30 PM</option>
+                                    <option value="9:45 PM">9:45 PM</option>
+                                    <option value="10:00 PM">10:00 PM</option>
+                                    <option value="10:15 PM">10:15 PM</option>
+                                    <option value="10:30 PM">10:30 PM</option>
+                                    <option value="10:45 PM">10:45 PM</option>
+                                    <option value="11:00 PM">11:00 PM</option>
+                                    <option value="11:15 PM">11:15 PM</option>
+                                    <option value="11:30 PM">11:30 PM</option>
+                                    <option value="11:45 PM">11:45 PM</option>
+                                </select>
+                                <button class="add-button" type="button" style="display: none;" onclick="addTimeSelects('saturday-times', 'saturday')">
+                                    <span class="plus-sign">+</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><input type="checkbox" class="day-checkbox" data-day="sunday"  name="sunday_checkbox"> Sunday</label>
+                            <div class="time-select" id="sunday-times" style="display: none;">
+                                <label>From:</label>
+                                <select class="from-time" name="sunday_from_time">
+                                    <option value="12:00 AM">12:00 AM</option>
+                                    <option value="12:15 AM">12:15 AM</option>
+                                    <option value="12:30 AM">12:30 AM</option>
+                                    <option value="12:45 AM">12:45 AM</option>
+                                    <option value="1:00 AM">1:00 AM</option>
+                                    <option value="1:15 AM">1:15 AM</option>
+                                    <option value="1:30 AM">1:30 AM</option>
+                                    <option value="1:45 AM">1:45 AM</option>
+                                    <option value="2:00 AM">2:00 AM</option>
+                                    <option value="2:15 AM">2:15 AM</option>
+                                    <option value="2:30 AM">2:30 AM</option>
+                                    <option value="2:45 AM">2:45 AM</option>
+                                    <option value="3:00 AM">3:00 AM</option>
+                                    <option value="3:15 AM">3:15 AM</option>
+                                    <option value="3:30 AM">3:30 AM</option>
+                                    <option value="3:45 AM">3:45 AM</option>
+                                    <option value="4:00 AM">4:00 AM</option>
+                                    <option value="4:15 AM">4:15 AM</option>
+                                    <option value="4:30 AM">4:30 AM</option>
+                                    <option value="4:45 AM">4:45 AM</option>
+                                    <option value="5:00 AM">5:00 AM</option>
+                                    <option value="5:15 AM">5:15 AM</option>
+                                    <option value="5:30 AM">5:30 AM</option>
+                                    <option value="5:45 AM">5:45 AM</option>
+                                    <option value="6:00 AM">6:00 AM</option>
+                                    <option value="6:15 AM">6:15 AM</option>
+                                    <option value="6:30 AM">6:30 AM</option>
+                                    <option value="6:45 AM">6:45 AM</option>
+                                    <option value="7:00 AM">7:00 AM</option>
+                                    <option value="7:15 AM">7:15 AM</option>
+                                    <option value="7:30 AM">7:30 AM</option>
+                                    <option value="7:45 AM">7:45 AM</option>
+                                    <option value="8:00 AM">8:00 AM</option>
+                                    <option value="8:15 AM">8:15 AM</option>
+                                    <option value="8:30 AM">8:30 AM</option>
+                                    <option value="8:45 AM">8:45 AM</option>
+                                    <option value="9:00 AM">9:00 AM</option>
+                                    <option value="9:15 AM">9:15 AM</option>
+                                    <option value="9:30 AM">9:30 AM</option>
+                                    <option value="9:45 AM">9:45 AM</option>
+                                    <option value="10:00 AM">10:00 AM</option>
+                                    <option value="10:15 AM">10:15 AM</option>
+                                    <option value="10:30 AM">10:30 AM</option>
+                                    <option value="10:45 AM">10:45 AM</option>
+                                    <option value="11:00 AM">11:00 AM</option>
+                                    <option value="11:15 AM">11:15 AM</option>
+                                    <option value="11:30 AM">11:30 AM</option>
+                                    <option value="11:45 AM">11:45 AM</option>
+                                    <option value="12:15 PM">12:15 PM</option>
+                                    <option value="12:30 PM">12:30 PM</option>
+                                    <option value="12:45 PM">12:45 PM</option>
+                                    <option value="1:00 PM">1:00 PM</option>
+                                    <option value="1:15 PM">1:15 PM</option>
+                                    <option value="1:30 PM">1:30 PM</option>
+                                    <option value="1:45 PM">1:45 PM</option>
+                                    <option value="2:00 PM">2:00 PM</option>
+                                    <option value="2:15 PM">2:15 PM</option>
+                                    <option value="2:30 PM">2:30 PM</option>
+                                    <option value="2:45 PM">2:45 PM</option>
+                                    <option value="3:00 PM">3:00 PM</option>
+                                    <option value="3:15 PM">3:15 PM</option>
+                                    <option value="3:30 PM">3:30 PM</option>
+                                    <option value="3:45 PM">3:45 PM</option>
+                                    <option value="4:00 PM">4:00 PM</option>
+                                    <option value="4:15 PM">4:15 PM</option>
+                                    <option value="4:30 PM">4:30 PM</option>
+                                    <option value="4:45 PM">4:45 PM</option>
+                                    <option value="5:00 PM">5:00 PM</option>
+                                    <option value="5:15 PM">5:15 PM</option>
+                                    <option value="5:30 PM">5:30 PM</option>
+                                    <option value="5:45 PM">5:45 PM</option>
+                                    <option value="6:00 PM">6:00 PM</option>
+                                    <option value="6:15 PM">6:15 PM</option>
+                                    <option value="6:30 PM">6:30 PM</option>
+                                    <option value="6:45 PM">6:45 PM</option>
+                                    <option value="7:00 PM">7:00 PM</option>
+                                    <option value="7:15 PM">7:15 PM</option>
+                                    <option value="7:30 PM">7:30 PM</option>
+                                    <option value="7:45 PM">7:45 PM</option>
+                                    <option value="8:00 PM">8:00 PM</option>
+                                    <option value="8:15 PM">8:15 PM</option>
+                                    <option value="8:30 PM">8:30 PM</option>
+                                    <option value="8:45 PM">8:45 PM</option>
+                                    <option value="9:00 PM">9:00 PM</option>
+                                    <option value="9:15 PM">9:15 PM</option>
+                                    <option value="9:30 PM">9:30 PM</option>
+                                    <option value="9:45 PM">9:45 PM</option>
+                                    <option value="10:00 PM">10:00 PM</option>
+                                    <option value="10:15 PM">10:15 PM</option>
+                                    <option value="10:30 PM">10:30 PM</option>
+                                    <option value="10:45 PM">10:45 PM</option>
+                                    <option value="11:00 PM">11:00 PM</option>
+                                    <option value="11:15 PM">11:15 PM</option>
+                                    <option value="11:30 PM">11:30 PM</option>
+                                    <option value="11:45 PM">11:45 PM</option>
+                                </select>
+                                <label>To:</label>
+                                <select class="to-time" name="sunday_to_time">
+                                    <option value="12:00 AM">12:00 AM</option>
+                                    <option value="12:15 AM">12:15 AM</option>
+                                    <option value="12:30 AM">12:30 AM</option>
+                                    <option value="12:45 AM">12:45 AM</option>
+                                    <option value="1:00 AM">1:00 AM</option>
+                                    <option value="1:15 AM">1:15 AM</option>
+                                    <option value="1:30 AM">1:30 AM</option>
+                                    <option value="1:45 AM">1:45 AM</option>
+                                    <option value="2:00 AM">2:00 AM</option>
+                                    <option value="2:15 AM">2:15 AM</option>
+                                    <option value="2:30 AM">2:30 AM</option>
+                                    <option value="2:45 AM">2:45 AM</option>
+                                    <option value="3:00 AM">3:00 AM</option>
+                                    <option value="3:15 AM">3:15 AM</option>
+                                    <option value="3:30 AM">3:30 AM</option>
+                                    <option value="3:45 AM">3:45 AM</option>
+                                    <option value="4:00 AM">4:00 AM</option>
+                                    <option value="4:15 AM">4:15 AM</option>
+                                    <option value="4:30 AM">4:30 AM</option>
+                                    <option value="4:45 AM">4:45 AM</option>
+                                    <option value="5:00 AM">5:00 AM</option>
+                                    <option value="5:15 AM">5:15 AM</option>
+                                    <option value="5:30 AM">5:30 AM</option>
+                                    <option value="5:45 AM">5:45 AM</option>
+                                    <option value="6:00 AM">6:00 AM</option>
+                                    <option value="6:15 AM">6:15 AM</option>
+                                    <option value="6:30 AM">6:30 AM</option>
+                                    <option value="6:45 AM">6:45 AM</option>
+                                    <option value="7:00 AM">7:00 AM</option>
+                                    <option value="7:15 AM">7:15 AM</option>
+                                    <option value="7:30 AM">7:30 AM</option>
+                                    <option value="7:45 AM">7:45 AM</option>
+                                    <option value="8:00 AM">8:00 AM</option>
+                                    <option value="8:15 AM">8:15 AM</option>
+                                    <option value="8:30 AM">8:30 AM</option>
+                                    <option value="8:45 AM">8:45 AM</option>
+                                    <option value="9:00 AM">9:00 AM</option>
+                                    <option value="9:15 AM">9:15 AM</option>
+                                    <option value="9:30 AM">9:30 AM</option>
+                                    <option value="9:45 AM">9:45 AM</option>
+                                    <option value="10:00 AM">10:00 AM</option>
+                                    <option value="10:15 AM">10:15 AM</option>
+                                    <option value="10:30 AM">10:30 AM</option>
+                                    <option value="10:45 AM">10:45 AM</option>
+                                    <option value="11:00 AM">11:00 AM</option>
+                                    <option value="11:15 AM">11:15 AM</option>
+                                    <option value="11:30 AM">11:30 AM</option>
+                                    <option value="11:45 AM">11:45 AM</option>
+                                    <option value="12:15 PM">12:15 PM</option>
+                                    <option value="12:30 PM">12:30 PM</option>
+                                    <option value="12:45 PM">12:45 PM</option>
+                                    <option value="1:00 PM">1:00 PM</option>
+                                    <option value="1:15 PM">1:15 PM</option>
+                                    <option value="1:30 PM">1:30 PM</option>
+                                    <option value="1:45 PM">1:45 PM</option>
+                                    <option value="2:00 PM">2:00 PM</option>
+                                    <option value="2:15 PM">2:15 PM</option>
+                                    <option value="2:30 PM">2:30 PM</option>
+                                    <option value="2:45 PM">2:45 PM</option>
+                                    <option value="3:00 PM">3:00 PM</option>
+                                    <option value="3:15 PM">3:15 PM</option>
+                                    <option value="3:30 PM">3:30 PM</option>
+                                    <option value="3:45 PM">3:45 PM</option>
+                                    <option value="4:00 PM">4:00 PM</option>
+                                    <option value="4:15 PM">4:15 PM</option>
+                                    <option value="4:30 PM">4:30 PM</option>
+                                    <option value="4:45 PM">4:45 PM</option>
+                                    <option value="5:00 PM">5:00 PM</option>
+                                    <option value="5:15 PM">5:15 PM</option>
+                                    <option value="5:30 PM">5:30 PM</option>
+                                    <option value="5:45 PM">5:45 PM</option>
+                                    <option value="6:00 PM">6:00 PM</option>
+                                    <option value="6:15 PM">6:15 PM</option>
+                                    <option value="6:30 PM">6:30 PM</option>
+                                    <option value="6:45 PM">6:45 PM</option>
+                                    <option value="7:00 PM">7:00 PM</option>
+                                    <option value="7:15 PM">7:15 PM</option>
+                                    <option value="7:30 PM">7:30 PM</option>
+                                    <option value="7:45 PM">7:45 PM</option>
+                                    <option value="8:00 PM">8:00 PM</option>
+                                    <option value="8:15 PM">8:15 PM</option>
+                                    <option value="8:30 PM">8:30 PM</option>
+                                    <option value="8:45 PM">8:45 PM</option>
+                                    <option value="9:00 PM">9:00 PM</option>
+                                    <option value="9:15 PM">9:15 PM</option>
+                                    <option value="9:30 PM">9:30 PM</option>
+                                    <option value="9:45 PM">9:45 PM</option>
+                                    <option value="10:00 PM">10:00 PM</option>
+                                    <option value="10:15 PM">10:15 PM</option>
+                                    <option value="10:30 PM">10:30 PM</option>
+                                    <option value="10:45 PM">10:45 PM</option>
+                                    <option value="11:00 PM">11:00 PM</option>
+                                    <option value="11:15 PM">11:15 PM</option>
+                                    <option value="11:30 PM">11:30 PM</option>
+                                    <option value="11:45 PM">11:45 PM</option>
+                                </select>
+                                <button class="add-button" type="button" style="display: none;" onclick="addTimeSelects('sunday-times', 'sunday')">
+                                    <span class="plus-sign">+</span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </form>
+                <div id="selected-schedule">
+                    <h4>Selected Schedule:</h4>
+                    <table id="schedule-table" class="table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="schedule-tbody">
+                            {% for item in schedule_data %}
+                            <tr id="schedule-row-{{ item.id }}">
+                                <td>{{ item.day }}</td>
+                                <td>{{ item.from_time_formatted }}</td>
+                                <td>{{ item.to_time_formatted }}</td>
+                                <td>
+                                    <form action="{% url 'delete_schedule' item.id %}" method="POST">
+                                        {% csrf_token %}
+
+                                        <button type="submit" class="delete-button" >
+                                            <span class="trash-sign"><i class="fa fa-trash"></i></span>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4">No schedule data available</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        
+
+    
+    
+    <script>
+        
+        
+        function addTimeSelects(parentId, day) {
+        var parentElement = document.getElementById(parentId);
+        var newTimeSelectRow = document.createElement('div');
+        newTimeSelectRow.className = 'time-select-row';
+        newTimeSelectRow.innerHTML = `
+            <label>From:</label>
+            <select class="from-time" name="${day}_from_time">
+                <option value="12:00 AM">12:00 AM</option>
+                <option value="12:15 AM">12:15 AM</option>
+                <option value="12:30 AM">12:30 AM</option>
+                <option value="12:45 AM">12:45 AM</option>
+                <option value="1:00 AM">1:00 AM</option>
+                <option value="1:15 AM">1:15 AM</option>
+                <option value="1:30 AM">1:30 AM</option>
+                <option value="1:45 AM">1:45 AM</option>
+                <option value="2:00 AM">2:00 AM</option>
+                <option value="2:15 AM">2:15 AM</option>
+                <option value="2:30 AM">2:30 AM</option>
+                <option value="2:45 AM">2:45 AM</option>
+                <option value="3:00 AM">3:00 AM</option>
+                <option value="3:15 AM">3:15 AM</option>
+                <option value="3:30 AM">3:30 AM</option>
+                <option value="3:45 AM">3:45 AM</option>
+                <option value="4:00 AM">4:00 AM</option>
+                <option value="4:15 AM">4:15 AM</option>
+                <option value="4:30 AM">4:30 AM</option>
+                <option value="4:45 AM">4:45 AM</option>
+                <option value="5:00 AM">5:00 AM</option>
+                <option value="5:15 AM">5:15 AM</option>
+                <option value="5:30 AM">5:30 AM</option>
+                <option value="5:45 AM">5:45 AM</option>
+                <option value="6:00 AM">6:00 AM</option>
+                <option value="6:15 AM">6:15 AM</option>
+                <option value="6:30 AM">6:30 AM</option>
+                <option value="6:45 AM">6:45 AM</option>
+                <option value="7:00 AM">7:00 AM</option>
+                <option value="7:15 AM">7:15 AM</option>
+                <option value="7:30 AM">7:30 AM</option>
+                <option value="7:45 AM">7:45 AM</option>
+                <option value="8:00 AM">8:00 AM</option>
+                <option value="8:15 AM">8:15 AM</option>
+                <option value="8:30 AM">8:30 AM</option>
+                <option value="8:45 AM">8:45 AM</option>
+                <option value="9:00 AM">9:00 AM</option>
+                <option value="9:15 AM">9:15 AM</option>
+                <option value="9:30 AM">9:30 AM</option>
+                <option value="9:45 AM">9:45 AM</option>
+                <option value="10:00 AM">10:00 AM</option>
+                <option value="10:15 AM">10:15 AM</option>
+                <option value="10:30 AM">10:30 AM</option>
+                <option value="10:45 AM">10:45 AM</option>
+                <option value="11:00 AM">11:00 AM</option>
+                <option value="11:15 AM">11:15 AM</option>
+                <option value="11:30 AM">11:30 AM</option>
+                <option value="11:45 AM">11:45 AM</option>
+                <option value="12:15 PM">12:15 PM</option>
+                <option value="12:30 PM">12:30 PM</option>
+                <option value="12:45 PM">12:45 PM</option>
+                <option value="1:00 PM">1:00 PM</option>
+                <option value="1:15 PM">1:15 PM</option>
+                <option value="1:30 PM">1:30 PM</option>
+                <option value="1:45 PM">1:45 PM</option>
+                <option value="2:00 PM">2:00 PM</option>
+                <option value="2:15 PM">2:15 PM</option>
+                <option value="2:30 PM">2:30 PM</option>
+                <option value="2:45 PM">2:45 PM</option>
+                <option value="3:00 PM">3:00 PM</option>
+                <option value="3:15 PM">3:15 PM</option>
+                <option value="3:30 PM">3:30 PM</option>
+                <option value="3:45 PM">3:45 PM</option>
+                <option value="4:00 PM">4:00 PM</option>
+                <option value="4:15 PM">4:15 PM</option>
+                <option value="4:30 PM">4:30 PM</option>
+                <option value="4:45 PM">4:45 PM</option>
+                <option value="5:00 PM">5:00 PM</option>
+                <option value="5:15 PM">5:15 PM</option>
+                <option value="5:30 PM">5:30 PM</option>
+                <option value="5:45 PM">5:45 PM</option>
+                <option value="6:00 PM">6:00 PM</option>
+                <option value="6:15 PM">6:15 PM</option>
+                <option value="6:30 PM">6:30 PM</option>
+                <option value="6:45 PM">6:45 PM</option>
+                <option value="7:00 PM">7:00 PM</option>
+                <option value="7:15 PM">7:15 PM</option>
+                <option value="7:30 PM">7:30 PM</option>
+                <option value="7:45 PM">7:45 PM</option>
+                <option value="8:00 PM">8:00 PM</option>
+                <option value="8:15 PM">8:15 PM</option>
+                <option value="8:30 PM">8:30 PM</option>
+                <option value="8:45 PM">8:45 PM</option>
+                <option value="9:00 PM">9:00 PM</option>
+                <option value="9:15 PM">9:15 PM</option>
+                <option value="9:30 PM">9:30 PM</option>
+                <option value="9:45 PM">9:45 PM</option>
+                <option value="10:00 PM">10:00 PM</option>
+                <option value="10:15 PM">10:15 PM</option>
+                <option value="10:30 PM">10:30 PM</option>
+                <option value="10:45 PM">10:45 PM</option>
+                <option value="11:00 PM">11:00 PM</option>
+                <option value="11:15 PM">11:15 PM</option>
+                <option value="11:30 PM">11:30 PM</option>
+                <option value="11:45 PM">11:45 PM</option>
+            </select>
+            <label>To:</label>
+            <select class="to-time" name="${day}_to_time">
+                <option value="12:00 AM">12:00 AM</option>
+                <option value="12:15 AM">12:15 AM</option>
+                <option value="12:30 AM">12:30 AM</option>
+                <option value="12:45 AM">12:45 AM</option>
+                <option value="1:00 AM">1:00 AM</option>
+                <option value="1:15 AM">1:15 AM</option>
+                <option value="1:30 AM">1:30 AM</option>
+                <option value="1:45 AM">1:45 AM</option>
+                <option value="2:00 AM">2:00 AM</option>
+                <option value="2:15 AM">2:15 AM</option>
+                <option value="2:30 AM">2:30 AM</option>
+                <option value="2:45 AM">2:45 AM</option>
+                <option value="3:00 AM">3:00 AM</option>
+                <option value="3:15 AM">3:15 AM</option>
+                <option value="3:30 AM">3:30 AM</option>
+                <option value="3:45 AM">3:45 AM</option>
+                <option value="4:00 AM">4:00 AM</option>
+                <option value="4:15 AM">4:15 AM</option>
+                <option value="4:30 AM">4:30 AM</option>
+                <option value="4:45 AM">4:45 AM</option>
+                <option value="5:00 AM">5:00 AM</option>
+                <option value="5:15 AM">5:15 AM</option>
+                <option value="5:30 AM">5:30 AM</option>
+                <option value="5:45 AM">5:45 AM</option>
+                <option value="6:00 AM">6:00 AM</option>
+                <option value="6:15 AM">6:15 AM</option>
+                <option value="6:30 AM">6:30 AM</option>
+                <option value="6:45 AM">6:45 AM</option>
+                <option value="7:00 AM">7:00 AM</option>
+                <option value="7:15 AM">7:15 AM</option>
+                <option value="7:30 AM">7:30 AM</option>
+                <option value="7:45 AM">7:45 AM</option>
+                <option value="8:00 AM">8:00 AM</option>
+                <option value="8:15 AM">8:15 AM</option>
+                <option value="8:30 AM">8:30 AM</option>
+                <option value="8:45 AM">8:45 AM</option>
+                <option value="9:00 AM">9:00 AM</option>
+                <option value="9:15 AM">9:15 AM</option>
+                <option value="9:30 AM">9:30 AM</option>
+                <option value="9:45 AM">9:45 AM</option>
+                <option value="10:00 AM">10:00 AM</option>
+                <option value="10:15 AM">10:15 AM</option>
+                <option value="10:30 AM">10:30 AM</option>
+                <option value="10:45 AM">10:45 AM</option>
+                <option value="11:00 AM">11:00 AM</option>
+                <option value="11:15 AM">11:15 AM</option>
+                <option value="11:30 AM">11:30 AM</option>
+                <option value="11:45 AM">11:45 AM</option>
+                <option value="12:15 PM">12:15 PM</option>
+                <option value="12:30 PM">12:30 PM</option>
+                <option value="12:45 PM">12:45 PM</option>
+                <option value="1:00 PM">1:00 PM</option>
+                <option value="1:15 PM">1:15 PM</option>
+                <option value="1:30 PM">1:30 PM</option>
+                <option value="1:45 PM">1:45 PM</option>
+                <option value="2:00 PM">2:00 PM</option>
+                <option value="2:15 PM">2:15 PM</option>
+                <option value="2:30 PM">2:30 PM</option>
+                <option value="2:45 PM">2:45 PM</option>
+                <option value="3:00 PM">3:00 PM</option>
+                <option value="3:15 PM">3:15 PM</option>
+                <option value="3:30 PM">3:30 PM</option>
+                <option value="3:45 PM">3:45 PM</option>
+                <option value="4:00 PM">4:00 PM</option>
+                <option value="4:15 PM">4:15 PM</option>
+                <option value="4:30 PM">4:30 PM</option>
+                <option value="4:45 PM">4:45 PM</option>
+                <option value="5:00 PM">5:00 PM</option>
+                <option value="5:15 PM">5:15 PM</option>
+                <option value="5:30 PM">5:30 PM</option>
+                <option value="5:45 PM">5:45 PM</option>
+                <option value="6:00 PM">6:00 PM</option>
+                <option value="6:15 PM">6:15 PM</option>
+                <option value="6:30 PM">6:30 PM</option>
+                <option value="6:45 PM">6:45 PM</option>
+                <option value="7:00 PM">7:00 PM</option>
+                <option value="7:15 PM">7:15 PM</option>
+                <option value="7:30 PM">7:30 PM</option>
+                <option value="7:45 PM">7:45 PM</option>
+                <option value="8:00 PM">8:00 PM</option>
+                <option value="8:15 PM">8:15 PM</option>
+                <option value="8:30 PM">8:30 PM</option>
+                <option value="8:45 PM">8:45 PM</option>
+                <option value="9:00 PM">9:00 PM</option>
+                <option value="9:15 PM">9:15 PM</option>
+                <option value="9:30 PM">9:30 PM</option>
+                <option value="9:45 PM">9:45 PM</option>
+                <option value="10:00 PM">10:00 PM</option>
+                <option value="10:15 PM">10:15 PM</option>
+                <option value="10:30 PM">10:30 PM</option>
+                <option value="10:45 PM">10:45 PM</option>
+                <option value="11:00 PM">11:00 PM</option>
+                <option value="11:15 PM">11:15 PM</option>
+                <option value="11:30 PM">11:30 PM</option>
+                <option value="11:45 PM">11:45 PM</option>
+            </select>
+            <button type="button" class="remove-button" onclick="removeTimeSelects(this.parentElement)">
+                <span class="minus-sign">-</span>
+            </button>
+        `;
+        parentElement.appendChild(newTimeSelectRow);
+    }
+
+    function removeTimeSelects(rowElement) {
+        rowElement.remove();
+    }
+
+            // Show/hide time select boxes based on day checkbox
+            document.querySelectorAll('.day-checkbox').forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    var dayTimes = document.getElementById(checkbox.dataset.day + '-times');
+                    if (checkbox.checked) {
+                        dayTimes.style.display = 'block';
+                    } else {
+                        dayTimes.style.display = 'none';
+                    }
+                });
+            });
+
+        
+       // Function to toggle time select boxes and button
+function toggleTimeSelect(day, show) {
+    const timeSelect = document.getElementById(`${day}-times`);
+    const addButton = timeSelect.querySelector('.add-button');
+    if (show) {
+        timeSelect.style.display = 'block';
+        addButton.style.display = 'inline-block'; // Show the button
+    } else {
+        timeSelect.style.display = 'none';
+        addButton.style.display = 'none'; // Hide the button
+    }
+}
+
+
+
+    // Add event listeners to the checkboxes
+    document.querySelectorAll('.day-checkbox').forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            const day = checkbox.getAttribute('data-day');
+            toggleTimeSelect(day, checkbox.checked);
+        });
+    });
+    document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('delete-schedule')) {
+        // Find the closest <tr> element to delete
+        var tr = event.target.closest('tr');
+        if (tr) {
+            tr.remove(); // Remove the <tr> from the DOM
+            // Optionally, you can also send an AJAX request here to delete the data from the server
+        }
+    }
+});
+
+    </script>
+    
+
+</body>
+</html>

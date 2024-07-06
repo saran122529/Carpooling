@@ -1,0 +1,1154 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <title> Registration Form </title>
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css'%}">
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/registration.css'%}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Kalam' rel='stylesheet'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'styles/home.css'%}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="path/to/jquery.min.js"></script>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+    integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+    crossorigin="anonymous"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script src="{% static 'js/home.js'%}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+</head>
+
+<body>
+
+  <div class="topnav" id="myTopnav" style="margin-bottom: 100px;">
+    <ul>
+      <div id="name">
+        <h1>Mentor Booking</h1>
+      </div>
+    </ul>
+    <ul id="rest">
+      <ul><a href="http://127.0.0.1:8000/" class="active">Home</a></ul>
+      <ul><a href="http://127.0.0.1:8000/register">Register</a></ul>
+      <ul><a href="http://127.0.0.1:8000/login">Login</a></ul>
+      <ul><a href="http://127.0.0.1:8000/contact">Contact us</a></ul>
+    </ul>
+  </div>
+
+  <div>
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <center>{{ message }}</center>
+    </div>
+    {% endfor %}
+    {% endif %}
+  </div>
+
+  <div class="cssanimation sequence fadeInBottom">
+    <div class="container1">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="user-tab" data-toggle="tab" href="#user" role="tab" aria-controls="user" aria-selected="true">Student Registration</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="driver-tab" data-toggle="tab" href="#driver" role="tab" aria-controls="driver" aria-selected="false">Mentor Registration</a>
+        </li>
+      </ul>
+      <div class="title">
+        <h3>Sign Up Into New Account</h3>
+      </div>
+  
+
+      <!-- User Registration Form -->
+      <div id="user-registration" class="registration-form">
+        <div class="content">
+          <form action="" method="post">
+            {% csrf_token %}
+            <div class="user-details">
+              <div class="input-box">
+                <span class="details">Full Name</span>
+                <input type="text" name="fname" placeholder="Enter your name" required="">
+              </div>
+  
+              <div class="input-box">
+                <span class="details">Username</span>
+                <input type="text" name="usern" placeholder="Enter your username" required="" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$" title="Username must contain at least 5 characters, including letters and numbers.">
+              </div>
+  
+              <div class="input-box">
+                <span class="details">Password</span>
+                <input type="password" name="password" placeholder="Enter your password" required="">
+              </div>
+  
+              <div class="input-box">
+                <span class="details">Email</span>
+                <input type="email" name="email" placeholder="Enter your email" required="">
+              </div>
+  
+              <div class="input-box">
+                <span class="details">Phone Number</span>
+                <input type="text" name="mobile" placeholder="Enter your number" required="">
+              </div>
+  
+              <div class="gender-details">
+                <input type="radio" name="gender" value="Male" id="dot-1" required="">
+                <input type="radio" name="gender" value="Female" id="dot-2" required="">
+                <input type="radio" name="gender" value="Prefer not to say" id="dot-3" required="">
+  
+                <span class="gender-title">Gender</span>
+  
+                <div class="category">
+                  <label for="dot-1">
+                    <span class="dot one"></span>
+                    <span class="gender">Male</span>
+                  </label>
+  
+                  <label for="dot-2">
+                    <span class="dot two"></span>
+                    <span class="gender">Female</span>
+                  </label>
+  
+                  <label for="dot-3">
+                    <span class="dot three"></span>
+                    <span class="gender">Prefer not to say</span>
+                  </label>
+                </div>
+              </div>
+              
+              
+              <!-- Select box for languages spoken in India -->
+              <!-- Hidden input to store selected languages -->
+        <input type="hidden" name="languages_user" id="selected-languages-user" >
+
+        <div class="input-box" style="width: 100%;">
+          <label for="languages_user">Languages Spoken</label>
+          <select class="form-control" name="languages_user_select" id="languages-select-user" required ="" style="border:1px solid black;" required="">
+            <option value="" disabled selected>Select Language</option>
+            <option value="Hindi">Hindi</option>
+            <option value="Bengali">Bengali</option>
+            <option value="Telugu">Telugu</option>
+            <option value="Marathi">Marathi</option>
+            <option value="Tamil">Tamil</option>
+            <option value="Urdu">Urdu</option>
+            <option value="Gujarati">Gujarati</option>
+            <option value="Kannada">Kannada</option>
+            <option value="Odia">Odia (Oriya)</option>
+            <option value="Punjabi">Punjabi</option>
+            <option value="Malayalam">Malayalam</option>
+            <option value="Assamese">Assamese</option>
+            <option value="Maithili">Maithili</option>
+            <option value="Santali">Santali</option>
+            <option value="Kashmiri">Kashmiri</option>
+            <option value="Nepali">Nepali</option>
+            <option value="Konkani">Konkani</option>
+            <option value="Sindhi">Sindhi</option>
+            <option value="Manipuri">Manipuri</option>
+            <option value="Dogri">Dogri</option>
+          </select>
+        </div>
+              
+              <!-- Container to display added languages for user -->
+              <div id="languages-container-user"></div>
+              <!-- Select box for current status -->
+              <div class="input-box" style="width: 100%;">
+                <label for="current-status">Current Status</label>
+                <select class="form-control" name="current-status" id="current-status-select" required="" style="border:1px solid black ">
+                    <option value="">Select Current Status</option>
+                    <option value="Student">Student</option>
+                    <option value="Fresher">Fresher</option>
+                    <option value="Working Professional">Working Professional</option>
+                </select>
+              </div>
+              <!-- Additional fields for working professional -->
+              <div id="working-professional-fields" class="input-box" style="display: none;">
+                <div class="input-box">
+                  <span class="details">Company Name</span>
+                  <input type="text" name="company-name" placeholder="Enter your company name" style="width: 300px;" required="">
+                </div>
+                <div class="input-box">
+                  <span class="details">Role</span>
+                  <input type="text" name="role" placeholder="Enter your role" style="width: 300px;" required="">
+                </div>
+              </div>
+              
+              <h3>Education Qualification</h3>
+               
+              <div class="input-box">
+                <span class="details">College</span>
+                <input type="text" name="college" placeholder="Enter your college" required="">
+              </div>
+              <div class="input-box">
+                <span class="details">Degree</span>
+                <input type="text" name="degree" placeholder="Enter your degree" required="">
+              </div>
+              <div class="input-box">
+                <span class="details">Field of Study</span>
+                <input type="text" name="field_of_study" placeholder="Enter your field of study" required="">
+              </div>
+
+              <div class="input-box">
+                <span class="details">Year of Graduation</span>
+                <input type="text" name="graduation_year" placeholder="Enter your graduation year" required="">
+              </div>
+
+              <div class="input-box" style="width: 100%;">
+                <span class="details">Address</span>
+                <input type="text" name="address" placeholder="Enter your address" required="">
+              </div>
+  
+              <div class="input-box">
+                <label for="inputState">State</label>
+                <select class="form-control" name="state" id="inputState" style="border:1px solid black" required="">
+                  <option value="" disabled selected>Select State</option>
+                  <option value="Andhra Pradesh">Andhra Pradesh</option>
+                  <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                  <option value="Assam">Assam</option>
+                  <option value="Bihar">Bihar</option>
+                  <option value="Chhattisgarh">Chhattisgarh</option>
+                  <option value="Goa">Goa</option>
+                  <option value="Gujarat">Gujarat</option>
+                  <option value="Haryana">Haryana</option>
+                  <option value="Himachal Pradesh">Himachal Pradesh</option>
+                  <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                  <option value="Jharkhand">Jharkhand</option>
+                  <option value="Karnataka">Karnataka</option>
+                  <option value="Kerala">Kerala</option>
+                  <option value="Madhya Pradesh">Madhya Pradesh</option>
+                  <option value="Maharashtra">Maharashtra</option>
+                  <option value="Manipur">Manipur</option>
+                  <option value="Meghalaya">Meghalaya</option>
+                  <option value="Mizoram">Mizoram</option>
+                  <option value="Nagaland">Nagaland</option>
+                  <option value="Orissa">Orissa</option>
+                  <option value="Punjab">Punjab</option>
+                  <option value="Rajasthan">Rajasthan</option>
+                  <option value="Sikkim">Sikkim</option>
+                  <option value="Tamil Nadu">Tamil Nadu</option>
+                  <option value="Telangana">Telangana</option>
+                  <option value="Tripura">Tripura</option>
+                  <option value="Uttaranchal">Uttaranchal</option>
+                  <option value="Uttar Pradesh">Uttar Pradesh</option>
+                  <option value="West Bengal">West Bengal</option>
+                  <option disabled style="background-color:#aaa; color:#fff">UNION Territories</option>
+                  <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                  <option value="Chandigarh">Chandigarh</option>
+                  <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
+                  <option value="Daman and Diu">Daman and Diu</option>
+                  <option value="Delhi">Delhi</option>
+                  <option value="Lakshadeep">Lakshadeep</option>
+                  <option value="Pondicherry">Pondicherry</option>
+                </select>
+              </div>
+              <div class="input-box">
+                <label for="inputDistrict">City</label>
+                <select class="form-control" id="inputDistrict" name="city" required="" style="border:1px solid black">
+                  <option value="">Select City </option>
+                </select>
+              </div>
+  
+              <!--<div class="input-box">
+                <span class="details">City</span>
+                <input type="text" name="city" placeholder="Enter your City" required="">
+              </div>
+    
+              <div class="input-box">
+                <span class="details">State</span>
+                <input type="text" name="state" placeholder="Enter your State" required="">
+              </div>-->
+            </div>
+  
+            <div class="button">
+              <input type="submit" value="Register">
+            </div>
+          </form>
+          <p style="text-align: center;">Or <a href="http://127.0.0.1:8000/login" id="link">LOGIN</a> here</p>
+        </div>
+      </div>
+
+      <!-- Driver Registration Form -->
+<div id="driver-registration" class="registration-form" style="display: none;">
+  <div class="content">
+    <form action="" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="user-details">
+        <div class="input-box" style="width: 100%; text-align: center;">
+          <input type="file" name="profile_picture" id="profile-picture-input" accept="image/*" style="display: none;" onchange="showCropModal(event)">
+          <div class="profile-picture-container">
+            <label class="profile-picture-label">
+              <img src="" id="profile-picture-preview" class="profile-picture-preview" alt="Profile Picture" style="display: none;">
+              <span id="upload-symbol" class="upload-symbol" onclick="document.getElementById('profile-picture-input').click();" style="display: inline-block;">+</span>
+            </label>
+          </div>
+          <div id="crop-modal">
+            <div class="cropper-container">
+              <img id="crop-image" src="" alt="Crop Image">
+            </div>
+            <button type="button" onclick="cropImage()" class="button-style save-button">Save</button>
+            <button type="button" onclick="closeCropModal()" class="button-style cancel-button">Cancel</button>
+          </div>
+          <input type="hidden" name="cropped_image_data" id="cropped-image-data">
+          <button type="button" id="delete-button" onclick="deleteImage()" class="button-style delete-button">Delete</button>
+      
+      
+        </div>
+                
+        <div class="input-box">
+          <span class="details">Full Name</span>
+          <input type="text" name="fname_driver" placeholder="Enter your name" required="">
+        </div>
+
+        <div class="input-box">
+          <span class="details">Username</span>
+          <input type="text" name="usern_driver" placeholder="Enter your username" required="" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$" title="Username must contain at least 5 characters, including letters and numbers.">
+        </div>
+
+        <div class="input-box">
+          <span class="details">Password</span>
+          <input type="password" name="password_driver" placeholder="Enter your password" required="">
+        </div>
+
+        <div class="input-box">
+          <span class="details">Email</span>
+          <input type="email" name="email_driver" placeholder="Enter your email" required="">
+        </div>
+
+        <div class="input-box">
+          <span class="details">Phone Number</span>
+          <input type="text" name="mobile_driver" placeholder="Enter your number" required="">
+        </div>
+
+        <div class="gender-details">
+          <input type="radio" name="gender_driver" value="Male" id="dot-1-driver" >
+          <input type="radio" name="gender_driver" value="Female" id="dot-2-driver" >
+          <input type="radio" name="gender_driver" value="Prefer not to say" id="dot-3-driver" >
+
+          <span class="gender-title">Gender</span>
+
+          <div class="category">
+            <label for="dot-1-driver">
+              <span class="dot one"></span>
+              <span class="gender">Male</span>
+            </label>
+
+            <label for="dot-2-driver">
+              <span class="dot two"></span>
+              <span class="gender">Female</span>
+            </label>
+
+            <label for="dot-3-driver">
+              <span class="dot three"></span>
+              <span class="gender">Prefer not to say</span>
+            </label>
+          </div>
+          
+        </div>
+        
+        <div class="input-box" style="width: 100%;">
+          <span class="details">Role</span>
+          <input type="text" name="role" placeholder="Enter your Role" required="">
+        </div>
+        <div class="input-box" style="width: 100%;">
+          <label for="year-of-experience">Year of Experience</label>
+          <select class="form-control" name="year-of-experience" id="year-of-experience-select" required="" style="border:1px solid black">
+              <option value="">Select Year of Experience</option>
+              <option value="1">1 year</option>
+              <option value="2">2 years</option>
+              <option value="greater_than_2">Greater than 2 years</option>
+          </select>
+        </div> 
+        <!-- Select box for languages spoken in India -->
+        <input type="hidden" name="languages_driver" id="selected-languages-driver">
+
+        <div class="input-box" style="width: 100%;">
+          <label for="languages_driver">Languages Spoken</label>
+          <select class="form-control" name="languages_driver_select" id="languages-select-driver" required ="" style="border:1px solid black">
+            <option value="">Select Language</option>
+            <option value="Hindi">Hindi</option>
+            <option value="Bengali">Bengali</option>
+            <option value="Telugu">Telugu</option>
+            <option value="Marathi">Marathi</option>
+            <option value="Tamil">Tamil</option>
+            <option value="Urdu">Urdu</option>
+            <option value="Gujarati">Gujarati</option>
+            <option value="Kannada">Kannada</option>
+            <option value="Odia">Odia (Oriya)</option>
+            <option value="Punjabi">Punjabi</option>
+            <option value="Malayalam">Malayalam</option>
+            <option value="Assamese">Assamese</option>
+            <option value="Maithili">Maithili</option>
+            <option value="Santali">Santali</option>
+            <option value="Kashmiri">Kashmiri</option>
+            <option value="Nepali">Nepali</option>
+            <option value="Konkani">Konkani</option>
+            <option value="Sindhi">Sindhi</option>
+            <option value="Manipuri">Manipuri</option>
+            <option value="Dogri">Dogri</option>
+            <!-- Add more languages as options -->
+          </select>
+        </div>
+        <!-- Container to display added languages -->
+        <div id="languages-container-driver"></div>
+        <div class="input-box" style="width: 100%;">
+          <span class="details">Service</span>
+          <div class="services-input-container">
+            <input type="type" name="services_driver" id="service-input" required="" placeholder="Enter your service" style="margin-right: 10px;" >
+            <button type="button" id="add-service-button">Save</button>
+          </div>
+          <div id="service-error" style="color: red; display: none;">Please enter a service</div>
+        </div>
+        <!-- Container to display added skills -->
+        <div id="services-container"></div>
+        <!-- Description Box -->
+        <div class="input-box" style="width: 100%;">
+          <span class="details">Description</span>
+          <textarea name="description_driver" id="description_driver" placeholder="Enter a description (max 200 characters)" required="" style="width: 100%; height: 100px; border: 1px solid black;" oninput="checkCharacterCount(event)"></textarea>
+          <span id="character-count" style="font-size: 12px; color: #555;">0/200 characters</span>
+        </div>
+
+                
+        
+        <div class="input-box" style="width: 100%;">
+          <span class="details">Address</span>
+          <input type="text" name="address_driver" placeholder="Enter your address" required="">
+        </div>
+
+        <div class="input-box">
+          <label for="inputStateDriver">State</label>
+          <select class="form-control" name="state_driver" id="inputStateDriver" required="" style="border:1px solid black">
+            <option value="" disabled selected>Select State</option>
+            <option value="Andhra Pradesh">Andhra Pradesh</option>
+            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+            <option value="Assam">Assam</option>
+            <option value="Bihar">Bihar</option>
+            <option value="Chhattisgarh">Chhattisgarh</option>
+            <option value="Goa">Goa</option>
+            <option value="Gujarat">Gujarat</option>
+            <option value="Haryana">Haryana</option>
+            <option value="Himachal Pradesh">Himachal Pradesh</option>
+            <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+            <option value="Jharkhand">Jharkhand</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Kerala">Kerala</option>
+            <option value="Madhya Pradesh">Madhya Pradesh</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Manipur">Manipur</option>
+            <option value="Meghalaya">Meghalaya</option>
+            <option value="Mizoram">Mizoram</option>
+            <option value="Nagaland">Nagaland</option>
+            <option value="Orissa">Orissa</option>
+            <option value="Punjab">Punjab</option>
+            <option value="Rajasthan">Rajasthan</option>
+            <option value="Sikkim">Sikkim</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="Telangana">Telangana</option>
+            <option value="Tripura">Tripura</option>
+            <option value="Uttaranchal">Uttaranchal</option>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+            <option value="West Bengal">West Bengal</option>
+            <option disabled style="background-color:#aaa; color:#fff">UNION Territories</option>
+            <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+            <option value="Chandigarh">Chandigarh</option>
+            <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
+            <option value="Daman and Diu">Daman and Diu</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Lakshadeep">Lakshadeep</option>
+            <option value="Pondicherry">Pondicherry</option>
+          </select>
+        </div>
+
+        <div class="input-box">
+          <label for="inputDistrictDriver">City</label>
+          <select class="form-control" id="inputDistrictDriver" name="city_driver" required="" style="border:1px solid black">
+            <option value="">Select City </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="button">
+        <input type="submit" value="Register">
+      </div>
+    </form>
+    <p style="text-align: center;">Or <a href="http://127.0.0.1:8000/login" id="link">LOGIN</a> here</p>
+  </div>
+</div>
+
+
+
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="section1">
+      <h3>Contact us</h3>
+      <i class="fa fa-home">Address No: XXXXXXX Street</i></br>
+      <i class="fa fa-phone">Mobile: 1234567890</i></br>
+      <i class="fa fa-envelope">Email: abc@gmail.com</i></br>
+    </div>
+
+
+    <div class="section1">
+      <h3>Project Links</h3>
+      <a href="{% url 'home' %}">Home</a></br>
+      <a href="{% url 'contact' %}">Contact</a></br>
+      <a href="{% url 'login' %}">Login</a></br>
+      <a href="{% url 'register' %}">Register</a></br>
+    </div>
+
+  </div>
+  <script>
+    $(document).ready(function() {
+      $('#driver-tab').on('click', function(e) {
+        e.preventDefault();
+        $('#user-registration').hide();
+        $('#driver-registration').show();
+        $('#driver-tab').addClass('active');
+        $('#user-tab').removeClass('active');
+      });
+  
+      $('#user-tab').on('click', function(e) {
+        e.preventDefault();
+        $('#user-registration').show();
+        $('#driver-registration').hide();
+        $('#user-tab').addClass('active');
+        $('#driver-tab').removeClass('active');
+      });
+    });
+    
+    $(document).ready(function() {
+    // Function to handle state change for user registration
+    $("#inputState").change(function(){
+        updateDistrictOptions($(this).val(), "#inputDistrict");
+    });
+
+    // Function to handle state change for driver registration
+    $("#inputStateDriver").change(function(){
+        updateDistrictOptions($(this).val(), "#inputDistrictDriver");
+    });
+
+    function updateDistrictOptions(state, districtSelector) {
+        var optionsList;
+        var htmlString = "";
+      
+        switch (state) {
+            case "Andhra Pradesh":
+                optionsList = AndhraPradesh;
+                break;
+            case "Arunachal Pradesh":
+                optionsList = ArunachalPradesh;
+                break;
+            case "Assam":
+                optionsList = Assam;
+                break;
+            case "Bihar":
+                optionsList = Bihar;
+                break;
+            case "Chhattisgarh":
+                optionsList = Chhattisgarh;
+                break;
+            case "Goa":
+                optionsList = Goa;
+                break;
+            case "Gujarat":
+                optionsList = Gujarat;
+                break;
+            case "Haryana":
+                optionsList = Haryana;
+                break;
+            case "Himachal Pradesh":
+                optionsList = HimachalPradesh;
+                break;
+            case "Jammu and Kashmir":
+                optionsList = JammuKashmir;
+                break;
+            case "Jharkhand":
+                optionsList = Jharkhand;
+                break;
+            case "Karnataka":
+                optionsList = Karnataka;
+                break;
+            case "Kerala":
+                optionsList = Kerala;
+                break;
+            case "Madhya Pradesh":
+                optionsList = MadhyaPradesh;
+                break;
+            case "Maharashtra":
+                optionsList = Maharashtra;
+                break;
+            case "Manipur":
+                optionsList = Manipur;
+                break;
+            case "Meghalaya":
+                optionsList = Meghalaya;
+                break;
+            case "Mizoram":
+                optionsList = Mizoram;
+                break;
+            case "Nagaland":
+                optionsList = Nagaland;
+                break;
+            case "Orissa":
+                optionsList = Orissa;
+                break;
+            case "Punjab":
+                optionsList = Punjab;
+                break;
+            case "Rajasthan":
+                optionsList = Rajasthan;
+                break;
+            case "Sikkim":
+                optionsList = Sikkim;
+                break;
+            case "Tamil Nadu":
+                optionsList = TamilNadu;
+                break;
+            case "Telangana":
+                optionsList = Telangana;
+                break;
+            case "Tripura":
+                optionsList = Tripura;
+                break;
+            case "Uttaranchal":
+                optionsList = Uttaranchal;
+                break;
+            case "Uttar Pradesh":
+                optionsList = UttarPradesh;
+                break;
+            case "West Bengal":
+                optionsList = WestBengal;
+                break;
+            case "Andaman and Nicobar Islands":
+                optionsList = AndamanNicobar;
+                break;
+            case "Chandigarh":
+                optionsList = Chandigarh;
+                break;
+            case "Dadar and Nagar Haveli":
+                optionsList = DadraHaveli;
+                break;
+            case "Daman and Diu":
+                optionsList = DamanDiu;
+                break;
+            case "Delhi":
+                optionsList = Delhi;
+                break;
+            case "Lakshadeep":
+                optionsList = Lakshadeep;
+                break;
+            case "Pondicherry":
+                optionsList = Pondicherry;
+                break;
+        }
+      
+        for (var i = 0; i < optionsList.length; i++) {
+            htmlString += "<option value='" + optionsList[i] + "'>" + optionsList[i] + "</option>";
+        }
+        $(districtSelector).html(htmlString);
+    }
+
+    // AJAX-based district population for user registration
+    $("#inputState").change(function() {
+        var state = $("#inputState").val();
+        var url = "cities.php?state=" + state;
+        $.get(url, function(data, status) {
+            $("#inputDistrict").html(data);
+        });
+    });
+
+    // AJAX-based district population for driver registration
+    $("#inputStateDriver").change(function() {
+        var state = $("#inputStateDriver").val();
+        var url = "cities.php?state=" + state;
+        $.get(url, function(data, status) {
+            $("#inputDistrictDriver").html(data);
+        });
+    });
+});
+
+function addService() {
+  var serviceInput = document.getElementById("service-input");
+  var service = serviceInput.value.trim();
+  if (service === "") {
+    document.getElementById("service-error").style.display = "block";
+    serviceInput.setAttribute("required", "required"); // Add 'required' attribute if service is empty
+    return;
+  }
+  document.getElementById("service-error").style.display = "none";
+  serviceInput.removeAttribute("required"); // Remove 'required' attribute if service is not empty
+  
+  // Append the entered service to the services container
+  var serviceDiv = document.createElement("div");
+  serviceDiv.classList.add("service-item");
+  var serviceSpan = document.createElement("span");
+  serviceSpan.textContent = service;
+  var crossSymbol = document.createElement("span");
+  crossSymbol.innerHTML = "&times;";
+  crossSymbol.classList.add("cross-symbol");
+  crossSymbol.addEventListener("click", function() {
+    serviceDiv.remove();
+    updateHiddenInputs(); // Update hidden inputs after removing a service
+    checkServiceValidation(); // Check service validation after removing a service
+  });
+  serviceDiv.appendChild(serviceSpan);
+  serviceDiv.appendChild(crossSymbol);
+  document.getElementById("services-container").appendChild(serviceDiv);
+
+  // Clear the service input field
+  serviceInput.value = "";
+
+  updateHiddenInputs(); // Update hidden inputs after adding a service
+  checkServiceValidation(); // Check service validation after adding a service
+}
+
+function updateHiddenInputs() {
+  var servicesContainer = document.getElementById("services-container");
+  var serviceItems = servicesContainer.getElementsByClassName("service-item");
+  
+  // Remove existing hidden inputs
+  var existingHiddenInputs = servicesContainer.querySelectorAll("input[type=hidden]");
+  existingHiddenInputs.forEach(function(input) {
+    input.remove();
+  });
+
+  // Add hidden inputs for each service item
+  for (var i = 0; i < serviceItems.length; i++) {
+    var service = serviceItems[i].querySelector("span").textContent;
+    var hiddenInput = document.createElement("input");
+    hiddenInput.type = "hidden";
+    hiddenInput.name = "services_driver[]"; // Use [] for array-like submission
+    hiddenInput.value = service;
+    servicesContainer.appendChild(hiddenInput);
+  }
+}
+
+function checkServiceValidation() {
+  var servicesContainer = document.getElementById("services-container");
+  var services = servicesContainer.getElementsByClassName("service-item");
+  var serviceInput = document.getElementById("service-input");
+
+  if (services.length === 0) {
+    serviceInput.setAttribute("required", "required"); // Add 'required' attribute if no services are present
+  } else {
+    serviceInput.removeAttribute("required"); // Remove 'required' attribute if services are present
+  }
+}
+
+document.getElementById("add-service-button").addEventListener("click", addService);
+
+
+// JavaScript code for adding languages in user registration form
+// JavaScript code for adding languages in user registration form
+document.getElementById("languages-select-user").addEventListener("change", function (event) {
+    event.preventDefault(); // Prevent default form submission behavior
+    addLanguage("languages-select-user", "languages-container-user", "selected-languages-user");
+});
+
+// JavaScript code for adding languages in driver registration form
+document.getElementById("languages-select-driver").addEventListener("change", function (event) {
+    event.preventDefault(); // Prevent default form submission behavior
+    addLanguage("languages-select-driver", "languages-container-driver", "selected-languages-driver");
+});
+
+function addLanguage(selectId, containerId, inputId) {
+    var select = document.getElementById(selectId);
+    var selectedLanguage = select.options[select.selectedIndex].value;
+    if (selectedLanguage === "") {
+        return;
+    }
+
+    var languageDiv = document.createElement("div");
+    languageDiv.classList.add("language-item");
+    var languageSpan = document.createElement("span");
+    languageSpan.textContent = selectedLanguage;
+    var crossSymbol = document.createElement("span");
+    crossSymbol.innerHTML = "&times;";
+    crossSymbol.classList.add("cross-symbol");
+    crossSymbol.addEventListener("click", function () {
+        languageDiv.remove();
+        updateSelectedLanguages(inputId, containerId);
+    });
+    languageDiv.appendChild(languageSpan);
+    languageDiv.appendChild(crossSymbol);
+    document.getElementById(containerId).appendChild(languageDiv);
+
+    updateSelectedLanguages(inputId, containerId);
+
+    // Set the selected option in the select box
+    select.value = selectedLanguage;
+}
+
+
+// Function to update selected languages
+function updateSelectedLanguages(inputId, containerId) {
+    var languages = [];
+    var container = document.getElementById(containerId);
+    var languageItems = container.getElementsByClassName("language-item");
+    for (var i = 0; i < languageItems.length; i++) {
+        languages.push(languageItems[i].getElementsByTagName("span")[0].textContent);
+    }
+    document.getElementById(inputId).value = languages.join(",");
+}
+
+//Show additional fields for working professionals
+document.getElementById("current-status-select").addEventListener("change", function () {
+    showAdditionalFields();
+});
+
+function showAdditionalFields() {
+    var currentStatus = document.getElementById("current-status-select").value;
+    var companyField = document.getElementsByName("company-name")[0];
+    var roleField = document.getElementsByName("role")[0];
+
+    if (currentStatus === "Working Professional") {
+        companyField.required = true;
+        roleField.required = true;
+        document.getElementById("working-professional-fields").style.display = "block";
+    } else {
+        companyField.required = false;
+        roleField.required = false;
+        document.getElementById("working-professional-fields").style.display = "none";
+    }
+}
+
+
+
+        // Function to update selected languages
+        function updateSelectedLanguages(inputId, containerId) {
+            var languages = [];
+            var container = document.getElementById(containerId);
+            var languageItems = container.getElementsByClassName("language-item");
+            for (var i = 0; i < languageItems.length; i++) {
+                languages.push(languageItems[i].getElementsByTagName("span")[0].textContent);
+            }
+            document.getElementById(inputId).value = languages.join(",");
+        }
+//Show additional fields for working professionals
+  document.getElementById("current-status-select").addEventListener("change", function() {
+    showAdditionalFields();
+  });
+
+  function showAdditionalFields() {
+    var currentStatus = document.getElementById("current-status-select").value;
+    var workingProfessionalFields = document.getElementById("working-professional-fields");
+
+    if (currentStatus === "Working Professional") {
+      workingProfessionalFields.style.display = "block";
+    } else {
+      workingProfessionalFields.style.display = "none";
+    }
+  }
+  
+  let cropper;
+  let croppedCanvas;
+
+  function showCropModal(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        document.getElementById('crop-image').src = e.target.result;
+        document.getElementById('crop-modal').style.display = 'block';
+        if (cropper) {
+          cropper.destroy();
+        }
+        cropper = new Cropper(document.getElementById('crop-image'), {
+          viewMode: 1,
+          autoCropArea: 1,
+        });
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function cropImage() {
+    if (cropper) {
+      croppedCanvas = cropper.getCroppedCanvas();
+      const croppedImageData = croppedCanvas.toDataURL('image/png');
+      document.getElementById('profile-picture-preview').src = croppedImageData;
+      document.getElementById('profile-picture-preview').style.display = 'block';
+      document.getElementById('upload-symbol').style.display = 'none';
+      document.getElementById('cropped-image-data').value = croppedImageData;
+      closeCropModal();
+    }
+  }
+
+  function closeCropModal() {
+    document.getElementById('crop-modal').style.display = 'none';
+    if (cropper) {
+      cropper.destroy();
+    }
+  }
+
+  function deleteImage() {
+    document.getElementById('profile-picture-preview').style.display = 'none';
+    document.getElementById('upload-symbol').style.display = 'inline-block';
+    document.getElementById('profile-picture-input').value = '';
+    document.getElementById('cropped-image-data').value = '';
+  }
+
+  function checkCharacterCount(event) {
+            var text = event.target.value;
+            var characterCount = text.length;
+
+            var characterCountElement = document.getElementById('character-count');
+            characterCountElement.textContent = characterCount + '/200 characters';
+
+            if (characterCount > 200) {
+              event.target.value = text.slice(0, 200);
+              characterCountElement.textContent = '200/200 characters';
+            }
+          }
+  document.addEventListener('DOMContentLoaded', function () {
+    const statusSelect = document.getElementById('current-status-select');
+    const workingFields = document.getElementById('working-professional-fields');
+    const companyNameInput = workingFields.querySelector('input[name="company-name"]');
+    const roleInput = workingFields.querySelector('input[name="role"]');
+
+    statusSelect.addEventListener('change', function () {
+      if (this.value === 'Working Professional') {
+        workingFields.style.display = 'block';
+        companyNameInput.setAttribute('required', 'required');
+        roleInput.setAttribute('required', 'required');
+      } else {
+        workingFields.style.display = 'none';
+        companyNameInput.removeAttribute('required');
+        roleInput.removeAttribute('required');
+      }
+    });
+  });
+  
+  
+  
+  
+
+  </script>
+  <style>
+    /* Ensure each tab takes up an equal amount of space */
+/* Ensure each tab takes up an equal amount of space */
+.nav-tabs {
+  background-color: #09333f; 
+  display: flex;
+  justify-content: space-between; 
+  padding: 0 20px; 
+}
+
+/* Set text color for tabs */
+.nav-tabs .nav-link {
+  color: #ffffff; 
+  padding: 10px 15px; 
+}
+
+/* Ensure the tabs are aligned vertically centered */
+.nav-tabs ul {
+  display: flex;
+  align-items: center;
+}
+form .category label .dot {
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  margin-left: 10px;
+  background: #d9d9d9;
+  border: 5px solid transparent;
+  transition: all 0.3s ease;
+}
+
+#dot-1:checked ~ .category label[for="dot-1"] .dot,
+#dot-2:checked ~ .category label[for="dot-2"] .dot,
+#dot-3:checked ~ .category label[for="dot-3"] .dot,
+#dot-1-driver:checked ~ .category label[for="dot-1-driver"] .dot,
+#dot-2-driver:checked ~ .category label[for="dot-2-driver"] .dot,
+#dot-3-driver:checked ~ .category label[for="dot-3-driver"] .dot {
+  background: #07411a;
+  border-color: #d9d9d9;
+}
+
+.service-input-container {
+  display: flex;
+}
+
+#service-input {
+  margin-right: 10px;
+}
+
+#add-service-button {
+  background-color: #09333f; 
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.input-box {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.services-input-container {
+  display: flex;
+  align-items: center;
+}
+
+.services-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.service-item {
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background-color: #f0f0f0;
+}
+
+.service-item span {
+  margin-right: 5px;
+}
+
+.cross-symbol, #add-service-button {
+  cursor: pointer;
+}
+
+#services-container, #languages-container-driver, #languages-container-user {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.language-item {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background-color: #f0f0f0;
+}
+body{
+
+justify-content: center;
+align-items: center;
+background-color: #f2f1f8;
+}
+.profile-picture-container {
+    position: relative;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto; /* Center the container */
+  }
+
+  .profile-picture-label {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+  }
+
+  .profile-picture-preview {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto; /* Center the image */
+  }
+
+  .upload-symbol {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #09333f;
+    border-radius: 50%;
+    font-size: 36px;
+    color: #09333f;
+    margin: 0 auto; /* Center the symbol */
+    cursor: pointer;
+  }
+
+  .upload-symbol:hover {
+    background-color: #e0e0e0;
+  }
+  .cropper-container {
+    width: 100%;
+    max-height: 400px;
+
+  }
+  #crop-modal {
+    display: none;
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+
+  .button-style {
+    padding: 3px 6px; /* Smaller padding for even smaller button size */
+    border: none;
+    border-radius: 3px; /* Smaller border radius for a smaller button */
+    cursor: pointer;
+    font-size: 12px; /* Smaller font size for a smaller button */
+}
+
+.delete-button {
+    background-color: #e74c3c; /* Red */
+    color: white;
+    display: block; /* Make button a block element */
+    margin: 0 auto; /* Center the button horizontally */
+    width: fit-content; /* Adjust width to fit content */
+}
+
+
+
+  .button-style {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px; /* Optional: Adjust font size */
+}
+
+.save-button {
+    background-color: #4CAF50; /* Green */
+    color: rgb(255, 255, 255);
+}
+
+.cancel-button {
+    background-color: #f44336; /* Red */
+    color: rgb(223, 235, 245);
+}
+  </style>
+  
+  </style>
+  
+  
+
+  
+</body>
+
+</html>

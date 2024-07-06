@@ -1,0 +1,391 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Service Details</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .topnav {
+            width: 100%;
+            background-color: #50a0bb;
+            padding: 10px;
+            box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topnav #name h1 {
+            margin: 0;
+            color: white;
+        }
+
+        .topnav #rest {
+            display: flex;
+        }
+
+        .topnav #rest ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .topnav #rest ul li {
+            margin-left: 20px;
+        }
+
+        .topnav #rest ul a {
+            text-decoration: none;
+            color: white;
+            padding: 14px 20px;
+            display: inline-block;
+        }
+
+        .topnav #rest ul a:hover {
+            background-color: #31464d;
+            color: white;
+        }
+
+        .content {
+            padding: 20px;
+            margin-top: 60px; /* Space for fixed top nav */
+        }
+
+        .service-detail {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .service-details,
+        .service-amount {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .calendar-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .calendar-header {
+            font-size: 20px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .calendar-header-text {
+            text-align: center;
+            font-weight: bold;
+            color: #50a0bb; /* Adjust color as needed */
+            margin-bottom: 10px; /* Space below the text */
+            font-size: 20px;
+        }
+
+        .arrow {
+            cursor: pointer;
+            user-select: none;
+            padding: 5px;
+            background-color: #50a0bb;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .arrow:hover {
+            background-color: #31464d;
+        }
+
+        .prev {
+            margin-right: 10px; /* Adjust spacing as needed */
+        }
+
+        .next {
+            margin-left: 10px; /* Adjust spacing as needed */
+        }
+
+        .days-container {
+            display: flex;
+            white-space: nowrap;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .day {
+            display: inline-block;
+            padding: 10px;
+            margin: 5px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .day.selected {
+            background-color: #50a0bb;
+            color: white;
+        }
+
+        .times-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .time {
+            padding: 10px;
+            margin: 5px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .time.selected {
+            background-color: #50a0bb;
+            color: white;
+        }
+
+        .confirm-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #09333f;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .confirm-button:hover {
+            background-color: #09333f;
+        }
+
+        .payment-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .custom-razorpay-button {
+            background-color: #09333f !important; /* Add your custom color */
+            border: none;
+            color: white !important;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .custom-razorpay-button:hover {
+            background-color: #09333f !important;
+        }
+   
+   </style>
+    
+</head>
+<body>
+    <div class="topnav">
+        <div id="name">
+            <h1>My Site</h1>
+        </div>
+        <div id="rest">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/services">Services</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="content">
+        <div class="service-detail">
+            <div class="service-title">{{ service.title }}</div>
+            <div class="service-details">Duration: {{ service.duration }} mins</div>
+            <div class="service-amount">Amount: ₹{{ service.amount }}</div>
+            <div class="service-description">{{ service.description }}</div>
+        </div>
+    </div>
+    
+    <div class="calendar-container">
+        <div class="calendar-header-text">When should we meet?</div>
+        <div class="calendar-header">
+            <div class="arrow prev">&lt;</div>
+            <div class="days-container">
+                {% for day_data in calendar_data %}
+                <div class="day" data-day="{{ day_data.day }}" data-times="{{ day_data.from_time }}|{{ day_data.to_time }}">
+                    <div class="day-name">{{ day_data.day }}</div>
+                    <div class="formatted-date">{{ day_data.formatted_date }}</div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="arrow next">&gt;</div>
+        </div>
+        <div class="times-container">
+            <!-- Times will be dynamically populated based on the selected day -->
+        </div>
+        <div class="payment-container">
+            <!-- Add these hidden fields in your form to capture selected day, time, service title, duration, and amount -->
+            <form id="paymentForm" method="POST" action="{% url 'payment' service.pk %}">
+                {% csrf_token %}
+                <input type="hidden" id="service_title" name="service_title" value="{{ service.title }}">
+                <input type="hidden" id="service_duration" name="service_duration" value="{{ service.duration }}">
+                <input type="hidden" id="service_amount" name="service_amount" value="{{ service.amount }}">
+                <input type="hidden" id="username" name="username" value="{{ user.username }}">
+                <input type="hidden" id="driver_username" name="driver_username" value="{{ driver_username }}">
+                <input type="hidden" id="selected_day" name="selected_day" required>
+                <input type="hidden" id="selected_time" name="selected_time" required>
+                <script src="https://checkout.razorpay.com/v1/checkout.js"
+                    data-key="rzp_test_0Mwm4Zy3PDU4AD"
+                    data-amount="{{ amount_in_paise }}"
+                    data-currency="INR"
+                    data-order_id="{{ payment.id }}"
+                    data-buttontext="Confirm"
+                    data-name="Make payment"
+                    data-description="{{service_title}}"
+                    data-prefill.name="{{ request.user.first_name }} {{ request.user.last_name }}"
+                    data-prefill.email="{{ request.user.email }}"
+                    data-theme.color="#F37254">
+                </script>
+                <input type="hidden" custom="Hidden Element" name="hidden">
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var razorpayButton = document.querySelector('.razorpay-payment-button');
+            if (razorpayButton) {
+                razorpayButton.classList.add('custom-razorpay-button');
+            }
+        });
+    </script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const daysContainer = document.querySelector('.days-container');
+            const days = document.querySelectorAll('.day');
+            const timesContainer = document.querySelector('.times-container');
+            const prevArrow = document.querySelector('.arrow.prev');
+            const nextArrow = document.querySelector('.arrow.next');
+    
+            let scrollPosition = 0;
+            const dayWidth = days[0].offsetWidth + parseInt(window.getComputedStyle(days[0]).marginLeft) * 2;
+            const visibleDays = 5; // Number of days initially visible
+    
+            prevArrow.addEventListener('click', () => {
+                if (scrollPosition > 0) {
+                    scrollPosition -= dayWidth;
+                    daysContainer.scrollTo({
+                        left: scrollPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+    
+            nextArrow.addEventListener('click', () => {
+                if (scrollPosition < daysContainer.scrollWidth - daysContainer.clientWidth) {
+                    scrollPosition += dayWidth;
+                    daysContainer.scrollTo({
+                        left: scrollPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+    
+            // Initially show first visibleDays days
+            days.forEach((day, index) => {
+                if (index < visibleDays) {
+                    day.style.display = 'inline-block';
+                } else {
+                    day.style.display = 'none';
+                }
+            });
+    
+            // Update visibility of days when clicking arrows
+            let currentFirstVisibleDay = 0;
+            prevArrow.addEventListener('click', () => {
+                if (currentFirstVisibleDay > 0) {
+                    currentFirstVisibleDay--;
+                    updateDaysVisibility();
+                }
+            });
+    
+            nextArrow.addEventListener('click', () => {
+                if (currentFirstVisibleDay < days.length - visibleDays) {
+                    currentFirstVisibleDay++;
+                    updateDaysVisibility();
+                }
+            });
+    
+            function updateDaysVisibility() {
+                days.forEach((day, index) => {
+                    if (index >= currentFirstVisibleDay && index < currentFirstVisibleDay + visibleDays) {
+                        day.style.display = 'inline-block';
+                    } else {
+                        day.style.display = 'none';
+                    }
+                });
+            }
+    
+            days.forEach(day => {
+                day.addEventListener('click', () => {
+                    days.forEach(d => d.classList.remove('selected'));
+                    day.classList.add('selected');
+    
+                    // Fetch times for the selected day and update times container
+                    const timesData = day.dataset.times.split('|');
+                    timesContainer.innerHTML = '';
+                    timesData.forEach(time => {
+                        const timeDiv = document.createElement('div');
+                        timeDiv.classList.add('time');
+                        timeDiv.textContent = time;
+                        timeDiv.addEventListener('click', () => {
+                            timesContainer.querySelectorAll('.time').forEach(t => t.classList.remove('selected'));
+                            timeDiv.classList.add('selected');
+                            document.getElementById('selected_time').value = time;  // Set the selected time
+                        });
+                        timesContainer.appendChild(timeDiv);
+                    });
+    
+                    document.getElementById('selected_day').value = day.querySelector('.day-name').textContent;  // Set the selected day
+                });
+            });
+        });
+    </script>
+</body>
+</html>

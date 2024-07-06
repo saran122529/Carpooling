@@ -1,0 +1,120 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Kalam' rel='stylesheet'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <title>My Bookings</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/registration.css'%}">
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css'%}">
+
+  <style>
+    .dashboard1 {
+      width: 100%;
+      background: #a2c7e6;
+      color: white;
+      margin-top: -8px;
+      padding: 10px;
+    }
+
+    .cssanimation,
+    .cssanimation span {
+      animation-duration: 0.8s;
+      animation-fill-mode: both;
+    }
+
+    .cssanimation span {
+      display: inline-block
+    }
+
+    .fadeInBottom {
+      animation-name: fadeInBottom
+    }
+
+    @keyframes fadeInBottom {
+      from {
+        opacity: 0;
+        transform: translateY(100%);
+      }
+
+      to {
+        opacity: 1
+      }
+    }
+
+    .booking-container {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      max-width: 400px; /* Set maximum width for the container */
+      margin: auto; /* Center align the container */
+    }
+
+    .booking-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .booking-detail {
+      font-size: 14px;
+      margin-bottom: 3px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topnav" id="myTopnav">
+    <ul>
+      <div id="name">
+        <h1>Car Pooling System</h1>
+      </div>
+    </ul>
+    <ul id="rest">
+      {% if user.is_authenticated %}
+      <ul><a href="{% url 'home' %}" class="active">Home</a></ul>
+      <ul><a href="{% url 'searchmycar' %}">Search</a></ul>
+      <ul><a href="{% url 'logout' %}">Logout</a></ul>
+      {% endif %}
+    </ul>
+
+  </div>
+
+  <div class="dashboard1">
+    <h3>MY BOOKINGS</h3>
+  </div>
+
+  <div class="cssanimation sequence fadeInBottom">
+    {% if transactions %}
+      {% for transaction in transactions %}
+      <div class="booking-container">
+        <div class="booking-title">{{ transaction.service_title }}</div>
+        <div class="booking-detail">Duration: {{ transaction.service_duration }} mins</div>
+        <div class="booking-detail">Day: {{ transaction.selected_day }}</div>
+        <div class="booking-detail">Time: {{ transaction.selected_time }}</div>
+      </div>
+      {% endfor %}
+    {% else %}
+    <p>
+      <center>No bookings yet!</center>
+    </p>
+    {% endif %}
+  </div>
+</body>
+
+</html>

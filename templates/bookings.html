@@ -1,0 +1,271 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Kalam' rel='stylesheet'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <title>Page</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/page.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css'%}">
+
+    <style>
+        
+
+        button {
+            padding: 10px;
+            background-color: #50a0bb;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            vertical-align: middle;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #31464d;
+        }
+
+        .cssanimation,
+        .cssanimation span {
+            animation-duration: 0.8s;
+            animation-fill-mode: both;
+        }
+
+        .cssanimation span {
+            display: inline-block
+        }
+
+        .fadeInBottom {
+            animation-name: fadeInBottom
+        }
+
+        @keyframes fadeInBottom {
+            from {
+                opacity: 0;
+                transform: translateY(100%);
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        .vertical-nav {
+            width: 200px;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            height: calc(100% - 60px);
+            background-color: #50a0bb;
+            padding-top: 20px;
+        }
+
+        .vertical-nav a {
+            padding: 15px 25px;
+            text-align: left;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .vertical-nav a:hover {
+            background-color: #50a0bb;
+            color: #ffffff;
+        }
+
+        .topnav {
+            width: 100%;
+            background-color: #50a0bb;
+            padding: 10px;
+            box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000; /* Ensure the tabs are on top */
+        }
+
+        .topnav #name h1 {
+            margin: 0;
+            color: white;
+        }
+
+        .topnav #rest {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .topnav #rest ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: inline;
+        }
+
+        .topnav #rest ul a {
+            text-decoration: none;
+            color: white;
+            padding: 14px 20px;
+            display: inline-block;
+        }
+
+        .topnav #rest ul a:hover {
+            background-color: #31464d;
+            color: white;
+        }
+        .add-button {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%; /* Make it round */
+    background-color: #50a0bb;
+    color: white;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    position: relative; /* Needed for absolute positioning of the plus sign */
+    margin-left: 50px; /* Add margin between the button and select boxes */
+}
+
+.add-button:hover {
+    background-color: #31464d;
+}
+
+.plus-sign {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centering the plus sign */
+    font-size: 14px; /* Adjust the size of the plus sign */
+}
+
+
+        .remove-button {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            /* Make it round */
+            background-color: red;
+            color: white;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            /* Needed for absolute positioning of the minus sign */
+            margin-left: 50px;
+            /* Add margin between the button and select boxes */
+        }
+
+        .remove-button:hover {
+            background-color: darkred;
+        }
+
+        .minus-sign {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* Centering the minus sign */
+            font-size: 14px;
+            /* Adjust the size of the minus sign */
+        }
+        .save-button-container {
+            /* text-align: left; */
+    margin-bottom: 20px;
+    margin-left: 300px;
+}
+
+.save-button {
+    background-color: #50a0bb;
+    border-color: #50a0bb;
+    padding: 10px 15px; /* Adjust padding to make the button smaller */
+    font-size: 15px;   /* Adjust font size */
+    width: auto;
+    
+}
+.booking-container {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      max-width: 400px; /* Set maximum width for the container */
+      margin: auto; /* Center align the container */
+    }
+
+    .booking-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .booking-detail {
+      font-size: 14px;
+      margin-bottom: 3px;
+    }
+
+
+       
+    </style>
+</head>
+
+<body>
+    <div class="topnav" id="myTopnav">
+        <ul>
+            <div id="name">
+                <h1>Title</h1>
+            </div>
+        </ul>
+        <ul id="rest">
+            {% if user.is_authenticated %}
+            <ul><a href="{% url 'home' %}" class="active">Home</a></ul>
+            <ul><a href="{% url 'dashboard' %}">Dashboard</a></ul>
+            <ul><a href="{% url 'logout' %}">Logout</a></ul>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="vertical-nav">
+        <a href="{% url 'bookings' %}" id="bookings-link">Bookings</a>
+        <a href="{% url 'calendar' %}" id="calendar-link">Calendar</a>
+        <a href="{% url 'service' %}" id="service-link">Service</a>
+        <a href="{% url 'testimonial' %}" id="testimonial-link">Testimonial</a>
+    </div>
+    
+
+    <!-- Container for bookings content -->
+    <div id="bookings-container" class="container3" >
+        <div class="title">
+            <h3>Bookings</h3>
+        </div>
+        {% if transactions %}
+      {% for transaction in transactions %}
+      <div class="booking-container">
+        <div class="booking-title">{{ transaction.service_title }}</div>
+        <div class="booking-detail">Duration: {{ transaction.service_duration }} mins</div>
+        <div class="booking-detail">Day: {{ transaction.selected_day }}</div>
+        <div class="booking-detail">Time: {{ transaction.selected_time }}</div>
+      </div>
+      {% endfor %}
+    {% else %}
+    <p>
+      <center>No bookings yet!</center>
+    </p>
+    {% endif %}
+ 
+    </div>
