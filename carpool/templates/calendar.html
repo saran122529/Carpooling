@@ -22,356 +22,123 @@
     <title>Page</title>
     <link rel="stylesheet" type="text/css" href="{% static 'styles/page.css'%}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/calendar.css'%}">
+    <!--    <link rel="stylesheet" type="text/css" href="{% static 'styles/calendar-v2.css'%}">-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Additional Calendar-specific styles -->
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
-    <style>
-
-
-        <style>
-
-
-        button {
-            padding: 10px;
-            background-color: #50a0bb;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            vertical-align: middle;
-            width: 100%;
-        }
-
-        button:hover {
-            background-color: #31464d;
-        }
-
-        .cssanimation,
-        .cssanimation span {
-            animation-duration: 0.8s;
-            animation-fill-mode: both;
-        }
-
-        .cssanimation span {
-            display: inline-block
-        }
-
-        .fadeInBottom {
-            animation-name: fadeInBottom
-        }
-
-        @keyframes fadeInBottom {
-            from {
-                opacity: 0;
-                transform: translateY(100%);
-            }
-
-            to {
-                opacity: 1
-            }
-        }
-
-        .vertical-nav {
-            width: 200px;
-            position: fixed;
-            top: 60px;
-            left: 0;
-            height: calc(100% - 60px);
-            background-color: #50a0bb;
-            padding-top: 20px;
-        }
-
-        .vertical-nav a {
-            padding: 15px 25px;
-            text-align: left;
-            text-decoration: none;
-            font-size: 18px;
-            color: white;
-            display: block;
-            transition: 0.3s;
-        }
-
-        .vertical-nav a:hover {
-            background-color: #50a0bb;
-            color: #ffffff;
-        }
-
-        .topnav {
-            width: 100%;
-            background-color: #50a0bb;
-            padding: 10px;
-            box-sizing: border-box;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000; /* Ensure the tabs are on top */
-        }
-
-        .topnav #name h1 {
-            margin: 0;
-            color: white;
-        }
-
-        .topnav #rest {
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .topnav #rest ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            display: inline;
-        }
-
-        .topnav #rest ul a {
-            text-decoration: none;
-            color: white;
-            padding: 14px 20px;
-            display: inline-block;
-        }
-
-        .topnav #rest ul a:hover {
-            background-color: #31464d;
-            color: white;
-        }
-        .add-button {
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%; /* Make it round */
-            background-color: #50a0bb;
-            color: white;
-            font-size: 20px;
-            border: none;
-            cursor: pointer;
-            position: relative; /* Needed for absolute positioning of the plus sign */
-            margin-left: 50px; /* Add margin between the button and select boxes */
-        }
-
-        .add-button:hover {
-            background-color: #31464d;
-        }
-
-        .plus-sign {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%); /* Centering the plus sign */
-            font-size: 14px; /* Adjust the size of the plus sign */
-        }
-
-        .remove-button {
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            /* Make it round */
-            background-color: red;
-            color: white;
-            font-size: 20px;
-            border: none;
-            cursor: pointer;
-            position: relative;
-            /* Needed for absolute positioning of the minus sign */
-            margin-left: 50px;
-            /* Add margin between the button and select boxes */
-        }
-
-        .remove-button:hover {
-            background-color: darkred;
-        }
-
-        .minus-sign {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            /* Centering the minus sign */
-            font-size: 14px;
-            /* Adjust the size of the minus sign */
-        }
-        .save-button-container {
-            /* text-align: left; */
-            margin-bottom: 20px;
-            margin-left: 300px;
-        }
-
-
-        .save-button {
-            background-color: #50a0bb;
-            border-color: #50a0bb;
-            padding: 10px 15px; /* Adjust padding to make the button smaller */
-            font-size: 15px;   /* Adjust font size */
-            width: auto;
-
-        }
-        .delete-button {
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background-color: red;
-            color: white;
-            font-size: 20px;
-            border: none;
-            cursor: pointer;
-            position: relative;
-            margin-left: 10px; /* Adjust margin as needed */
-        }
-
-        .delete-button:hover {
-            background-color: darkred;
-        }
-
-        .trash-sign {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        /* #selected-schedule {
-                display: none;
-            } */
-            #schedule-table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 20px;
-            }
-            #schedule-table th, #schedule-table td {
-                border: 1px solid #ddd;
-                padding: 8px;
-                text-align: center;
-            }
-
-
-        .form-table-container {
-            display: flex;
-            gap: 20px; /* Adjust the gap as needed */
-        }
-
-        #calendar-form {
-            flex: 1;
-        }
-
-        #selected-schedule {
-            flex: 1;
-        }
-    </style>
 
 </head>
 
 <body>
-<div class="topnav" id="myTopnav">
-    <ul>
+<div class="full-view">
+    <div class="topnav">
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
         <div id="name">
             <h1>Title</h1>
         </div>
-    </ul>
-    <ul id="rest">
-        {% if user.is_authenticated %}
-        <ul><a href="{% url 'home' %}" class="active">Home</a></ul>
-        <ul><a href="{% url 'dashboard' %}">Dashboard</a></ul>
-        <ul><a href="{% url 'logout' %}">Logout</a></ul>
-        {% endif %}
-    </ul>
-</div>
-<div class="vertical-nav">
-    <a href="{% url 'bookings' %}" id="bookings-link">Bookings</a>
-    <a href="{% url 'calendar' %}" id="calendar-link">Calendar</a>
-    <a href="{% url 'service' %}" id="service-link">Service</a>
-    <a href="{% url 'testimonial' %}" id="testimonial-link">Testimonial</a>
-</div>
-
-
-<!-- Container for calendar content -->
-<div id="calendar-container" class="container3">
-    <div class="title">
-        <h3>Schedule</h3>
     </div>
+    <div class="page-content">
+        <div class="vertical-nav" id="vertical-nav">
+            <a href="{% url 'bookings' %}" id="bookings-link">Bookings</a>
+            <a href="{% url 'calendar' %}" id="calendar-link">Calendar</a>
+            <a href="{% url 'service' %}" id="service-link">Service</a>
+            <a href="{% url 'testimonial' %}" id="testimonial-link">Testimonial</a>
+        </div>
 
-    <div class="content">
-        <!-- Display messages here -->
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
 
-        <!-- Form for calendar -->
-        <div class="form-table-container">
-            <form action="" method="post" id="calendar-form">
-                {% csrf_token %}
-                <div class="user-details">
-                    <div class="save-button-container">
-                        <button type="submit" class="save-button">Save</button>
-                    </div>
-                    {% for day in days %}
-                    <div class="form-group">
-                        <label><input type="checkbox" class="day-checkbox" data-day="{{ day | lower }}"
-                                      name="{{ day | lower }}_checkbox">{{ day }}</label>
-                        <div class="time-select" id="{{ day | lower }}-times" style="display: none;">
-                            <label>From:</label>
-                            <select class="from-time" name="{{ day | lower }}_from_time">
-                                {% for time in times %}
-                                <option value="{{ time }}">{{ time }}</option>
-                                {% endfor %}
+        <!-- Container for calendar content -->
+        <div id="calendar-container" class="calendar-container">
+            <div class="title">
+                <h3>Schedule</h3>
+            </div>
 
-                            </select>
-                            <label>To:</label>
-                            <select class="to-time" name="{{ day | lower }}_to_time">
-                                {% for time in times %}
-                                <option value="{{ time }}">{{ time }}</option>
-                                {% endfor %}
-                            </select>
-                            <button class="add-button" type="button"
-                                    onclick="addTimeSelects('{{ day | lower }}-times', '{{ day | lower }}')">
-                                <span class="plus-sign">+</span>
-                            </button>
+            <div class="content">
+                <!-- Display messages here -->
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+                <!-- Form for calendar -->
+                <div class="form-table-container">
+                    <form action="" method="post" id="calendar-form">
+                        {% csrf_token %}
+                        <div class="user-details">
+
+                            {% for day in days %}
+                            <div class="form-group">
+                                <input type="checkbox" class="day-checkbox" data-day="{{ day | lower }}"
+                                              name="{{ day | lower }}_checkbox"></input>
+                                <label>{{ day }}</label>
+                                <div class="time-select" id="{{ day | lower }}-times" style="display: none;">
+                                    <label>From:</label>
+                                    <select class="from-time" name="{{ day | lower }}_from_time">
+                                        {% for time in times %}
+                                        <option value="{{ time }}">{{ time }}</option>
+                                        {% endfor %}
+
+                                    </select>
+                                    <label>To:</label>
+                                    <select class="to-time" name="{{ day | lower }}_to_time">
+                                        {% for time in times %}
+                                        <option value="{{ time }}">{{ time }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <button class="add-button" type="button"
+                                            onclick="addTimeSelects('{{ day | lower }}-times', '{{ day | lower }}')">
+                                        <span class="plus-sign">+</span>
+                                    </button>
+                                </div>
+                            </div>
+                            {% endfor %}
                         </div>
+                        <div class="save-button-container">
+                            <button type="submit" class="save-button">Save</button>
+                        </div>
+
+                    </form>
+
+                    <div id="selected-schedule">
+                        <h4>Selected Schedule:</h4>
+                        <table id="schedule-table" class="table">
+                            <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody id="schedule-tbody">
+                            {% for item in schedule_data %}
+                            <tr id="schedule-row-{{ item.id }}">
+                                <td>{{ item.day }}</td>
+                                <td>{{ item.from_time_formatted }}</td>
+                                <td>{{ item.to_time_formatted }}</td>
+                                <td>
+                                    <form action="{% url 'delete_schedule' item.id %}" method="POST">
+                                        {% csrf_token %}
+
+                                        <button type="submit" class="delete-button">
+                                            <span class="trash-sign"><i class="fa fa-trash"></i></span>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4">No schedule data available</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
-                    {% endfor %}
                 </div>
-            </form>
-
-            <div id="selected-schedule">
-                <h4>Selected Schedule:</h4>
-                <table id="schedule-table" class="table">
-                    <thead>
-                    <tr>
-                        <th>Day</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody id="schedule-tbody">
-                    {% for item in schedule_data %}
-                    <tr id="schedule-row-{{ item.id }}">
-                        <td>{{ item.day }}</td>
-                        <td>{{ item.from_time_formatted }}</td>
-                        <td>{{ item.to_time_formatted }}</td>
-                        <td>
-                            <form action="{% url 'delete_schedule' item.id %}" method="POST">
-                                {% csrf_token %}
-
-                                <button type="submit" class="delete-button">
-                                    <span class="trash-sign"><i class="fa fa-trash"></i></span>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="4">No schedule data available</td>
-                    </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
@@ -379,6 +146,14 @@
 
 
 <script>
+
+    // script.js
+
+function toggleMenu() {
+    const nav = document.getElementById('vertical-nav');
+    nav.classList.toggle('active');
+}
+
     // Function to show a specific container
     function showContainer(containerId) {
             var containers = document.getElementsByClassName('container3');

@@ -1,7 +1,8 @@
 .container3 {
-    position: fixed;
-    top: 60px; /* Adjusted to account for the fixed topnav */
-    left: 205px; /* Adjusted to account for the width of the vertical-nav */
+
+   /* position: fixed;*/
+    /*top: 60px;*/ /* Adjusted to account for the fixed topnav */
+    /*left: 205px;*/ /* Adjusted to account for the width of the vertical-nav */
     right: 0;
     bottom: 0;
     background-color: #fff;
