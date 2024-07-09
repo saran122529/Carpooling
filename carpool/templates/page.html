@@ -1,0 +1,439 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Kalam' rel='stylesheet'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <title>Page</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/page.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="css/styles.css">
+
+
+
+    <style>
+        
+
+        button {
+            padding: 10px;
+            background-color: #50a0bb;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            vertical-align: middle;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #31464d;
+        }
+
+        .cssanimation,
+        .cssanimation span {
+            animation-duration: 0.8s;
+            animation-fill-mode: both;
+        }
+
+        .cssanimation span {
+            display: inline-block
+        }
+
+        .fadeInBottom {
+            animation-name: fadeInBottom
+        }
+
+        @keyframes fadeInBottom {
+            from {
+                opacity: 0;
+                transform: translateY(100%);
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            overflow-x: hidden;
+        }
+
+        .topnav {
+            width: 100%;
+            background-color: #50a0bb;
+            padding: 10px;
+            box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000; /* Ensure the tabs are on top */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topnav #name h1 {
+            margin: 0;
+            color: white;
+        }
+
+        .topnav #rest {
+            display: flex;
+            
+        }
+
+        .topnav #rest ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .topnav #rest ul li {
+            margin-left: 20px;
+        }
+
+        .topnav #rest ul a {
+            text-decoration: none;
+            color: white;
+            padding: 14px 20px;
+            display: inline-block;
+        }
+
+        .topnav #rest ul a:hover {
+            background-color: #31464d;
+            color: white;
+        }
+        /* Hamburger menu styles for mobile view */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            align-items: center;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 4px 0;
+        } 
+        .vertical-popup {
+            display: none;
+            position: fixed;
+            top: 60px;
+            right: 0;
+            width: 200px;
+            background-color: #50a0bb;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .vertical-popup a {
+            display: block;
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .vertical-popup a:hover {
+            background-color: #31464d;
+        }
+  
+        @media (max-width: 768px) {
+            .topnav #rest {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .vertical-popup {
+                display: none;
+            }
+
+            .vertical-popup.active {
+                display: block;
+            }
+        }
+        .main-content {
+            display: flex;
+            margin-top: 60px; /* Adjust according to topnav height */
+            height: calc(100vh - 60px); /* Adjust according to topnav height */
+        }
+
+        .vertical-nav {
+            width: 200px; /* Decreased width */
+            background-color: #a2c7e6;
+            padding-top: 20px;
+            position: fixed;
+            top: 60px;
+            bottom: 0;
+            left: 0;
+            overflow-y: auto;
+        }
+        .vertical-nav.driver {
+            width: 400px;
+            background-color: #a2c7e6;
+            padding-top: 80px;
+        }
+        .nav-links {
+            margin-top: 20px;
+        }
+
+        .nav-links ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin: 5px 0;
+        }
+
+        .nav-links a {
+            display: block;
+            padding: 10px;
+            color: white; /* Change this to the desired text color */
+            text-decoration: none;
+            text-align: center;
+            background-color: #2980b9;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+
+        .services-section {
+            margin-left: 300px; /* Same as vertical-nav width */
+            padding: 20px;
+            width: calc(100% - 300px);
+            background-color: #ffffff; /* Changed background color */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: auto;
+        }
+
+        .profile-picture-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-info {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .description {
+            padding: 20px;
+            text-align: justify;
+        }
+
+        .details-container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .services-scroll {
+            max-height: calc(100vh - 140px); /* Adjust according to the available space */
+            overflow-y: auto;
+            width: 100%;
+        }
+
+        .service-box {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .service-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+
+        .service-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .service-details,
+        .service-amount {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        /* Mobile view adjustments */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .vertical-nav {
+                width: 100%;
+                position: static;
+                height: auto;
+                padding: 20px;
+            }
+
+            .services-section {
+                margin-left: 0;
+                width: 100%;
+                padding: 10px;
+            }
+    
+            .service-box {
+                width: 100%;
+            }
+        }
+        
+
+
+
+
+       
+    </style>
+</head>
+
+<body>
+    <div class="topnav" >
+        <ul>
+            <div id="name">
+                <h1>Title</h1>
+            </div>    
+        </ul>
+        <div class="hamburger" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+
+        <div id="rest">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <ul><a href="{% url 'logout' %}">Logout</a></ul>
+            </ul>
+        </div>
+    </div>
+   
+    <script>
+        function toggleMenu() {
+            var popup = document.getElementById('vertical-popup');
+            popup.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            var popup = document.getElementById('vertical-popup');
+            popup.classList.remove('active');
+        }
+    </script>
+    <div class="vertical-popup" id="vertical-popup">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'dashboard' %}">Dashboard</a>
+        <a href="{% url 'contact' %}">Contact</a>
+        <a href="{% url 'logout' %}">Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="vertical-nav {% if user_type == 'driver' %}driver{% endif %}">
+            {% if user_type == "driver" %}
+                <div class="profile-picture-container">
+                    {% if profile_picture %}
+                        <img src="{{ profile_picture }}" alt="Profile Picture" class="profile-picture">
+                    {% else %}
+                        <p>No profile picture available</p>
+                    {% endif %}
+                </div>
+                <div class="user-info">
+                    <h2><strong>{{ name }}</strong></h2>
+                </div>
+                <div class="description">
+                    <p><strong>{{ description }}</strong></p>
+                </div>
+            {% else %}
+            <div class="nav-links">
+                <ul>
+                    <li><a href="{% url 'bookings' %}" id="bookings-link">Bookings</a></li>
+                    <li><a href="{% url 'calendar' %}" id="calendar-link">Calendar</a></li>
+                    <li><a href="{% url 'service' %}" id="service-link">Service</a></li>
+                    <li><a href="{% url 'testimonial' %}" id="testimonial-link">Testimonial</a></li>
+                </ul>
+            </div>
+
+            {% endif %}
+        </div>
+
+        {% if user_type == "driver" %}
+        <div class="services-section">
+            <div class="details-container">
+                <h2>Services</h2>
+                <div class="services-scroll">
+                    {% for service in services %}
+                        <div class="service-box">
+                            <a href="{% url 'service_detail' service.id %}">
+                                <div class="service-title">{{ service.title }}</div>
+                                <div class="service-details">Duration: {{ service.duration }} mins</div>
+                                <div class="service-amount">Amount: ₹{{ service.amount }}</div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+      
+        
+        {% endif %}
+    </div>
+
+   
+ 
+   
+    <!-- <div class="vertical-nav">
+        <a href="{% url 'bookings' %}" id="bookings-link">Bookings</a>
+        <a href="{% url 'calendar' %}" id="calendar-link">Calendar</a>
+        <a href="{% url 'service' %}" id="service-link">Service</a>
+        <a href="{% url 'testimonial' %}" id="testimonial-link">Testimonial</a>
+    </div>
+     -->
+
+ </body>
+
+</html>
