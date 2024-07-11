@@ -1,0 +1,389 @@
+/* General styles for all views */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.full-view {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.topnav {
+    width: 100%;
+    background-color: #50a0bb;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-shrink: 0;
+    position: fixed;
+    top: 0;
+    z-index: 1001;
+    height: 60px;
+}
+
+.topnav .title {
+    margin: 0;
+    color: white;
+    margin-right: 10px;
+}
+
+.page-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    margin-top: 60px;
+}
+
+.calendar-container {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.save-button-container {
+    display: flex;
+    justify-content: flex-start;
+}
+
+#schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#schedule-table th, #schedule-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.form-table-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+
+
+#calendar-form, #selected-schedule {
+    flex: 1;
+}
+
+.cssanimation, .cssanimation span {
+    animation-duration: 0.8s;
+    animation-fill-mode: both;
+}
+
+.cssanimation span {
+    display: inline-block;
+}
+
+.fadeInBottom {
+    animation-name: fadeInBottom;
+}
+
+@keyframes fadeInBottom {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.time-select {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.time-select label {
+    margin-right: 10px;
+}
+
+.time-select select {
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+}
+
+.selected-schedule-header {
+    text-align: center;
+    width: 80%;
+}
+
+.no-wrap{
+    flex-wrap: nowrap;
+    display: flex;
+}
+
+
+/* Styles for larger screens (normal view) */
+@media (min-width: 769px) {
+    .user-details{
+        padding-top: 20px
+    }
+
+    .form-table-container {
+        padding-top: 20px;
+    }
+
+    .selected-schedule-header {
+        padding-bottom: 20px;
+    }
+
+    .schedule {
+        width: 40%;
+    }
+    .selected-schedule{
+        width: 40%;
+    }
+
+    #schedule-table {
+        width: 80%;
+        padding-top: 20px;
+    }
+
+    .page-content {
+        margin-left: 200px; /* Adjust space for the left-side vertical nav */
+    }
+
+    .vertical-nav {
+        width: 200px;
+        height: calc(100% - 60px);
+        background-color: #50a0bb;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        left: 0;
+        top: 60px;
+        bottom: 0;
+        transform: translateX(0); /* Always visible */
+        z-index: 1000;
+    }
+
+    .vertical-nav a {
+        padding: 15px 25px;
+        text-align: left;
+        text-decoration: none;
+        font-size: 18px;
+        color: white;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .vertical-nav a:hover {
+        background-color: #31464d;
+        color: white;
+    }
+
+    .calendar-container {
+        margin-left: 20px; /* Add space when menu is on the left */
+    }
+
+    .selected-schedule {
+        margin-left: 20px; /* Add space when menu is on the left */
+    }
+
+    .topnav {
+        justify-content: flex-start; /* Adjust title and menu button alignment */
+    }
+
+    .topnav .title {
+        margin-left: auto; /* Ensure title is pushed to the right */
+        margin-right: 10px; /* Add space between title and menu button */
+    }
+
+    .menu-toggle {
+        display: none; /* Hide the menu toggle button in normal view */
+
+    }
+
+    .add-button,
+    .remove-button,
+    .delete-button {
+        width: 24px; /* Button width */
+        height: 24px; /* Button height */
+        border-radius: 50%; /* Make it round */
+        font-size: 16px; /* Font size for plus and minus signs */
+        display: inline-flex; /* Display as inline flex */
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+        cursor: pointer; /* Pointer cursor */
+        margin-right: 10px; /* Space between buttons */
+    }
+
+    .add-button {
+        background-color: green; /* Green background for plus button */
+        color: white; /* White text color */
+    }
+
+    .remove-button {
+        background-color: red; /* Red background for minus button */
+        color: white; /* White text color */
+    }
+
+    .delete-button {
+        background-color: red; /* Red color for the delete button */
+        color: white;
+    }
+}
+
+/* Styles for smaller screens (mobile view) */
+@media (max-width: 768px) {
+    .vertical-nav {
+        width: 200px;
+        height: calc(100% - 60px);
+        background-color: #50a0bb;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 60px;
+        right: 0; /* Align to the right */
+        bottom: 0;
+        transform: translateX(100%); /* Hide by default */
+        transition: transform 0.3s ease;
+        z-index: 1000;
+    }
+
+    .vertical-nav.active {
+        transform: translateX(0);
+    }
+
+    .vertical-nav a {
+        padding: 15px;
+        text-align: left;
+        text-decoration: none;
+        font-size: 18px;
+        color: white;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .vertical-nav a:hover {
+        background-color: #31464d;
+        color: white;
+    }
+
+    .calendar-container.menu-active {
+        margin-right: 200px; /* Adjust space when menu is visible */
+    }
+
+    .selected-schedule.menu-active {
+        margin-right: 200px; /* Adjust space when menu is visible */
+    }
+
+    .menu-toggle {
+        display: block; /* Show the menu toggle button in mobile view */
+        color: white;
+        background-color: #50a0bb;
+        border: none;
+        :hover {
+            background-color: #50a0ff;
+        }
+
+    }
+
+    .topnav {
+        justify-content: flex-end; /* Ensure toggle button and title are on the rig
+    }
+
+    .topnav .title {
+        margin-left: 0; /* Reset the margin for the title */
+        margin-right: 30px; /* Add more space between title and menu button */
+    }
+
+    .time-select {
+        font-size: 12px; /* Reduce font size */
+    }
+
+    .time-select label, .time-select select {
+        font-size: 12px; /* Reduce font size for labels and select elements */
+    }
+
+    /* Adjust days with checkboxes to the right */
+    .days {
+        margin-left: auto;
+        margin-right: 20px; /* Adjust as needed */
+    }
+    h1 {
+        margin-right: .5rem;
+    }
+    .add-button,
+    .remove-button, .delete-button {
+        width: 24px; /* Button width */
+        height: 24px; /* Button height */
+        border-radius: 50%; /* Make it round */
+        font-size: 16px; /* Font size for plus and minus signs */
+        display: inline-flex; /* Display as inline flex */
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+        cursor: pointer; /* Pointer cursor */
+        margin-right: 10px; /* Space between buttons */
+    }
+
+    .add-button {
+        background-color: green; /* Green background for plus button */
+        color: white; /* White text color */
+    }
+
+    .remove-button {
+        background-color: red; /* Red background for minus button */
+        color: white; /* White text color */
+    }
+    .delete-button {
+        background-color: red; /* Red color for the delete button */
+        color: white;
+    }
+
+    .schedule {
+        width: 100%;
+    }
+}
+
+.add-button .plus-sign::before,
+.remove-button .minus-sign::before {
+    content: "+"; /* Plus sign content */
+    font-weight: bold; /* Bold plus sign */
+    font-size: 16px; /* Adjust font size */
+}
+
+.remove-button .minus-sign::before {
+    content: "-"; /* Minus sign content */
+    font-weight: bold; /* Bold minus sign */
+    font-size: 16px; /* Adjust font size */
+}
+
+.add-button .plus-sign,
+.remove-button .minus-sign {
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    text-align: center; /* Center text */
+    line-height: 24px; /* Vertical centering */
+}
+
+.add-button:focus,
+.remove-button:focus {
+    outline: 2px solid #50a0bb; /* Customize the outline color and width */
+    outline-offset: 2px; /* Adjust the outline offset for better appearance */
+}

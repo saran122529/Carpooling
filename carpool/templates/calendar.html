@@ -22,7 +22,7 @@
     <title>Page</title>
     <link rel="stylesheet" type="text/css" href="{% static 'styles/page.css'%}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css'%}">
-    <link rel="stylesheet" type="text/css" href="{% static 'styles/calendar.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/calend.css'%}">
     <!--    <link rel="stylesheet" type="text/css" href="{% static 'styles/calendar-v2.css'%}">-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Additional Calendar-specific styles -->
@@ -34,10 +34,10 @@
 <body>
 <div class="full-view">
     <div class="topnav">
-        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
         <div id="name">
             <h1>Title</h1>
         </div>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
     </div>
     <div class="page-content">
         <div class="vertical-nav" id="vertical-nav">
@@ -46,13 +46,7 @@
             <a href="{% url 'service' %}" id="service-link">Service</a>
             <a href="{% url 'testimonial' %}" id="testimonial-link">Testimonial</a>
         </div>
-
-
-        <!-- Container for calendar content -->
         <div id="calendar-container" class="calendar-container">
-            <div class="title">
-                <h3>Schedule</h3>
-            </div>
 
             <div class="content">
                 <!-- Display messages here -->
@@ -66,45 +60,46 @@
 
                 <!-- Form for calendar -->
                 <div class="form-table-container">
-                    <form action="" method="post" id="calendar-form">
-                        {% csrf_token %}
-                        <div class="user-details">
-
-                            {% for day in days %}
-                            <div class="form-group">
-                                <input type="checkbox" class="day-checkbox" data-day="{{ day | lower }}"
-                                              name="{{ day | lower }}_checkbox"></input>
-                                <label>{{ day }}</label>
-                                <div class="time-select" id="{{ day | lower }}-times" style="display: none;">
-                                    <label>From:</label>
-                                    <select class="from-time" name="{{ day | lower }}_from_time">
-                                        {% for time in times %}
-                                        <option value="{{ time }}">{{ time }}</option>
-                                        {% endfor %}
-
-                                    </select>
-                                    <label>To:</label>
-                                    <select class="to-time" name="{{ day | lower }}_to_time">
-                                        {% for time in times %}
-                                        <option value="{{ time }}">{{ time }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <button class="add-button" type="button"
-                                            onclick="addTimeSelects('{{ day | lower }}-times', '{{ day | lower }}')">
-                                        <span class="plus-sign">+</span>
-                                    </button>
+                    <div class="schedule">
+                        <div class="title">
+                            <h3>Schedule</h3>
+                        </div>
+                        <form action="" method="post" id="calendar-form">
+                            {% csrf_token %}
+                            <div class="user-details">
+                                {% for day in days %}
+                                <div class="form-group">
+                                    <input type="checkbox" class="day-checkbox" data-day="{{ day | lower }}"
+                                           name="{{ day | lower }}_checkbox"></input>
+                                    <label>{{ day }}</label>
+                                    <div class="time-select" id="{{ day | lower }}-times" style="display: none;">
+                                        <label>From:</label>
+                                        <select class="from-time" name="{{ day | lower }}_from_time">
+                                            {% for time in times %}
+                                            <option value="{{ time }}">{{ time }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <label>To:</label>
+                                        <select class="to-time" name="{{ day | lower }}_to_time">
+                                            {% for time in times %}
+                                            <option value="{{ time }}">{{ time }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <button class="add-button" type="button"
+                                                onclick="addTimeSelects('{{ day | lower }}-times', '{{ day | lower }}')">
+                                            <span class="plus-sign">+</span>
+                                        </button>
+                                    </div>
                                 </div>
+                                {% endfor %}
                             </div>
-                            {% endfor %}
-                        </div>
-                        <div class="save-button-container">
-                            <button type="submit" class="save-button">Save</button>
-                        </div>
-
-                    </form>
-
-                    <div id="selected-schedule">
-                        <h4>Selected Schedule:</h4>
+                            <div class="save-button-container">
+                                <button type="submit" class="save-button">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="selected-schedule" class="selected-schedule">
+                        <div class="selected-schedule-header"><h4>Selected Schedule</h4></div>
                         <table id="schedule-table" class="table">
                             <thead>
                             <tr>
@@ -123,7 +118,6 @@
                                 <td>
                                     <form action="{% url 'delete_schedule' item.id %}" method="POST">
                                         {% csrf_token %}
-
                                         <button type="submit" class="delete-button">
                                             <span class="trash-sign"><i class="fa fa-trash"></i></span>
                                         </button>
@@ -144,15 +138,21 @@
     </div>
 </div>
 
-
 <script>
 
-    // script.js
 
-function toggleMenu() {
-    const nav = document.getElementById('vertical-nav');
-    nav.classList.toggle('active');
-}
+    document.addEventListener("DOMContentLoaded", function() {
+    const toggleButton = document.querySelector(".menu-toggle");
+    const verticalNav = document.querySelector(".vertical-nav");
+    const calendarContainer = document.querySelector(".calendar-container");
+    const selectedSchedule = document.querySelector("#selected-schedule");
+
+    toggleButton.addEventListener("click", function() {
+        verticalNav.classList.toggle("active");
+        calendarContainer.classList.toggle("menu-active");
+        selectedSchedule.classList.toggle("menu-active");
+    });
+});
 
     // Function to show a specific container
     function showContainer(containerId) {

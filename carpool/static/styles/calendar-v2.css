@@ -1,226 +1,283 @@
-button {
-            padding: 10px;
-            background-color: #50a0bb;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            vertical-align: middle;
-            width: 100%;
-        }
+/* Ensure html and body take up the full height */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
 
-        button:hover {
-            background-color: #31464d;
-        }
+/* Main container that takes up the full height */
+.full-view {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
 
-        .cssanimation,
-        .cssanimation span {
-            animation-duration: 0.8s;
-            animation-fill-mode: both;
-        }
+/* Top navigation bar */
+.topnav {
+    width: 100%;
+    background-color: #50a0bb;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-end; /* Align items to the right */
+    align-items: center;
+    flex-shrink: 0;
+    position: fixed; /* Keep the topnav fixed at the top */
+    top: 0;
+    z-index: 1001; /* Ensure it stays above other content */
+    height: 60px; /* Ensure consistent height */
+}
 
-        .cssanimation span {
-            display: inline-block
-        }
+/* Title styling */
+.topnav .title {
+    margin: 0;
+    color: white;
+    margin-right: 10px; /* Space between title and menu button */
+}
 
-        .fadeInBottom {
-            animation-name: fadeInBottom
-        }
+/* Menu toggle button */
+.topnav .menu-toggle {
+    background-color: #50a0bb;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 10px; /* Space between menu button and title */
+}
 
-        @keyframes fadeInBottom {
-            from {
-                opacity: 0;
-                transform: translateY(100%);
-            }
+/* Page content area */
+.page-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    margin-top: 60px; /* Make space for the fixed topnav */
+}
 
-            to {
-                opacity: 1
-            }
-        }
+/* Vertical navigation menu */
+.vertical-nav {
+    width: 200px;
+    height: calc(100% - 60px); /* Adjust to account for fixed topnav height */
+    background-color: #50a0bb;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+    position: fixed; /* Keep the vertical nav fixed */
+    right: 0;
+    top: 60px; /* Start right below the topnav */
+    bottom: 0;
+    transform: translateX(100%); /* Hide by default */
+    z-index: 1000; /* Ensure it is above other content */
+}
 
-        .vertical-nav {
-            width: 200px;
-            position: fixed;
-            top: 60px;
-            left: 0;
-            height: calc(100% - 60px);
-            background-color: #17cf20;
-            padding-top: 20px;
-        }
+.vertical-nav.active {
+    transform: translateX(0); /* Show when active */
+}
 
-        .vertical-nav a {
-            padding: 15px 25px;
-            text-align: left;
-            text-decoration: none;
-            font-size: 18px;
-            color: white;
-            display: block;
-            transition: 0.3s;
-        }
+.vertical-nav a {
+    padding: 15px 25px;
+    text-align: left;
+    text-decoration: none;
+    font-size: 18px;
+    color: white;
+    display: block;
+    transition: 0.3s;
+}
 
-        .vertical-nav a:hover {
-            background-color: #50a0bb;
-            color: #ffffff;
-        }
+.vertical-nav a:hover {
+    background-color: #31464d;
+    color: white;
+}
 
-        .topnav {
-            width: 100%;
-            background-color: #50a0bb;
-            padding: 10px;
-            box-sizing: border-box;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000; /* Ensure the tabs are on top */
-        }
+/* Calendar container */
+.calendar-container {
+    flex: 1;
+    padding: 30px;
+    padding-top: 8px; /* Increase top padding to create more space */
+    overflow-y: auto; /* Allows scrolling if content is too long */
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    transition: margin-right 0.3s ease;
+}
 
-        .topnav #name h1 {
-            margin: 0;
-            color: white;
-        }
+.calendar-container.menu-active {
+    margin-right: 200px; /* Add space when menu is visible */
+}
 
-        .topnav #rest {
-            display: flex;
-            justify-content: flex-end;
-        }
+.selected-schedule {
+    transition: margin-right 0.3s ease;
+    margin-left: 40px; /* Adjust as needed */
+}
 
-        .topnav #rest ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            display: inline;
-        }
+.selected-schedule.menu-active {
+    margin-right: 200px; /* Add space when menu is visible */
+}
 
-        .topnav #rest ul a {
-            text-decoration: none;
-            color: white;
-            padding: 14px 20px;
-            display: inline-block;
-        }
+/* Buttons */
+.save-button, .add-button, .remove-button, .delete-button {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+}
 
-        .topnav #rest ul a:hover {
-            background-color: #31464d;
-            color: white;
-        }
-        .add-button {
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%; /* Make it round */
-            background-color: #50a0bb;
-            color: white;
-            font-size: 20px;
-            border: none;
-            cursor: pointer;
-            position: relative; /* Needed for absolute positioning of the plus sign */
-            margin-left: 50px; /* Add margin between the button and select boxes */
-        }
+.save-button {
+    background-color: #50a0bb;
+    align-self: flex-start; /* Align the save button to the start (left) */
+}
 
-        .add-button:hover {
-            background-color: #31464d;
-        }
+.save-button:hover, .menu-toggle:hover, .add-button:hover, .remove-button:hover, .delete-button:hover {
+    background-color: #31464d;
+}
 
-        .plus-sign {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%); /* Centering the plus sign */
-            font-size: 14px; /* Adjust the size of the plus sign */
-        }
+.add-button, .remove-button, .delete-button {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%; /* Make it round */
+    font-size: 20px;
+    position: relative; /* Needed for absolute positioning of the icon */
+    margin-left: 8px; /* Adjusted margin between icon and text */
+}
 
-        .remove-button {
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            /* Make it round */
-            background-color: red;
-            color: white;
-            font-size: 20px;
-            border: none;
-            cursor: pointer;
-            position: relative;
-            /* Needed for absolute positioning of the minus sign */
-            margin-left: 50px;
-            /* Add margin between the button and select boxes */
-        }
+.add-button, .add-button .plus-sign {
+    background-color: #50a0bb;
+}
 
-        .remove-button:hover {
-            background-color: darkred;
-        }
+.remove-button, .delete-button {
+    background-color: red;
+}
 
-        .minus-sign {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            /* Centering the minus sign */
-            font-size: 14px;
-            /* Adjust the size of the minus sign */
-        }
-        .save-button-container {
-            /* text-align: left; */
-            margin-bottom: 20px;
-            margin-left: 300px;
-        }
+.remove-button:hover, .delete-button:hover {
+    background-color: darkred;
+}
 
+/* Centering icons in round buttons */
+.add-button .plus-sign, .remove-button .minus-sign, .delete-button .trash-sign {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centering the icon */
+    font-size: 14px; /* Adjust the size of the icon */
+}
 
-        .save-button {
-            background-color: #50a0bb;
-            border-color: #50a0bb;
-            padding: 10px 15px; /* Adjust padding to make the button smaller */
-            font-size: 15px;   /* Adjust font size */
-            width: auto;
+/* Save button container */
+.save-button-container {
+    display: flex;
+    justify-content: flex-start; /* Align save button to the start (left) */
+}
 
-        }
-        .delete-button {
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background-color: red;
-            color: white;
-            font-size: 20px;
-            border: none;
-            cursor: pointer;
-            position: relative;
-            margin-left: 10px; /* Adjust margin as needed */
-        }
+/* Schedule table */
+#schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+   /* margin-left: 20px; /* Adjust as needed */
+}
 
-        .delete-button:hover {
-            background-color: darkred;
-        }
+#schedule-table th, #schedule-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
 
-        .trash-sign {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        /* #selected-schedule {
-                display: none;
-            } */
-            #schedule-table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 20px;
-            }
-            #schedule-table th, #schedule-table td {
-                border: 1px solid #ddd;
-                padding: 8px;
-                text-align: center;
-            }
+/* Form and schedule container */
+.form-table-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adjust the gap as needed */
+}
 
+#calendar-form, #selected-schedule {
+    flex: 1;
+}
 
-        .form-table-container {
-            display: flex;
-            gap: 20px; /* Adjust the gap as needed */
-        }
+/* Animation */
+.cssanimation, .cssanimation span {
+    animation-duration: 0.8s;
+    animation-fill-mode: both;
+}
 
-        #calendar-form {
-            flex: 1;
-        }
+.cssanimation span {
+    display: inline-block;
+}
 
-        #selected-schedule {
-            flex: 1;
-        }
+.fadeInBottom {
+    animation-name: fadeInBottom;
+}
+
+@keyframes fadeInBottom {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* User details */
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Time Select borders */
+.time-select {
+    border: 1px solid #ddd; /* Add border to the time select */
+    padding: 2px; /* Increase padding for better spacing */
+    margin-top: 10px; /* Adjust margin as needed */
+    display: flex;
+    align-items: center;
+}
+
+.time-select label {
+    margin-right: 10px; /* Adjust margin for labels */
+    font-size: 14px; /* Adjust font size for labels */
+}
+
+.time-select select {
+    padding: 0px; /* Adjust padding for select elements */
+    margin-right: 10px; /* Adjust margin as needed */
+    border: 1px solid #ddd; /* Add border to select elements */
+}
+
+/* Heading styles */
+ .h2, .h3, .h4, .h5, .h6, h2, h3, h4, h5, h6 {
+    margin-bottom: 1.5rem; /* Adds margin below headings */
+    font-family: inherit; /* Inherit font family */
+    font-weight: 500; /* Set font weight */
+    line-height: 1.2; /* Set line height */
+    color: inherit; /* Inherit text color */
+}
+.h4{
+margin-bottom: -1.5rem;
+}
+/* Media query for desktop view */
+@media (min-width: 769px) {
+    .calendar-container {
+        margin-left: 30px; /* Adjust the left margin for desktop */
+    }
+
+    .save-button {
+        margin-left: 30px; /* Adjust the left margin for desktop */
+    }
+
+    #schedule-table {
+        margin-left: 0; /* Adjust the left margin for desktop */
+    }
+
+    .form-table-container {
+        margin-left: 30px; /* Adjust the left margin for desktop */
+    }
+
+    .days-container {
+        margin-left: 30px; /* Adjust the left margin for desktop */
+    }
+    .selected-schedule.menu-active {
+        margin-left: 0; /* Reset margin for mobile view */
+    }
+}

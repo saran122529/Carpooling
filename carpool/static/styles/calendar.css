@@ -274,8 +274,9 @@
     top: 60px;
     left: 0;*/
     height: calc(100% - 60px);
-        background-color: #50a0bb;
-    padding-top: 20px;
+    background-color: #50a0bb;
+    height: 100%;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     align-self: stretch;
@@ -328,6 +329,18 @@
     /*flex-grow: 2;*/
     padding: 15px;
     flex: 1;
+    overflow-y: auto; /* Allows scrolling if content is too long */
+    background-color: #fff;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+.calendar-container {
+    flex: 1;
+    padding: 10px; /* Optional padding */
     overflow-y: auto; /* Allows scrolling if content is too long */
     background-color: #fff;
 }
