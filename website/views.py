@@ -194,29 +194,22 @@ def Register(request):
     return render(request, "registration.html")
 
 
+def generate_time_intervals():
+
+    current_time = datetime.strptime("12:00 AM", "%I:%M %p")
+    time_strings = []
+    for _ in range(96):
+        time_strings.append(current_time.strftime("%I:%M %p"))
+        current_time += timedelta(minutes=15)
+    return time_strings
+
 @login_required
 def calendar_view(request):
     days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    times = generate_time_intervals()
+    context = {}
 
-    if request.method == 'GET':
-        latest_schedule_data = {}
-        for day in days:
-            try:
-                schedule_entry = CalendarData.objects.filter(
-                    user=request.user, day=day, is_deleted=False
-                ).latest('id')
-                latest_schedule_data[day] = schedule_entry
-            except CalendarData.DoesNotExist:
-                pass
-
-        context = {
-            'schedule_data': latest_schedule_data.values(),
-            'days': days
-        }
-        return render(request, "calendar.html", context)
-
-    elif request.method == 'POST':
-        user = request.user
+    if request.method == 'POST':
         username = request.user.username
         new_entries = []
         has_overlap = False
@@ -233,71 +226,38 @@ def calendar_view(request):
                     from_time = datetime.strptime(from_time_str, "%I:%M %p")
                     to_time = datetime.strptime(to_time_str, "%I:%M %p")
 
+                    if to_time == from_time:
+                        messages.error(request,
+                                       f"From time and To time cannot be the same")
+                        has_error = True
+                        break
+
                     if to_time <= from_time:
                         to_time += timedelta(days=1)
 
-                    # Check against existing entries
-                    existing_entries = CalendarData.objects.filter(
-                        user=user, day=day, is_deleted=False
-                    )
-
-                    for existing_entry in existing_entries:
-                        existing_from_time = datetime.combine(datetime.today(), existing_entry.from_time)
-                        existing_to_time = datetime.combine(datetime.today(), existing_entry.to_time)
-                        if existing_to_time <= existing_from_time:
-                            existing_to_time += timedelta(days=1)
-
-                        print(
-                            f"Comparing new entry from {from_time} to {to_time} with existing entry from {existing_from_time} to {existing_to_time}")
-
-                        if (
-                                (existing_from_time <= from_time < existing_to_time) or
-                                (existing_from_time < to_time <= existing_to_time) or
-                                (from_time <= existing_from_time and to_time > existing_from_time)
-                        ):
-                            messages.error(request,
-                                           f"Time slot from {existing_entry.from_time} to {existing_entry.to_time} on {day} overlaps with another slot.")
-                            has_overlap = True
-                            break
-
-                    if has_overlap:
-                        break
-
-                    # Check against new entries
-                    for new_entry in new_entries:
-                        new_from_time = new_entry['from_time']
-                        new_to_time = new_entry['to_time']
-
-                        if new_to_time <= new_from_time:
-                            new_to_time += timedelta(days=1)
-
-                        print(
-                            f"Comparing new entry from {from_time} to {to_time} with another new entry from {new_from_time} to {new_to_time}")
-
-                        if (
-                                (new_from_time <= from_time < new_to_time) or
-                                (new_from_time < to_time <= new_to_time) or
-                                (from_time <= new_from_time and to_time > new_from_time)
-                        ):
-                            messages.error(request, f"Time overlaps with another slot on {day}")
-                            has_overlap = True
-                            break
-
-                    if has_overlap:
-                        break
-
-                    new_entries.append({
+                    new_entry = {
                         'day': day,
                         'from_time': from_time,
                         'to_time': to_time
-                    })
+                    }
 
-                if has_overlap:
-                    break
+                    # Check for overlap with existing new entries
+                    for entry in new_entries:
+                        if entry['day'] == day:
+                            if (entry['from_time'] < to_time and from_time < entry['to_time']):
+                                has_overlap = True
+                                messages.error(request,
+                                               f"Time overlaps with another slot")
+                                break
 
+                    new_entries.append(new_entry)
+                    if has_overlap:
+                        break
+
+        # Save new entries if no overlap is found
         if not has_overlap:
-            CalendarData.objects.filter(user=user, is_deleted=False).update(is_deleted=True)
-
+            CalendarData.objects.filter(username=username, is_deleted=False).update(is_deleted=True)
+            print("has_overlap ", new_entries)
             for entry in new_entries:
                 try:
                     CalendarData.objects.create(
@@ -305,14 +265,39 @@ def calendar_view(request):
                         checkbox=True,
                         from_time=entry['from_time'].time(),
                         to_time=entry['to_time'].time(),
-                        user=user,
                         username=username
                     )
                 except Exception as e:
                     messages.error(request, f"Error: {e}")
 
-        return redirect('calendar')    
-    
+    # Refresh latest schedule data after adding new entries
+    context = buildContextForSchedules(load_latest_schedule(request.user.username, days), days, times)
+    return render(request, "calendar.html", context)
+
+
+def buildContextForSchedules(schedule_data, days, times):
+    return {
+            'schedule_data': schedule_data,
+            'days': days,
+            'times': times
+        }
+
+
+def load_latest_schedule(username, days):
+    latest_schedule_data = []
+    try:
+        for day in days:
+            schedule_entries = list(CalendarData.objects.filter(
+                username=username, day=day, is_deleted=False
+            ))
+            latest_schedule_data.extend(schedule_entries)
+        print("latest_schedule_data ", latest_schedule_data)
+    except CalendarData.DoesNotExist as e:
+        messages.error(request, f"Error: {e}")
+    return latest_schedule_data
+
+
+
 @login_required
 def delete_schedule(request, schedule_id):
     schedule = get_object_or_404(CalendarData, id=schedule_id)
@@ -623,7 +608,7 @@ def logout_user(request):
     return redirect('home')
 
 # Initialize Razorpay client
-client = razorpay.Client(auth=('rzp_test_0Mwm4Zy3PDU4AD', 'GOThHWUCVDXGMQsg7Zw0iLi0'))
+client = razorpay.Client(auth=("rzp_test_I4CeG7pUY0K5BP", 'NoTvdgGVAfegBisCPePmru9t'))
 
 @csrf_exempt
 def payment(request, pk=None):

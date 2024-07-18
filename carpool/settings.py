@@ -141,8 +141,8 @@ MEDIA_ROOT=os.path.join(BASE_DIR, 'static/images')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-RAZORPAY_KEY_ID='rzp_test_6RMc4HyI0qd47x'
-RAZORPAY_KEY_SECRET='E0kAZoWHmbGj1xHKkFwcQQMz'
+RAZORPAY_KEY_ID="rzp_test_I4CeG7pUY0K5BP"
+RAZORPAY_KEY_SECRET='NoTvdgGVAfegBisCPePmru9t'
 
 # settings.py
 CORS_ALLOW_ALL_ORIGIN= True

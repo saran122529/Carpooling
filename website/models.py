@@ -112,8 +112,8 @@ class Transaction(models.Model):
     razorpay_payment_id = models.CharField(max_length=100, null=True, blank=True)
     razorpay_signature = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    username = models.CharField(max_length=150,default='default')  # Adding the username field
-    driver_username = models.CharField(max_length=150,default='default')  # Adding the driver's username field
+    username = models.CharField(max_length=150,default='default')   # Student's username
+    driver_username = models.CharField(max_length=150,default='default')  # Mentor's username
 
     def __str__(self):
         return f'{self.service_title} for {self.username} on {self.selected_day} at {self.selected_time}'
