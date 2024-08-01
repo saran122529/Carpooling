@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/Peer-to-Peer-Carpooling-main cal.iml" filepath="$PROJECT_DIR$/.idea/Peer-to-Peer-Carpooling-main cal.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/Peer-to-Peer-Carpooling-main.iml" filepath="$PROJECT_DIR$/.idea/Peer-to-Peer-Carpooling-main.iml" />
+>>>>>>> origin/master
     </modules>
   </component>
 </project>
