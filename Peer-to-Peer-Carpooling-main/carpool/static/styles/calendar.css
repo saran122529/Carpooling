@@ -1,0 +1,445 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.full-view {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+
+.topnav {
+    width: 100%;
+    background-color: #50a0bb;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    position: fixed;
+    top: 0;
+    z-index: 1001;
+    height: 5em;
+}
+
+.topnav .title {
+    margin: 0;
+    color: white;
+    margin-right: 10px;
+}
+.topnav #name h1 {
+    margin: 0;
+    color: white;
+    margin-top: 15px;
+    padding-left: 30px;
+}
+
+.topnav #rest {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 40px;
+}
+
+.topnav #rest li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    display: inline;
+}
+
+.topnav #rest li a {
+    text-decoration: none;
+    color: white;
+    padding: 14px 20px;
+    display: inline-block;
+}
+
+.topnav #rest li a:hover {
+    background-color: #31464d;
+    color: white;
+}
+
+.page-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    margin-top: 60px;
+}
+
+.calendar-container {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.save-button-container {
+    display: flex;
+    justify-content: flex-start;
+}
+button.save-button{
+    background-color: #50a0bb
+}
+
+#schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#schedule-table th, #schedule-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.form-table-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-top: 20px;
+}
+
+
+
+#calendar-form, #selected-schedule {
+    flex: 1;
+}
+
+.cssanimation, .cssanimation span {
+    animation-duration: 0.8s;
+    animation-fill-mode: both;
+}
+
+.cssanimation span {
+    display: inline-block;
+}
+
+.fadeInBottom {
+    animation-name: fadeInBottom;
+}
+
+@keyframes fadeInBottom {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.time-select {
+    border: 1px solid #ddd;
+    padding: 7px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.time-select label {
+    margin-right: 10px;
+}
+
+.time-select select {
+    padding: 7px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+}
+
+.selected-schedule-header {
+    text-align: center;
+    width: 80%;
+}
+
+.no-wrap{
+    flex-wrap: nowrap;
+    display: flex;
+}
+
+ul.messages li {
+    padding-top: 20px !important;
+    padding-bottom: 0px;
+}
+
+/* Styles for larger screens (normal view) */
+@media (min-width: 769px) {
+    .user-details{
+        padding-top: 20px
+    }
+
+    .form-table-container {
+
+    }
+
+    .selected-schedule-header {
+        padding-bottom: 20px;
+    }
+
+    .schedule {
+        width: 40%;
+    }
+    .selected-schedule{
+        width: 40%;
+    }
+
+    #schedule-table {
+        width: 80%;
+        padding-top: 20px;
+    }
+
+    .page-content {
+        margin-left: 200px;
+    }
+
+    .vertical-nav {
+        width: 200px;
+        height: calc(100% - 60px);
+        background-color: #50a0bb;
+        padding-top: 20px;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        left: 0;
+        top: 60px;
+        bottom: 0;
+        transform: translateX(0);
+        z-index: 1000;
+    }
+
+    .vertical-nav a {
+        padding: 15px 25px;
+        text-align: left;
+        text-decoration: none;
+        font-size: 18px;
+        color: white;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .vertical-nav a:hover {
+        background-color: #31464d;
+        color: white;
+    }
+
+    .calendar-container {
+        margin-left: 20px;
+    }
+
+    .selected-schedule {
+        margin-left: 20px;
+    }
+
+    .topnav .title {
+        margin-left: auto;
+        margin-right: 10px;
+    }
+
+    .menu-toggle {
+        display: none;
+
+    }
+
+    .add-button,
+    .remove-button,
+    .delete-button {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        font-size: 16px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        margin-right: 10px;
+        transition: background-color 0.3s ease;
+        border: none;
+        outline: none;
+    }
+
+    .add-button {
+        background-color: green;
+        color: white;
+    }
+
+    .add-button:hover {
+        background-color: #45a049;
+    }
+
+    .remove-button:hover {
+        background-color: #ff4848;
+    }
+
+    .remove-button {
+        background-color: red;
+        color: white;
+    }
+
+    .delete-button {
+        background-color: red;
+        color: white;
+    }
+}
+
+
+/* Styles for smaller screens (mobile view) */
+@media (max-width: 768px) {
+    .vertical-nav {
+        width: 200px;
+        height: calc(100% - 60px);
+        background-color: #50a0bb;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 60px;
+        right: 0;
+        bottom: 0;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        z-index: 1000;
+    }
+
+    .vertical-nav.active {
+        transform: translateX(0);
+    }
+
+    .vertical-nav a {
+        padding: 15px;
+        text-align: left;
+        text-decoration: none;
+        font-size: 18px;
+        color: white;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .vertical-nav a:hover {
+        background-color: #31464d;
+        color: white;
+    }
+
+    .calendar-container.menu-active {
+        margin-right: 200px;
+    }
+
+    .selected-schedule.menu-active {
+        margin-right: 200px;
+    }
+
+    .menu-toggle {
+        display: block;
+        color: white;
+        background-color: #50a0bb;
+        border: none;
+        :hover {
+            background-color: #50a0ff;
+        }
+
+    }
+
+    .topnav {
+        justify-content: flex-end;
+    }
+
+    .topnav .title {
+        margin: -48px;
+        margin-right: 30px;
+    }
+
+
+
+    .time-select {
+        font-size: 12px;
+        padding: 7px;
+        border: 1px solid #ddd;
+        margin-top: 10px;
+    }
+
+    .time-select label, .time-select select {
+        font-size: 12px;
+    }
+
+    /* Adjust days with checkboxes to the right */
+    .days {
+        margin-left: auto;
+        margin-right: 20px;
+    }
+    h1 {
+        margin-right: .5rem;
+    }
+    h3 {
+        margin-top: -4px;
+        margin-bottom: 20px;
+    }
+    .add-button,
+    .remove-button, .delete-button {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        font-size: 16px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    .add-button {
+        background-color: green;
+        color: white;
+    }
+
+    .remove-button {
+        background-color: red;
+        color: white;
+    }
+    .delete-button {
+        background-color: red;
+        color: white;
+    }
+
+    .schedule {
+        width: 100%;
+    }
+}
+
+.add-button .plus-sign::before,
+.remove-button .minus-sign::before {
+    content: "+";
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.remove-button .minus-sign::before {
+    content: "-";
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.add-button .plus-sign,
+.remove-button .minus-sign {
+    height: 100%;
+    text-align: center;
+    line-height: 18px;
+}
+
+.add-button:focus,
+.remove-button:focus {
+    outline: 2px solid #50a0bb;
+    outline-offset: 2px;
+}
