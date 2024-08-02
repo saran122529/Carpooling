@@ -1,0 +1,329 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Kalam' rel='stylesheet'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9P/ScQsAP7Hfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <title>Bookings</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/page.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/calendar.css' %}">
+
+    <style>
+        .dashboard1 {
+            width: 100%;
+            background: #10433c;
+            color: white;
+            padding: 10px;
+        }
+
+        h3 {
+            padding-left: 30px;
+        }
+
+        .cssanimation,
+        .cssanimation span {
+            animation-duration: 0.8s;
+            animation-fill-mode: both;
+        }
+
+        .cssanimation span {
+            display: inline-block;
+        }
+
+        .fadeInBottom {
+            animation-name: fadeInBottom;
+        }
+
+        @keyframes fadeInBottom {
+            from {
+                opacity: 0;
+                transform: translateY(100%);
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .booking-container {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+<<<<<<< HEAD
+            background-color: #09333f;
+=======
+            background-color: #10433c;
+>>>>>>> origin/main
+            max-width: 400px;
+            margin: auto;
+        }
+
+        .booking-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .booking-detail {
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        div#myTabContent.tab-content {
+            padding-top: 30px;
+        }
+
+        .nav-tabs {
+            background-color: #09333f;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .nav-tabs .nav-link {
+            color: #ffffff;
+            padding: 10px 15px;
+        }
+
+        .nav-tabs ul {
+            display: flex;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background-color: #fff;
+            padding: 25px 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+            margin: 0 auto 5%;
+        }
+
+        .vertical-nav {
+            width: 200px;
+            position: fixed;
+            top: 60px;
+            right: -200px;
+            height: calc(100% - 60px);
+            background-color: #50a0bb;
+            padding-top: 20px;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .vertical-nav a {
+            padding: 15px 25px;
+            text-align: left;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .vertical-nav a:hover {
+            background-color: #31464d;
+            color: #ffffff;
+        }
+
+        .topnav {
+            width: 100%;
+            background-color: #50a0bb;
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+            position: fixed;
+            top: 0;
+            z-index: 1001;
+            height: 5em;
+        }
+        .topnav #name h1 {
+            margin: 0;
+            color: white;
+        }
+
+        .topnav #rest {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .topnav #rest ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: inline;
+        }
+
+        .topnav #rest ul a {
+            text-decoration: none;
+            color: white;
+            padding: 14px 20px;
+            display: inline-block;
+        }
+
+        .topnav #rest ul a:hover {
+            background-color: #31464d;
+            color: white;
+        }
+
+        .menu-toggle {
+            display: none;
+            background-color: #50a0bb;
+            border: none;
+            font-size: 24px;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 992px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .vertical-nav {
+                transform: translateX(200px);
+            }
+
+            .vertical-nav.active {
+                transform: translateX(0);
+                right: 0;
+            }
+
+            .cssanimation.menu-active {
+                margin-right: 200px;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .vertical-nav {
+                width: 200px;
+            }
+
+            .topnav {
+                justify-content: flex-end;
+            }
+
+            .topnav .title {
+                margin-left: 0;
+                margin-right: 30px;
+            }
+            .topnav #name h1 {
+                margin: 25px;
+                color: white;
+            }
+            .topnav #rest {
+                display: flex;
+                justify-content: flex-end;
+                padding-top: 40px;
+            }
+            .topnav #rest ul a {
+                text-decoration: none;
+                color: white;
+                padding: 14px 20px;
+                display: inline-block;
+                padding-top:10px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+<div class="topnav" id="myTopnav">
+    <div id="name">
+        <h1>Title</h1>
+    </div>
+    <div id="rest">
+        {% if user.is_authenticated %}
+        <ul><a href="{% url 'home' %}" class="active">Home</a></ul>
+        <ul><a href="{% url 'dashboard' %}">Dashboard</a></ul>
+        <ul><a href="{% url 'logout' %}">Logout</a></ul>
+        {% endif %}
+    </div>
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+</div>
+<div class="vertical-nav">
+    <a href="{% url 'bookings' %}" id="bookings-link">Bookings</a>
+    <a href="{% url 'calendar' %}" id="calendar-link">Calendar</a>
+    <a href="{% url 'service' %}" id="service-link">Service</a>
+    <a href="{% url 'testimonial' %}" id="testimonial-link">Testimonial</a>
+</div>
+
+<div class="cssanimation sequence fadeInBottom" style="margin-left: 0; padding-top: 100px;">
+    <div class="container">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="bookings-tab" data-toggle="tab" href="#bookings" role="tab"
+                   aria-controls="bookings" aria-selected="true">Bookings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="completed-tab" data-toggle="tab" href="#completed" role="tab"
+                   aria-controls="completed" aria-selected="false">Completed</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="bookings" role="tabpanel" aria-labelledby="bookings-tab">
+                {% if active_bookings %}
+                {% for booking in active_bookings %}
+                <div class="booking-container">
+                    <div class="booking-title">{{ booking.service_name }}</div>
+                    <div class="booking-detail">Date: {{ booking.date }}</div>
+                    <div class="booking-detail">Time: {{ booking.time }}</div>
+                    <div class="booking-detail">Client: {{ booking.client_name }}</div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p>No active bookings</p>
+                {% endif %}
+            </div>
+            <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed-tab">
+                {% if completed_bookings %}
+                {% for booking in completed_bookings %}
+                <div class="booking-container">
+                    <div class="booking-title">{{ booking.service_name }}</div>
+                    <div class="booking-detail">Date: {{ booking.date }}</div>
+                    <div class="booking-detail">Time: {{ booking.time }}</div>
+                    <div class="booking-detail">Client: {{ booking.client_name }}</div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p>No completed bookings</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function toggleMenu() {
+        const verticalNav = document.querySelector('.vertical-nav');
+        const pageContent = document.querySelector('.cssanimation');
+
+        verticalNav.classList.toggle('active');
+        pageContent.classList.toggle('menu-active');
+    }
+</script>
+</body>
+
+</html>
