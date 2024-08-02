@@ -791,11 +791,9 @@ def logout_user(request):
     return redirect('home')
 
 # Initialize Razorpay client
-<<<<<<< HEAD
 client = razorpay.Client(auth=('rzp_test_tsuNnuJYVpl9O8', 'N1CiBGN3MRVFQRq5rtYll9E5'))
-=======
-client = razorpay.Client(auth=('rzp_test_I4CeG7pUY0K5BP', 'GOThHWUCVDXGMQsg7Zw0iLi0'))
->>>>>>> origin/main
+
+
 
 @csrf_exempt
 def payment(request, pk=None):
