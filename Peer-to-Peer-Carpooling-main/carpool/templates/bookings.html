@@ -280,37 +280,41 @@
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="bookings" role="tabpanel" aria-labelledby="bookings-tab">
-                {% if active_bookings %}
-                {% for booking in active_bookings %}
-                <div class="booking-container">
-                    <div class="booking-title">{{ booking.service_name }}</div>
-                    <div class="booking-detail">Date: {{ booking.date }}</div>
-                    <div class="booking-detail">Time: {{ booking.time }}</div>
-                    <div class="booking-detail">Client: {{ booking.client_name }}</div>
+                <div class="tab-pane fade show active" id="bookings" role="tabpanel" aria-labelledby="bookings-tab">
+                    {% if upcoming_bookings %}
+                    {% for transaction in upcoming_bookings %}
+                    <div class="booking-container">
+                        <div class="booking-title">{{ transaction.service_title }}</div>
+                        <div class="booking-detail">Duration: {{ transaction.service_duration }} mins</div>
+                        <div class="booking-detail">Day: {{ transaction.selected_day }}</div>
+                        <div class="booking-detail">Time: {{ transaction.selected_time }}</div>
+                        <div class="booking-detail">Student: {{ transaction.username }}</div>
+                        <div class="booking-detail">Date: {{ transaction.selected_date }}</div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p><center>No upcoming bookings!</center></p>
+                    {% endif %}
                 </div>
-                {% endfor %}
-                {% else %}
-                <p>No active bookings</p>
-                {% endif %}
-            </div>
-            <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed-tab">
-                {% if completed_bookings %}
-                {% for booking in completed_bookings %}
-                <div class="booking-container">
-                    <div class="booking-title">{{ booking.service_name }}</div>
-                    <div class="booking-detail">Date: {{ booking.date }}</div>
-                    <div class="booking-detail">Time: {{ booking.time }}</div>
-                    <div class="booking-detail">Client: {{ booking.client_name }}</div>
+                <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed-tab">
+                    {% if completed_bookings %}
+                    {% for transaction in completed_bookings %}
+                    <div class="booking-container">
+                        <div class="booking-title">{{ transaction.service_title }}</div>
+                        <div class="booking-detail">Duration: {{ transaction.service_duration }} mins</div>
+                        <div class="booking-detail">Day: {{ transaction.selected_day }}</div>
+                        <div class="booking-detail">Time: {{ transaction.selected_time }}</div>
+                        <div class="booking-detail">Student: {{ transaction.username }}</div>
+                        <div class="booking-detail">Date: {{ transaction.selected_date }}</div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p><center>No completed bookings!</center></p>
+                    {% endif %}
                 </div>
-                {% endfor %}
-                {% else %}
-                <p>No completed bookings</p>
-                {% endif %}
             </div>
         </div>
     </div>
-</div>
 <script>
     function toggleMenu() {
         const verticalNav = document.querySelector('.vertical-nav');

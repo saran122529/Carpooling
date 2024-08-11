@@ -1,4 +1,7 @@
+from dateutil.parser import parse, ParserError
+
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.timezone import make_aware
 from django.views import View
 # import mysql.connector as sql
 from django.db import IntegrityError
@@ -9,7 +12,8 @@ from django.contrib.auth import login, logout, authenticate
 from django.http import JsonResponse
 from requests import request
 from django.contrib.auth.hashers import make_password
-from website.models import Customer, Mycar, ContactUs, Booking, Driver, CalendarData, DeletedSchedule, Service, Transaction
+from .models import Customer, Mycar, ContactUs, Booking, Driver, CalendarData, DeletedSchedule, Service, \
+    Transaction
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -22,22 +26,22 @@ import razorpay
 from django.http import JsonResponse, HttpResponse
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse, HttpResponseBadRequest
+
 import hmac
 import hashlib
-from datetime import datetime,timedelta
+from datetime import datetime, timedelta
 from .models import Service, CalendarData, Driver
-from django.http import HttpResponse
+
 from collections import defaultdict
 
 
-
 # Create your views here.
-#Home page
+# Home page
 def home(request):
     return render(request, "home.html")
 
-#Function to help login the user and open dashboard
+
+# Function to help login the user and open dashboard
 def LoginUser(request):
     if request.method == "GET":
         return render(request, "login.html")
@@ -64,7 +68,6 @@ def LoginUser(request):
             messages.error(request, "Invalid username!")
 
     return redirect('login')
-
 
 
 def Register(request):
@@ -168,7 +171,6 @@ def Register(request):
             description = request.POST['description_driver']
             cropped_image_data = request.POST.get('cropped_image_data')
 
-
             # Join the selected languages into a single string
             languages_str = ','.join(languages_driver)
 
@@ -217,7 +219,7 @@ def Register(request):
                     driver.profile_picture.save(data.name, data)
                     driver.save()
                 else:
-                    img_data = None   
+                    img_data = None
                 messages.success(request, "Account created successfully!")
                 return redirect('login')
             except IntegrityError:
@@ -225,16 +227,19 @@ def Register(request):
                 return redirect('register')
 
     return render(request, "registration.html")
+
+
 from collections import defaultdict
 
-def generate_time_intervals():
 
+def generate_time_intervals():
     current_time = datetime.strptime("12:00 AM", "%I:%M %p")
     time_strings = []
     for _ in range(96):
         time_strings.append(current_time.strftime("%I:%M %p"))
         current_time += timedelta(minutes=15)
     return time_strings
+
 
 @login_required
 def calendar_view(request):
@@ -307,12 +312,13 @@ def calendar_view(request):
     context = buildContextForSchedules(load_latest_schedule(request.user.username, days), days, times)
     return render(request, "calendar.html", context)
 
+
 def buildContextForSchedules(schedule_data, days, times):
     return {
-            'schedule_data': schedule_data,
-            'days': days,
-            'times': times
-        }
+        'schedule_data': schedule_data,
+        'days': days,
+        'times': times
+    }
 
 
 def load_latest_schedule(username, days):
@@ -389,7 +395,8 @@ def Search(request):
         # Collect unique filter items
         unique_roles = set(mentor.role for mentor in mentors if mentor.role)
         unique_years_of_experience = set(mentor.year_of_experience for mentor in mentors if mentor.year_of_experience)
-        unique_languages_spoken = set(language for mentor in mentors if mentor.languages_spoken for language in mentor.languages_spoken)
+        unique_languages_spoken = set(
+            language for mentor in mentors if mentor.languages_spoken for language in mentor.languages_spoken)
         unique_services = set(service for mentor in mentors if mentor.services for service in mentor.services)
 
         return render(request, 'search.html', {
@@ -403,8 +410,6 @@ def Search(request):
         })
 
     return render(request, "search.html")
-
-    
 
 
 # Function to show logged in user's account details
@@ -431,6 +436,7 @@ def page(request, username):
             messages.error(request, "User not found.")
             return redirect('home')
 
+
 @login_required
 def service_create(request):
     if request.method == 'POST':
@@ -446,9 +452,9 @@ def service_create(request):
         return redirect('service_create')
 
     services = Service.objects.filter(user=request.user)  # Filter services by the logged-in user
-    
 
     return render(request, 'service.html', {'services': services})
+
 
 @login_required
 def service_delete(request, service_id):
@@ -465,80 +471,78 @@ def service_detail(request, pk):
     service = get_object_or_404(Service, pk=pk)
     amount_in_paise = int(service.amount * 100)
 
-    # Fetch the driver based on service user (assuming user in Service model)
+    # Fetch the driver based on the service user (assuming user in Service model)
     driver = Driver.objects.get(usern=service.user)
 
-    # Fetch calendar data based on driver's user
+    # Fetch calendar data based on the driver's user
     calendar_data = CalendarData.objects.filter(username=driver.usern.username, is_deleted=False)
     print(f'calendar data--> {calendar_data}')
+
     # Create a list of dates for the next 4 weeks
     current_date = datetime.now()
     dates_list = [(current_date + timedelta(days=i)).strftime("%Y%m%d") for i in range(28)]
     print(f'dates_list--> {dates_list}')
-    # Create a list to hold ungrouped intervals
-    # ungrouped_intervals = []
-    grouped_calendar_data = {}
 
-    # Create formatted calendar data
+    # Create a dictionary to hold formatted calendar data
+    grouped_calendar_data = {}
     for calendar in calendar_data:
         for date in dates_list:
             day_name = datetime.strptime(date, "%Y%m%d").strftime("%a")
             if day_name == calendar.day[:3]:  # Match the day name
-                if date in grouped_calendar_data.keys():
+                if date in grouped_calendar_data:
                     existing_from_time = grouped_calendar_data[date]['from_times']
                     from_time = f'{existing_from_time}|{calendar.from_time.strftime("%I:%M %p")}'
                 else:
                     from_time = calendar.from_time.strftime("%I:%M %p")
-                inner_json = {
+
+                grouped_calendar_data[date] = {
                     'day': calendar.day[:3],
                     'from_times': from_time,
                     'pretty_date': datetime.strptime(date, "%Y%m%d").strftime("%d %b")
                 }
-                grouped_calendar_data[date] = inner_json
 
     print(f'Calculated grouped_calendar_data :: {grouped_calendar_data}')
 
     grouped_calendar_data = dict(sorted(grouped_calendar_data.items()))  # sort the dates in ascending order
+
     context = {
         'service': service,
         'amount_in_paise': amount_in_paise,
         'calendar_data': grouped_calendar_data,
-        'user': request.user,  # Pass the logged-in user object to the template
-        'driver_username': driver.usern.username,  # Add driver's username to context
+        'user': request.user,
+        'driver_username': driver.usern.username,
     }
 
     print(f'context in service_detail_page :: {context}')
 
     return render(request, 'service_detail_page.html', context)
 
-
-#Function to help user contact the admin
+# Function to help user contact the admin
 def Contactus(request):
-    if request.method=="GET":
+    if request.method == "GET":
         return render(request, "contact.html")
-    
-    if request.method=="POST":
+
+    if request.method == "POST":
         # m=sql.connect(host="localhost", user="root", passwd="Web@123456", database='carpooling')
-        name=request.POST['name']
-        email=request.POST['email']
-        phone=request.POST['phone']
-        msg=request.POST['msg']
-        if len(phone)!=10 or phone.isdigit()==False:
+        name = request.POST['name']
+        email = request.POST['email']
+        phone = request.POST['phone']
+        msg = request.POST['msg']
+        if len(phone) != 10 or phone.isdigit() == False:
             messages.warning(request, "The phone number provided is not 10 digits!")
         elif phone.startswith(('1', '2', '3', '4', '5', '0')):
             messages.warning(request, "The phone number provided is not valid!")
         else:
             contact_us = ContactUs.objects.create(name=name, email=email, phone=phone, msg=msg)
 
-        
-        # save the contact details in database
-            #print(request.user)
-            #customer = Customer.objects.get(usern=user_name)
+            # save the contact details in database
+            # print(request.user)
+            # customer = Customer.objects.get(usern=user_name)
             #    contact_us = ContactUs.objects.create(name=name, email=email, phone=phone, msg=msg, cust=customer)
-            #else:
+            # else:
             #    contact_us = ContactUs.objects.create(name=name, email=email, phone=phone, msg=msg, cust=None)
 
-            #print(contact_us)
+            # print(contact_us)
             contact_us.save()
             # m.commit()
             messages.success(request, "Thank you for contacting us, we will reach you soon.")
@@ -546,94 +550,119 @@ def Contactus(request):
         return render(request, "contact.html")
 
 
-
-        
-
-
-
-#Function to show details of the car to the user, but if the user is not logged in then take to login page    
+# Function to show details of the car to the user, but if the user is not logged in then take to login page
 @login_required(login_url='login')
-def Cardetails(request,car_id):
-    if request.method=="GET":
-        car=Mycar.objects.get(pk=car_id)
-        context={'car':car}
-        return render(request,"cardetails.html",context)
-    
-    #Function to book the car
-    if request.method=="POST":
+def Cardetails(request, car_id):
+    if request.method == "GET":
+        car = Mycar.objects.get(pk=car_id)
+        context = {'car': car}
+        return render(request, "cardetails.html", context)
+
+    # Function to book the car
+    if request.method == "POST":
         # m=sql.connect(host="localhost", user="root", passwd="Web@123456", database='carpooling')
-        #name=request.POST['name']
-        contact=request.POST['contact']
-        email=request.POST['email']
-        pickup=request.POST['pickup']
-        dropoff=request.POST['dropoff']
-        pick_add=request.POST['pick_add']
-        drop_add=request.POST['drop_add']
-        if len(contact)!=10 or contact.isdigit()==False:
+        # name=request.POST['name']
+        contact = request.POST['contact']
+        email = request.POST['email']
+        pickup = request.POST['pickup']
+        dropoff = request.POST['dropoff']
+        pick_add = request.POST['pick_add']
+        drop_add = request.POST['drop_add']
+        selected_date = request.POST['selected_date']
+        if len(contact) != 10 or contact.isdigit() == False:
             messages.warning(request, "The phone number provided is not 10 digits!")
         elif contact.startswith(('1', '2', '3', '4', '5', '0')):
             messages.warning(request, "The phone number provided is not valid!")
         else:
             user = request.user
             print(user)
-            cust=Customer.objects.get(usern=user)
+            cust = Customer.objects.get(usern=user)
             print(cust)
-            car=Mycar.objects.get(pk=car_id)
+            car = Mycar.objects.get(pk=car_id)
             overlap_bookings = Booking.objects.filter(car=car, pickup=pickup, dropoff=dropoff)
             if overlap_bookings.exists():
                 messages.error(request, "The car is not available for the selected dates.")
                 return redirect('cardetails', car_id=car_id)
-            
-            cars = Booking.objects.create(name=cust, car=car, email=email, contact=contact,pickup=pickup,dropoff=dropoff,pick_add=pick_add,drop_add=drop_add)
+
+            cars = Booking.objects.create(name=cust, car=car, email=email, contact=contact, pickup=pickup,
+                                          dropoff=dropoff, pick_add=pick_add, drop_add=drop_add)
             cars.save()
-            # m.commit()
-            #messages.success(request, "Your booking has been submitted successfully!")
+
             return redirect('bookedcar', car_id=car_id)
     return redirect('cardetails', car_id=car_id)
 
 
-
-
-#Function to show the booked cars, booked by the user
-def Booked(request,car_id):
-    if request.method=="GET":
+# Function to show the booked cars, booked by the user
+def Booked(request, car_id):
+    if request.method == "GET":
         if request.user.is_authenticated:
             messages.success(request, "Your booking has been done successfully!")
             user = request.user
-            cust=Customer.objects.get(usern=user)
-            
-            book=Booking.objects.get(car=car_id, name=cust)
+            cust = Customer.objects.get(usern=user)
+
+            book = Booking.objects.get(car=car_id, name=cust)
             print(book)
-            context={'book':book}
+            context = {'book': book}
             return render(request, "booked.html", context)
-
-
 
 
 # Function to show dashboard to the logged in users
 def dash(request):
-     if request.user.is_authenticated:
-         print(request.user)
-         return render(request, "dashboard.html")
+    if request.user.is_authenticated:
+        print(request.user)
+        return render(request, "dashboard.html")
+
 
 @login_required
 def bookings_view(request):
-    # Filter transactions based on the logged-in driver's username
+
     transactions = Transaction.objects.filter(driver_username=request.user.username)
 
+    # Get the current date and time, and make it timezone-aware
+    now = datetime.now()
+    now = make_aware(now)  # Ensure it's timezone-aware
+
+    current_year = now.year
+
+    # Separate transactions into completed and upcoming
+    completed_bookings = []
+    upcoming_bookings = []
+
+    for transaction in transactions:
+        try:
+            # Parse date assuming current year and format "DD MMM"
+            transaction_date_str = transaction.selected_date + f" {current_year}"
+            booking_date = datetime.strptime(transaction_date_str, '%d %b %Y')
+            booking_date = make_aware(booking_date)  # Ensure it's timezone-aware
+        except ValueError:
+            # Handle the case where the date format is incorrect
+            booking_date = None
+
+        if booking_date:
+            if booking_date < now:
+                completed_bookings.append(transaction)
+            else:
+                upcoming_bookings.append(transaction)
+        else:
+            # Handle cases where the date is not parseable
+            print(f"Invalid date format for transaction: {transaction.selected_date}")
+
     context = {
-        'transactions': transactions
+        'completed_bookings': completed_bookings,
+        'upcoming_bookings': upcoming_bookings,
     }
+
     return render(request, 'bookings.html', context)
+
+
 
 def service_view(request):
     # Your logic for rendering the service page goes here
-    
+
     services = Service.objects.filter(user=request.user)  # Filter services by the logged-in user
     context = {'services': services}
 
     return render(request, 'service.html', context)
-
 
 
 def testimonial_view(request):
@@ -641,92 +670,109 @@ def testimonial_view(request):
     return render(request, 'testimonial.html')
 
 
-#Function to show logged in user's bookings from the dashboard
-# 
+# Function to show logged in user's bookings from the dashboard
+#
 @login_required
 def MyBookings(request):
     # Filter transactions based on the logged-in user's username
     transactions = Transaction.objects.filter(username=request.user.username)
 
+    # Get the current date and time, and make it timezone-aware
+    now = datetime.now()
+    now = make_aware(now)  # Ensure it's timezone-aware
+
+    current_year = now.year
+
+    # Separate transactions into completed and upcoming
+    completed_bookings = []
+    upcoming_bookings = []
+
+    for transaction in transactions:
+        try:
+            # Parse date assuming current year and format "DD MMM"
+            transaction_date_str = transaction.selected_date + f" {current_year}"
+            booking_date = datetime.strptime(transaction_date_str, '%d %b %Y')
+            booking_date = make_aware(booking_date)  # Ensure it's timezone-aware
+        except ValueError:
+            # Handle the case where the date format is incorrect
+            booking_date = None
+
+        if booking_date:
+            if booking_date < now:
+                completed_bookings.append(transaction)
+            else:
+                upcoming_bookings.append(transaction)
+        else:
+            # Handle cases where the date is not parseable
+            print(f"Invalid date format for transaction: {transaction.selected_date}")
+
     context = {
-        'transactions': transactions
+        'completed_bookings': completed_bookings,
+        'upcoming_bookings': upcoming_bookings,
     }
+
     return render(request, "mybooking.html", context)
-    #if request.method == 'POST':
-    #    if request.user.is_authenticated:
-    #       user=request.user
-    #        cust=Customer.objects.get(usern=user)
-    #        custs=Booking.objects.get(name=cust)
-    #        print(custs)
-    #        context={'custs':custs}
-    #        return render(request, "mybooking.html",context)
 
 
-
-#Function to show logged in user's account details
+# Function to show logged in user's account details
 def MyAccount(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
             user = request.user
-            cust=Customer.objects.get(usern=user)
-            #print(cust)
-            context={'cust': cust}
+            cust = Customer.objects.get(usern=user)
+            # print(cust)
+            context = {'cust': cust}
             return render(request, "myaccount.html", context)
 
 
-
-#Function to show logged in user's cars booked by other customer's
+# Function to show logged in user's cars booked by other customer's
 def CustomerBookings(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
-            user=request.user
-            cust=Customer.objects.get(usern=user)
-            mybook=Booking.objects.filter(name=cust)
-            mycar=Mycar.objects.filter(cust=cust)
-            otherbookings=Booking.objects.filter(car__in=mycar).exclude(name=cust)
-            context={'otherbookings':otherbookings}
+            user = request.user
+            cust = Customer.objects.get(usern=user)
+            mybook = Booking.objects.filter(name=cust)
+            mycar = Mycar.objects.filter(cust=cust)
+            otherbookings = Booking.objects.filter(car__in=mycar).exclude(name=cust)
+            context = {'otherbookings': otherbookings}
             return render(request, "cust_booking.html", context)
 
 
-
-
-#Function to show logged in user, their added cars
+# Function to show logged in user, their added cars
 def MyCarList(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
             user = request.user
-            username=Customer.objects.get(usern=user)
-            custs=Mycar.objects.filter(cust=username)
+            username = Customer.objects.get(usern=user)
+            custs = Mycar.objects.filter(cust=username)
             print(custs)
-            context={'custs': custs}
+            context = {'custs': custs}
             return render(request, "mycar_list.html", context)
 
 
-
-#Function to show all the cars to the logged in or unloggedin users on the allcars.html
+# Function to show all the cars to the logged in or unloggedin users on the allcars.html
 def Cars(request):
     if request.method == 'GET':
-        mycars=Mycar.objects.all()
-        context={'mycars': mycars}
+        mycars = Mycar.objects.all()
+        context = {'mycars': mycars}
         return render(request, "allcars.html", context)
-    
-    #if request.method == 'POST':
+
+    # if request.method == 'POST':
     #    if request.user.is_authenticated:
     #        return render("")
 
 
-
-#Function to help logged in user to change password on change.html
+# Function to help logged in user to change password on change.html
 def Change(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
             return render(request, "change.html")
-    
-    if request.method=='POST':
+
+    if request.method == 'POST':
         if request.user.is_authenticated:
-            user=request.user
+            user = request.user
             print(user)
-            old_password=request.POST['old_password']
+            old_password = request.POST['old_password']
             print(old_password)
             new_password = request.POST['new_password']
             print(new_password)
@@ -737,11 +783,11 @@ def Change(request):
             if usern is None:
                 messages.error(request, 'The old password is incorrect!')
                 return redirect('changepassword')
-            
+
             if new_password != confirm_password:
                 messages.error(request, 'The new password and confirm password does not match!')
                 return redirect('changepassword')
-            
+
             print(user.password)
             user.password = make_password(new_password)
             user.save()
@@ -749,50 +795,53 @@ def Change(request):
             messages.success(request, 'Password changed successfully!')
             return redirect('changepassword')
     return render(request, 'change.html')
-            
-            
-#Function to add user's car in the database
+
+
+# Function to add user's car in the database
 def Addcar(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
             return render(request, "addmycar.html")
-    
+
     if request.method == 'POST':
         if request.user.is_authenticated:
             # m=sql.connect(host="localhost", user="root", passwd="prachi26", database='carpooling')
-            car_num=request.POST['car_num']
-            car_name=request.POST['car_name']
-            from_place=request.POST['from_place']
-            to_place=request.POST['to_place']
-            car_type=request.POST['car_type']
-            company=request.POST['company']
-            price=request.POST['price']
-            from_date=request.POST['from_date']
-            to_date=request.POST['to_date']
-            car_img=request.FILES['car_img']
-            custom=Customer.objects.get(usern=request.user)
+            car_num = request.POST['car_num']
+            car_name = request.POST['car_name']
+            from_place = request.POST['from_place']
+            to_place = request.POST['to_place']
+            car_type = request.POST['car_type']
+            company = request.POST['company']
+            price = request.POST['price']
+            from_date = request.POST['from_date']
+            to_date = request.POST['to_date']
+            car_img = request.FILES['car_img']
+            custom = Customer.objects.get(usern=request.user)
             print(custom)
-            car=Mycar.objects.filter(car_num=car_num)
+            car = Mycar.objects.filter(car_num=car_num)
             if car.exists():
                 messages.warning(request, 'Car Already exists')
                 return redirect('addmycar')
-            obj=Mycar.objects.create(car_num=car_num,from_date=from_date,to_date=to_date,car_name=car_name,from_place=from_place,to_place=to_place,car_type=car_type,company=company, price=price, car_img=car_img, cust=custom)
+            obj = Mycar.objects.create(car_num=car_num, from_date=from_date, to_date=to_date, car_name=car_name,
+                                       from_place=from_place, to_place=to_place, car_type=car_type, company=company,
+                                       price=price, car_img=car_img, cust=custom)
             obj.save()
             # m.commit()
-            return redirect('dashboard') 
-                     
-    return render(request,"addmycar.html")
+            return redirect('dashboard')
+
+    return render(request, "addmycar.html")
+
 
 def logout_user(request):
     if request.user.is_authenticated:
-        #request.session.clear()
-        #print('User is authenticated')
+        # request.session.clear()
+        # print('User is authenticated')
         logout(request)
     return redirect('home')
 
+
 # Initialize Razorpay client
 client = razorpay.Client(auth=('rzp_test_tsuNnuJYVpl9O8', 'N1CiBGN3MRVFQRq5rtYll9E5'))
-
 
 
 @csrf_exempt
@@ -804,15 +853,27 @@ def payment(request, pk=None):
             service_duration = data['service_duration']
             service_amount = data['service_amount']
             selected_day = data['selected_day']
+            selected_date = data['selected_date']  # Fetch the selected date
             selected_time = data['selected_time']
-            username = data['username']  # Fetch the username from the POST data
-            driver_username = data['driver_username']  # Get driver's username from POST data
+            username = data['username']
+            driver_username = data['driver_username']
+
+            # Debugging print statement
+            print(f"Service Title: {service_title}")
+            print(f"Service Duration: {service_duration}")
+            print(f"Service Amount: {service_amount}")
+            print(f"Selected Day: {selected_day}")
+            print(f"Selected Date: {selected_date}")  # Print the selected date
+            print(f"Selected Time: {selected_time}")
+            print(f"Username: {username}")
+            print(f"Driver Username: {driver_username}")
         else:
             service = get_object_or_404(Service, pk=pk)
             service_title = service.title
             service_duration = service.duration
             service_amount = service.amount
             selected_day = ''
+            selected_date = ''  # Initialize with an empty string
             selected_time = ''
             username = ''
             driver_username = ''
@@ -835,6 +896,7 @@ def payment(request, pk=None):
                 service_amount=service_amount,
                 selected_day=selected_day,
                 selected_time=selected_time,
+                selected_date=selected_date,  # Save the selected date
                 payment_status='Pending',
                 razorpay_order_id=order['id'],
                 username=username,
@@ -853,8 +915,6 @@ def payment(request, pk=None):
     except Exception as e:
         context = {'error': 'Something went wrong'}
         return render(request, 'payment_failure.html', context)
-
-
 @csrf_exempt
 def payment_verification(request):
     if request.method == 'POST':

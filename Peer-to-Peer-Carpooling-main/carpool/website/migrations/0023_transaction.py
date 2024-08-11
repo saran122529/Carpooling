@@ -24,6 +24,8 @@ class Migration(migrations.Migration):
                 ('razorpay_payment_id', models.CharField(blank=True, max_length=100, null=True)),
                 ('razorpay_signature', models.CharField(blank=True, max_length=255, null=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
+
+
             ],
         ),
     ]

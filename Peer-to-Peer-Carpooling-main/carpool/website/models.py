@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
+from datetime import date
 # Create your models here.
 
 
@@ -22,12 +23,12 @@ class Customer(models.Model):
     company_name = models.CharField(max_length=200, null=True, blank=True)
     role = models.CharField(max_length=200, null=True, blank=True)
     languages = models.CharField(max_length=500, null=True, blank=True)
-    
+
 
     def __str__(self):
         return str(self.fname)
-    
-    
+
+
 class Driver(models.Model):
     usern = models.OneToOneField(User, on_delete=models.CASCADE, max_length=80, unique=True, blank=True, default=None)
     fname = models.CharField(max_length=80, blank=True)
@@ -35,7 +36,7 @@ class Driver(models.Model):
     password = models.CharField(max_length=200, default='default_password')
     mobile = models.CharField(max_length=11, null=False)
     address = models.CharField(max_length=100, null=False)
-    gender = models.CharField(max_length=20, default='Unknown')  
+    gender = models.CharField(max_length=20, default='Unknown')
     city = models.CharField(max_length=100, null=False, default='')  # Specify a default value
     state = models.CharField(max_length=100, null=False, default='')
     role = models.CharField(max_length=200, null=True, blank=True)
@@ -49,8 +50,8 @@ class Driver(models.Model):
         return str(self.fname)
 
 
-    
-    
+
+
 
 class Mycar(models.Model):
     cust=models.ForeignKey(Customer, max_length=100, blank=True, null=True, on_delete=models.SET_NULL)
@@ -67,7 +68,7 @@ class Mycar(models.Model):
 
     def __str__(self):
         return self.car_num
-    
+
     @property
     def imageURL(self):
         try:
@@ -104,6 +105,7 @@ class Booking(models.Model):
     pick_add=models.CharField(max_length=100, null=False)
     drop_add=models.CharField(max_length=100, null=False)
     date_added = models.DateTimeField(auto_now_add=True)
+
 
     def __str__(self):
         return str(self.id)
@@ -142,8 +144,9 @@ class DeletedSchedule(models.Model):
 class Service(models.Model):
     title = models.CharField(max_length=200)
     duration = models.PositiveIntegerField()
-    amount = models.DecimalField(max_digits=10, decimal_places=2)  
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    date = models.DateField(default=date.today)  # Ensure this field exists
 
     def __str__(self):
         return self.title
@@ -153,6 +156,7 @@ class Transaction(models.Model):
     service_duration = models.IntegerField()
     service_amount = models.DecimalField(max_digits=10, decimal_places=2)
     selected_day = models.CharField(max_length=50)
+    selected_date = models.CharField(max_length=50)
     selected_time = models.CharField(max_length=50)
     payment_status = models.CharField(max_length=50, default='success')
     razorpay_order_id = models.CharField(max_length=100, null=True, blank=True)

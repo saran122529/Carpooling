@@ -70,6 +70,8 @@
             align-items: center;
         }
 
+
+
         .hamburger div {
             width: 25px;
             height: 3px;
@@ -217,6 +219,7 @@
             transition: background-color 0.3s ease;
         }
 
+
         .day.selected {
             background-color: #50a0bb;
             color: white;
@@ -241,6 +244,12 @@
 
         .time.selected {
             background-color: #50a0bb;
+            color: white;
+        }
+
+
+        div.selected{
+        background-color: #50a0bb;
             color: white;
         }
 
@@ -336,7 +345,7 @@
             <div class="arrow prev">&lt;</div>
             <div class="days-container">
                 {% for fmt_date, date_values in calendar_data.items %}
-                <div class="day" data-day="{{ date_values.day }}" formatted_date="{{ date_values.pretty_date }}"  data-times="{{ date_values.from_times }}">
+                <div class="day" data-day="{{ date_values.day }}" data-formatted-date="{{ date_values.pretty_date }}" data-times="{{ date_values.from_times }}">
                     <div class="day-name" align="center">{{ date_values.day }}</div>
                     <div class="formatted_date" align="center">{{ date_values.pretty_date }}</div>
                 </div>
@@ -360,10 +369,10 @@
                 <input type="hidden" id="service_amount" name="service_amount" value="{{ service.amount }}">
                 <input type="hidden" id="username" name="username" value="{{ user.username }}">
                 <input type="hidden" id="driver_username" name="driver_username" value="{{ driver_username }}">
-                <input type="hidden" id="selected_day" name="selected_day" required>
-                <input type="hidden" id="selected_time" name="selected_time" required>
+                <input type="hidden" id="selected_day" name="selected_day">
+                <input type="hidden" id="selected_time" name="selected_time">
+                <input type="hidden" id="selected_date" name="selected_date">
                 <script src="https://checkout.razorpay.com/v1/checkout.js"
-
                     data-key="rzp_test_tsuNnuJYVpl9O8"
                     data-amount="{{ amount_in_paise }}"
                     data-currency="INR"
@@ -381,22 +390,13 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var razorpayButton = document.querySelector('.razorpay-payment-button');
-            if (razorpayButton) {
-                razorpayButton.classList.add('custom-razorpay-button');
-            }
-        });
-    </script>
-
-    <script>
         document.addEventListener("DOMContentLoaded", function() {
             const daysContainer = document.querySelector('.days-container');
             const days = document.querySelectorAll('.day');
             const timesContainer = document.getElementById('times-container');
             const prevArrow = document.querySelector('.arrow.prev');
             const nextArrow = document.querySelector('.arrow.next');
-            var confirm_button = document.getElementById('payment-container');
+            const confirmButton = document.getElementById('payment-container');
 
             let scrollPosition = 0;
             const dayWidth = days[0].offsetWidth + parseInt(window.getComputedStyle(days[0]).marginLeft) * 2;
@@ -459,38 +459,39 @@
 
             days.forEach(day => {
                 day.addEventListener('click', () => {
-                    confirm_button.classList.remove('payment-container');
-                    confirm_button.classList.add('invisible-display');
+                    confirmButton.classList.remove('payment-container');
+                    confirmButton.classList.add('invisible-display');
 
                     days.forEach(d => d.classList.remove('selected'));
                     day.classList.add('selected');
 
                     // Fetch times for the selected day and update times container
-                    const timesData = day.dataset.times.split("|")
-                    const datesData = day.dataset.day;
-                    console.log("timesData is " + timesData + "\ndatesData is "+ datesData)
-                    console.log("timesData is a "+typeof(timesData))
+                    const timesData = day.dataset.times.split("|");
+                    const dayName = day.querySelector('.day-name').textContent;
+                    const selectedDate = day.dataset.formattedDate;
+                    console.log('Selected Date:', selectedDate);
+
+
                     timesContainer.innerHTML = '';
                     timesData.forEach(time => {
                         const timeDiv = document.createElement('div');
-                        timeDiv.classList.add('time');
                         timeDiv.textContent = time;
                         timeDiv.addEventListener('click', () => {
                             timesContainer.querySelectorAll('.time').forEach(t => t.classList.remove('selected'));
                             timeDiv.classList.add('selected');
                             document.getElementById('selected_time').value = time;  // Set the selected time
-                            confirm_button.classList.remove('invisible-display');
-                            confirm_button.classList.add('payment-container');
+                            confirmButton.classList.remove('invisible-display');
+                            confirmButton.classList.add('payment-container');
                         });
                         timesContainer.appendChild(timeDiv);
                     });
 
-                    document.getElementById('selected_day').value = day.querySelector('.day-name').textContent;  // Set the selected day
+                    document.getElementById('selected_day').value = dayName;  // Set the selected day
+                    document.getElementById('selected_date').value = selectedDate;  // Set the selected date
                 });
             });
         });
     </script>
-
 
 </body>
 </html>
