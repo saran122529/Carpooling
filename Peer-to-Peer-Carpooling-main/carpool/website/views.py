@@ -12,7 +12,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.http import JsonResponse
 from requests import request
 from django.contrib.auth.hashers import make_password
-from .models import Customer, Mycar, ContactUs, Booking, Driver, CalendarData, DeletedSchedule, Service, \
+from .models import Student, ContactUs, Mentor, CalendarData, DeletedSchedule, Service, \
     Transaction
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -26,11 +26,15 @@ import razorpay
 from django.http import JsonResponse, HttpResponse
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
+from django.core.files.base import ContentFile
+import base64
+from PIL import Image
+from io import BytesIO
 
 import hmac
 import hashlib
 from datetime import datetime, timedelta
-from .models import Service, CalendarData, Driver
+from .models import Service, CalendarData
 
 from collections import defaultdict
 
@@ -55,12 +59,12 @@ def LoginUser(request):
             if user is not None:
                 login(request, user)
 
-                # Check if the user is a Customer
-                if Customer.objects.filter(usern=user).exists():
-                    return redirect('searchmycar')
+                # Check if the user is a Student
+                if Student.objects.filter(usern=user).exists():
+                    return redirect('searchmymentor')
 
                 # Check if the user is a Driver
-                elif Driver.objects.filter(usern=user).exists():
+                elif Mentor.objects.filter(usern=user).exists():
                     return redirect('dashboard')
             else:
                 messages.error(request, "Invalid username or password!")
@@ -127,8 +131,8 @@ def Register(request):
                 # Create user object
                 user = User.objects.create_user(username=usern, email=email, password=password)
                 user.save()
-                # Create customer object
-                cust = Customer.objects.create(
+                # Create student object
+                cust = Student.objects.create(
                     usern=user,
                     fname=fname,
                     email=email,
@@ -146,7 +150,7 @@ def Register(request):
                     role=role,
                     languages=languages_str
                 )
-                # Save customer object
+                # Save student object
                 cust.save()
                 messages.success(request, "Account created successfully!")
                 return redirect('login')
@@ -196,7 +200,7 @@ def Register(request):
             try:
                 user = User.objects.create_user(username=usern, email=email, password=password)
                 user.save()
-                driver = Driver.objects.create(
+                driver = Mentor.objects.create(
                     usern=user,
                     fname=fname,
                     email=email,
@@ -230,7 +234,6 @@ def Register(request):
 
 
 from collections import defaultdict
-
 
 def generate_time_intervals():
     current_time = datetime.strptime("12:00 AM", "%I:%M %p")
@@ -356,7 +359,7 @@ def Search(request):
         search_term = request.GET.get('search_term', '').strip()
         year_of_experience = request.GET.get('year_of_experience', '').strip()
 
-        mentors = Driver.objects.all()  # Start with all mentors
+        mentors = Mentor.objects.all()  # Start with all mentors
 
         if search_term:
             terms = search_term.split()  # Split input into individual terms (roles)
@@ -416,14 +419,14 @@ def Search(request):
 @login_required(login_url='login')
 def page(request, username):
     try:
-        # Attempt to fetch Customer by username
-        cust = Customer.objects.get(usern__username=username)
+        # Attempt to fetch Student by username
+        cust = Student.objects.get(usern__username=username)
         context = {'cust': cust}
         return render(request, "page.html", context)
-    except Customer.DoesNotExist:
+    except Student.DoesNotExist:
         try:
             # Attempt to fetch Driver by username
-            driver = Driver.objects.get(usern__username=username)
+            driver = Mentor.objects.get(usern__username=username)
             context = {
                 'user_type': 'driver',
                 'name': driver.fname,
@@ -432,7 +435,7 @@ def page(request, username):
                 'services': Service.objects.filter(user=driver.usern)  # Fetch all services for drivers
             }
             return render(request, "page.html", context)
-        except Driver.DoesNotExist:
+        except Mentor.DoesNotExist:
             messages.error(request, "User not found.")
             return redirect('home')
 
@@ -472,7 +475,7 @@ def service_detail(request, pk):
     amount_in_paise = int(service.amount * 100)
 
     # Fetch the driver based on the service user (assuming user in Service model)
-    driver = Driver.objects.get(usern=service.user)
+    driver = Mentor.objects.get(usern=service.user)
 
     # Fetch calendar data based on the driver's user
     calendar_data = CalendarData.objects.filter(username=driver.usern.username, is_deleted=False)
@@ -544,66 +547,12 @@ def Contactus(request):
 
             # print(contact_us)
             contact_us.save()
-            # m.commit()
+
             messages.success(request, "Thank you for contacting us, we will reach you soon.")
 
         return render(request, "contact.html")
 
 
-# Function to show details of the car to the user, but if the user is not logged in then take to login page
-@login_required(login_url='login')
-def Cardetails(request, car_id):
-    if request.method == "GET":
-        car = Mycar.objects.get(pk=car_id)
-        context = {'car': car}
-        return render(request, "cardetails.html", context)
-
-    # Function to book the car
-    if request.method == "POST":
-        # m=sql.connect(host="localhost", user="root", passwd="Web@123456", database='carpooling')
-        # name=request.POST['name']
-        contact = request.POST['contact']
-        email = request.POST['email']
-        pickup = request.POST['pickup']
-        dropoff = request.POST['dropoff']
-        pick_add = request.POST['pick_add']
-        drop_add = request.POST['drop_add']
-        selected_date = request.POST['selected_date']
-        if len(contact) != 10 or contact.isdigit() == False:
-            messages.warning(request, "The phone number provided is not 10 digits!")
-        elif contact.startswith(('1', '2', '3', '4', '5', '0')):
-            messages.warning(request, "The phone number provided is not valid!")
-        else:
-            user = request.user
-            print(user)
-            cust = Customer.objects.get(usern=user)
-            print(cust)
-            car = Mycar.objects.get(pk=car_id)
-            overlap_bookings = Booking.objects.filter(car=car, pickup=pickup, dropoff=dropoff)
-            if overlap_bookings.exists():
-                messages.error(request, "The car is not available for the selected dates.")
-                return redirect('cardetails', car_id=car_id)
-
-            cars = Booking.objects.create(name=cust, car=car, email=email, contact=contact, pickup=pickup,
-                                          dropoff=dropoff, pick_add=pick_add, drop_add=drop_add)
-            cars.save()
-
-            return redirect('bookedcar', car_id=car_id)
-    return redirect('cardetails', car_id=car_id)
-
-
-# Function to show the booked cars, booked by the user
-def Booked(request, car_id):
-    if request.method == "GET":
-        if request.user.is_authenticated:
-            messages.success(request, "Your booking has been done successfully!")
-            user = request.user
-            cust = Customer.objects.get(usern=user)
-
-            book = Booking.objects.get(car=car_id, name=cust)
-            print(book)
-            context = {'book': book}
-            return render(request, "booked.html", context)
 
 
 # Function to show dashboard to the logged in users
@@ -719,48 +668,10 @@ def MyAccount(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
             user = request.user
-            cust = Customer.objects.get(usern=user)
+            cust = Student.objects.get(usern=user)
             # print(cust)
             context = {'cust': cust}
             return render(request, "myaccount.html", context)
-
-
-# Function to show logged in user's cars booked by other customer's
-def CustomerBookings(request):
-    if request.method == 'GET':
-        if request.user.is_authenticated:
-            user = request.user
-            cust = Customer.objects.get(usern=user)
-            mybook = Booking.objects.filter(name=cust)
-            mycar = Mycar.objects.filter(cust=cust)
-            otherbookings = Booking.objects.filter(car__in=mycar).exclude(name=cust)
-            context = {'otherbookings': otherbookings}
-            return render(request, "cust_booking.html", context)
-
-
-# Function to show logged in user, their added cars
-def MyCarList(request):
-    if request.method == 'GET':
-        if request.user.is_authenticated:
-            user = request.user
-            username = Customer.objects.get(usern=user)
-            custs = Mycar.objects.filter(cust=username)
-            print(custs)
-            context = {'custs': custs}
-            return render(request, "mycar_list.html", context)
-
-
-# Function to show all the cars to the logged in or unloggedin users on the allcars.html
-def Cars(request):
-    if request.method == 'GET':
-        mycars = Mycar.objects.all()
-        context = {'mycars': mycars}
-        return render(request, "allcars.html", context)
-
-    # if request.method == 'POST':
-    #    if request.user.is_authenticated:
-    #        return render("")
-
 
 # Function to help logged in user to change password on change.html
 def Change(request):
@@ -796,40 +707,6 @@ def Change(request):
             return redirect('changepassword')
     return render(request, 'change.html')
 
-
-# Function to add user's car in the database
-def Addcar(request):
-    if request.method == 'GET':
-        if request.user.is_authenticated:
-            return render(request, "addmycar.html")
-
-    if request.method == 'POST':
-        if request.user.is_authenticated:
-            # m=sql.connect(host="localhost", user="root", passwd="prachi26", database='carpooling')
-            car_num = request.POST['car_num']
-            car_name = request.POST['car_name']
-            from_place = request.POST['from_place']
-            to_place = request.POST['to_place']
-            car_type = request.POST['car_type']
-            company = request.POST['company']
-            price = request.POST['price']
-            from_date = request.POST['from_date']
-            to_date = request.POST['to_date']
-            car_img = request.FILES['car_img']
-            custom = Customer.objects.get(usern=request.user)
-            print(custom)
-            car = Mycar.objects.filter(car_num=car_num)
-            if car.exists():
-                messages.warning(request, 'Car Already exists')
-                return redirect('addmycar')
-            obj = Mycar.objects.create(car_num=car_num, from_date=from_date, to_date=to_date, car_name=car_name,
-                                       from_place=from_place, to_place=to_place, car_type=car_type, company=company,
-                                       price=price, car_img=car_img, cust=custom)
-            obj.save()
-            # m.commit()
-            return redirect('dashboard')
-
-    return render(request, "addmycar.html")
 
 
 def logout_user(request):

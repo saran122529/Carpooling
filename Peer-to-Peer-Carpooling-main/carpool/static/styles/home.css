@@ -56,6 +56,14 @@
 
 }
 
+.carousel-item active{
+height: 550px
+}
+
+.carousel-item{
+height: 550px
+}
+
 
 .box {
   float: left;
@@ -66,8 +74,17 @@
   position: relative;
     }
 
+
+
 /* Remove extra left and right margins, due to padding in columns */
-.features {margin: 0 -5px;}
+.features {
+display: flex; /* Use Flexbox layout */
+    justify-content: space-between; /* Distribute space evenly between items */
+    flex-wrap: wrap; /* Allow items to wrap to the next line if necessary */
+    margin-left: -100px; /* Adjust if necessary to align with your design */
+    margin-right: -100px; /* Adjust if necessary to align with your design */
+    padding: -2 100px; /* Add padding to create space around the content */
+    margin: 0 -5px;}
 
 /* Clear floats after the columns */
 .features:after {
@@ -97,10 +114,13 @@
 }
 
 .container img {
-  max-width: 50%;
-  max-height:50%;
+  max-width: 35%;
+  max-height:35%;
   float: left;
-  margin-right: 15px;
+  width: auto;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
 .footer{

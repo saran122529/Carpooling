@@ -1,8 +1,6 @@
 from django.contrib import admin
-from website.models import Customer, Booking, ContactUs, Mycar
+from website.models import Student, ContactUs
 
 # Register your models here.
-admin.site.register(Customer)
-admin.site.register(Mycar)
+admin.site.register(Student)
 admin.site.register(ContactUs)
-admin.site.register(Booking)
