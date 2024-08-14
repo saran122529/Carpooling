@@ -85,16 +85,14 @@
     <div class="topnav" id="myTopnav">
         <ul>
             <div id="name">
-                <h1>Car Pooling System</h1>
+                <h1>Personalized Mentoring Services</h1>
             </div>
         </ul>
         <ul id="rest">
             {% if user.is_authenticated %}
             <ul><a href="{% url 'home' %}" class="active">Home</a></ul>
-            <ul><a href="{% url 'searchmycar' %}">Book Your Car</a></ul>
+            <ul><a href="{% url 'searchmymentor' %}">Book Your Car</a></ul>
             <ul><a href="{% url 'dashboard' %}">Dashboard</a></ul>
-            <ul><a href="{% url 'allcars' %}">Cars</a></ul>
-            <ul><a href="{% url 'mycar_list' %}">My Cars</a></ul>
             <ul><a href="{% url 'logout' %}">Logout</a></ul>
             {% endif %}
         </ul>
@@ -139,8 +137,7 @@
             <h3>Project Links</h3>
             <a href="{% url 'home' %}">Home</a></br>
             <a href="{% url 'contact' %}">Contact</a></br>
-            <a href="{% url 'allcars' %}">Cars</a></br>
-            <a href="{% url 'searchmycar' %}">Book</a></br>
+            <a href="{% url 'searchmymentor' %}">Book</a></br>
         </div>
 
     </div>

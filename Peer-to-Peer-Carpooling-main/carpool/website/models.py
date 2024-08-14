@@ -5,7 +5,7 @@ from datetime import date
 # Create your models here.
 
 
-class Customer(models.Model):
+class Student(models.Model):
     usern = models.OneToOneField(User, on_delete=models.CASCADE, max_length=80, unique=True, blank=True, default=None)
     fname = models.CharField(max_length=80, blank=True)
     email = models.EmailField(max_length=80, unique=True)
@@ -28,17 +28,23 @@ class Customer(models.Model):
     def __str__(self):
         return str(self.fname)
 
+    from django.db import models
+    from django.contrib.auth.models import User
 
-class Driver(models.Model):
-    usern = models.OneToOneField(User, on_delete=models.CASCADE, max_length=80, unique=True, blank=True, default=None)
+    from django.db import models
+    from django.contrib.auth.models import User
+
+class Mentor(models.Model):
+    usern = models.OneToOneField(User, on_delete=models.CASCADE, unique=True, blank=True, default=None)
     fname = models.CharField(max_length=80, blank=True)
     email = models.EmailField(max_length=80, unique=True)
-    password = models.CharField(max_length=200, default='default_password')
-    mobile = models.CharField(max_length=11, null=False)
-    address = models.CharField(max_length=100, null=False)
+    password = models.CharField(max_length=200,
+                                    default='default_password')  # Consider using Django's User model for passwords
+    mobile = models.CharField(max_length=11)
+    address = models.CharField(max_length=100)
     gender = models.CharField(max_length=20, default='Unknown')
-    city = models.CharField(max_length=100, null=False, default='')  # Specify a default value
-    state = models.CharField(max_length=100, null=False, default='')
+    city = models.CharField(max_length=100, default='')
+    state = models.CharField(max_length=100, default='')
     role = models.CharField(max_length=200, null=True, blank=True)
     year_of_experience = models.CharField(max_length=50, null=True, blank=True)
     languages_spoken = models.CharField(max_length=500, null=True, blank=True)
@@ -50,42 +56,6 @@ class Driver(models.Model):
         return str(self.fname)
 
 
-
-
-
-class Mycar(models.Model):
-    cust=models.ForeignKey(Customer, max_length=100, blank=True, null=True, on_delete=models.SET_NULL)
-    car_num=models.CharField(max_length=10, unique=True)
-    company=models.CharField(max_length=30)
-    car_name=models.CharField(max_length=30)
-    car_type=models.CharField(max_length=30)
-    from_place=models.CharField(max_length=30)
-    to_place=models.CharField(max_length=30)
-    from_date=models.DateField(null=True)
-    to_date=models.DateField(null=True)
-    price=models.FloatField()
-    car_img = models.ImageField(upload_to="cars",default="", null = True,blank = True)
-
-    def __str__(self):
-        return self.car_num
-
-    @property
-    def imageURL(self):
-        try:
-            url = self.car_img.url
-        except:
-            url = ''
-        return url
-
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        img = Image.open(self.car_img.path)
-        if img.height > 1500 or img.width > 1500:
-            output_size = (1500, 1500)
-            img.thumbnail(output_size)
-            img.save(self.car_img.path)
-
 class ContactUs(models.Model):
     name=models.CharField(max_length=80)
     email=models.EmailField(max_length=80, unique=True, blank=False)
@@ -95,20 +65,6 @@ class ContactUs(models.Model):
     def __str__(self):
         return self.name
 
-class Booking(models.Model):
-    name=models.ForeignKey(Customer,on_delete=models.SET_NULL, null=True)
-    car=models.ForeignKey(Mycar,on_delete=models.SET_NULL, null=True)
-    contact=models.CharField(max_length=11,null=False)
-    email=models.EmailField(max_length=80)
-    pickup=models.DateField()
-    dropoff=models.DateField()
-    pick_add=models.CharField(max_length=100, null=False)
-    drop_add=models.CharField(max_length=100, null=False)
-    date_added = models.DateTimeField(auto_now_add=True)
-
-
-    def __str__(self):
-        return str(self.id)
 
 class CalendarData(models.Model):
     day = models.CharField(max_length=20)
@@ -129,7 +85,6 @@ class CalendarData(models.Model):
 
     def __str__(self):
         return f"{self.username} - {self.day} - {self.from_time_formatted} to {self.to_time_formatted}"
-
 class DeletedSchedule(models.Model):
     user_id = models.IntegerField(default=1)  # Set a default value, ensure it matches your setup
     day = models.CharField(max_length=20)
