@@ -8,7 +8,16 @@
   margin: 0;
   padding: 0;
   position: relative;
+}
 
+
+.topnav #name h1 {
+  margin-bottom: 0.5rem;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.2;
+  color: inherit;
+  font-size: 2.0rem;
 }
 
 .topnav a {
@@ -32,7 +41,7 @@
 
 .active {
   /* background-color: #04AA6D; */
-  color: white;
+  color: black;
 }
 
 
@@ -46,7 +55,7 @@
 
 #rest{
   float: right;
-  
+
 }
 
 #rest ul{
@@ -55,6 +64,8 @@
   margin-left: 1px;
 
 }
+
+
 
 .carousel-item active{
 height: 550px
@@ -155,7 +166,7 @@ display: flex; /* Use Flexbox layout */
 }
 
 .dropdown .dropbtn {
-  font-size: 16px;  
+  font-size: 16px;
   border: none;
   outline: none;
   color: white;
